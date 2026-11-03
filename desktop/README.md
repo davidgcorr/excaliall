@@ -34,15 +34,15 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.7 --no-git-tag-version
+   npm --prefix desktop version 0.1.8 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.7
+   git tag desktop-v0.1.8
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.7
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.8
    ```
 
 3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
@@ -89,4 +89,4 @@ Multiple selected lines/arrows can be changed together. Speed and direction chan
 
 ## Editable sketch tables
 
-Click the **table icon** in the central toolbar to insert a rough.js data table. Edit headers and cells directly on the canvas, paste spreadsheet ranges, add/remove rows or columns, and adjust color and roughness. Double-click a saved table or choose **Edit table data** from its context menu to edit it again. See the [data table guide](DATA-TABLES.md).
+Click the **table icon** in the central toolbar to insert a rough.js data table. Use the properties side panel to add/remove rows or columns and adjust color, roughness, and stroke width. Edit headers and cells directly on the canvas or paste spreadsheet ranges. Deselect the table to save changes automatically. Double-click a saved table or choose **Edit table data** from its context menu to edit it again. See the [data table guide](DATA-TABLES.md).

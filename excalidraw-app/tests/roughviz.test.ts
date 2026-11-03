@@ -24,6 +24,17 @@ const chart = (): RoughVizChart => ({
 });
 
 describe("roughViz data charts", () => {
+  it("preserves legacy charts and validates editable stroke widths", () => {
+    expect(validateChart(chart()).strokeWidth).toBeUndefined();
+    expect(validateChart({ ...chart(), strokeWidth: 2.5 }).strokeWidth).toBe(
+      2.5,
+    );
+    for (const strokeWidth of [0, -1, Infinity, 4]) {
+      expect(() => validateChart({ ...chart(), strokeWidth })).toThrow(
+        "appearance",
+      );
+    }
+  });
   it("reads CSV with quoted labels, CRLF, embedded commas and a BOM", () => {
     expect(
       parseChartData('\uFEFFlabel,value\r\n"Sales, EMEA",42\r\n"R&D",12'),

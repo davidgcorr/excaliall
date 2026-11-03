@@ -165,6 +165,7 @@ export const SelectedShapeActions = ({
       )}
       {predicates.fill && renderAction("changeFillStyle")}
 
+      {renderAction("editDataTable")}
       {predicates.strokeWidth && renderAction("changeStrokeWidth")}
 
       {predicates.strokeStyle && <>{renderAction("changeStrokeStyle")}</>}
@@ -297,6 +298,7 @@ const CombinedShapeProperties = ({
               {predicates.sloppiness && <>{renderAction("changeSloppiness")}</>}
               {predicates.roundness && renderAction("changeRoundness")}
               {predicates.opacity && renderAction("changeOpacity")}
+              {renderAction("editDataTable")}
               {renderAction("changeLinearAnimation")}
             </div>
           </PropertiesPopover>

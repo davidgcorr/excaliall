@@ -1,67 +1,50 @@
-.excalidraw .DataTableEditor {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  overflow: hidden;
-
-  &__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgb(255 255 255 / 25%);
-  }
-  &__commands {
-    position: absolute;
-    z-index: 2;
-    top: 76px;
-    left: 16px;
-    right: 16px;
+.excalidraw .DataTableProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  label {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    padding: 12px;
-    border: 1px solid var(--color-gray-20);
-    border-radius: 10px;
-    background: var(--island-bg-color);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
-    font-size: 12px;
-    label {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    input[type="range"] {
-      width: 70px;
-    }
-    input[type="color"] {
-      width: 28px;
-      height: 28px;
-      padding: 0;
-    }
-    button {
-      padding: 7px 10px;
-      border: 1px solid var(--color-gray-20);
-      border-radius: 5px;
-      background: var(--island-bg-color);
-      color: var(--text-primary-color);
-      cursor: pointer;
-    }
-    button:disabled {
-      opacity: 0.45;
-      cursor: default;
-    }
-    button:focus-visible {
-      outline: 2px solid var(--color-primary);
-    }
-    .DataTableEditor__save {
-      background: var(--color-primary);
-      color: white;
-    }
-    [role="alert"] {
-      color: var(--color-danger);
-    }
+    gap: 6px;
   }
+  input[type="range"] {
+    flex: 1;
+    min-width: 60px;
+  }
+  input[type="color"] {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+  }
+  button {
+    padding: 7px 10px;
+    border: 1px solid var(--color-gray-20);
+    border-radius: 5px;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  button:focus-visible {
+    outline: 2px solid var(--color-primary);
+  }
+  [role="alert"] {
+    color: var(--color-danger);
+  }
+}
+.excalidraw .DataTableEditor {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
   &__sheet {
+    pointer-events: none;
     position: absolute;
     background-repeat: no-repeat;
     background-size: 100% 100%;

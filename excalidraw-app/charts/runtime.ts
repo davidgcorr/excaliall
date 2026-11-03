@@ -25,6 +25,13 @@ ownerWindow.addEventListener("message", (event) => {
       font: "Arial",
       interactive: false,
       roughness: chart.roughness,
+      ...(chart.strokeWidth !== undefined
+        ? {
+            strokeWidth: chart.strokeWidth,
+            axisStrokeWidth: chart.strokeWidth,
+            innerStrokeWidth: chart.strokeWidth,
+          }
+        : {}),
       fillStyle: "hachure",
       color: chart.color,
       colors: [chart.color, "#f59f00", "#2f9e44", "#e64980", "#7950f2"],

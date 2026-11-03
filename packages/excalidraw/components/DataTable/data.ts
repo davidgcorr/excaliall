@@ -19,6 +19,7 @@ export type TableData = {
   rows: string[][];
   color: string;
   roughness: number;
+  strokeWidth?: number;
 };
 export const CELL_WIDTH = 180;
 export const CELL_HEIGHT = 44;
@@ -35,6 +36,7 @@ export const sampleTable = (): TableData => ({
   ],
   color: "#1e1e1e",
   roughness: 1.2,
+  strokeWidth: 1.3,
 });
 
 export const validateTable = (value: unknown): TableData => {
@@ -59,7 +61,11 @@ export const validateTable = (value: unknown): TableData => {
     !/^#[\da-f]{6}$/i.test(data.color) ||
     !Number.isFinite(data.roughness) ||
     data.roughness < 0 ||
-    data.roughness > 3
+    data.roughness > 3 ||
+    (data.strokeWidth !== undefined &&
+      (!Number.isFinite(data.strokeWidth) ||
+        data.strokeWidth < 0.5 ||
+        data.strokeWidth > 6))
   ) {
     throw new Error(
       "Invalid table. Use up to 100 rows, 12 columns, and 500 characters per cell.",
@@ -106,7 +112,7 @@ export const renderTableSvg = (
     stroke: data.color,
     roughness: data.roughness,
     seed: 42,
-    strokeWidth: 1.3,
+    strokeWidth: data.strokeWidth ?? 1.3,
   };
   svg.append(
     rc.rectangle(x, y, w, h, {
@@ -164,6 +170,7 @@ export const saveTable = async (
   draft: TableData,
   elementId?: string,
   position?: { x: number; y: number },
+  preserveSelection = false,
 ) => {
   const data = validateTable(draft);
   const svg = renderTableSvg(data, app.ownerDocument);
@@ -228,11 +235,13 @@ export const saveTable = async (
     elements: target
       ? existing.map((item) => (item.id === element.id ? element : item))
       : [...existing, element],
-    appState: {
-      selectedElementIds: { [element.id]: true },
-      selectedGroupIds: {},
-      editingGroupId: null,
-    },
+    appState: preserveSelection
+      ? undefined
+      : {
+          selectedElementIds: { [element.id]: true },
+          selectedGroupIds: {},
+          editingGroupId: null,
+        },
     captureUpdate: CaptureUpdateAction.IMMEDIATELY,
   });
   app.api.addFiles([

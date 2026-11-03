@@ -12,7 +12,13 @@ import {
 
 import { API } from "./helpers/api";
 import { Pointer } from "./helpers/ui";
-import { fireEvent, render, screen, GlobalTestState } from "./test-utils";
+import {
+  fireEvent,
+  render,
+  screen,
+  GlobalTestState,
+  waitFor,
+} from "./test-utils";
 
 const { h } = window;
 const image = () => ({
@@ -27,10 +33,15 @@ const image = () => ({
 });
 
 describe("sketch data tables", () => {
-  it("opens a new editable table from the toolbar, supports spreadsheet paste and cancels without changing the scene", async () => {
+  it("keeps controls in the side panel and autosaves edits and stroke width when selecting another element", async () => {
     await render(<Excalidraw />);
     fireEvent.click(screen.getByTestId("toolbar-data-table"));
-    expect(screen.getByTestId("table-cell--1-0")).toHaveValue("Name");
+    expect(await screen.findByTestId("table-cell--1-0")).toHaveValue("Name");
+    expect(
+      screen
+        .getByTestId("data-table-properties")
+        .closest(".selected-shape-actions"),
+    ).not.toBeNull();
     fireEvent.change(screen.getByTestId("table-cell-0-0"), {
       target: { value: "Updated" },
     });
@@ -40,13 +51,28 @@ describe("sketch data tables", () => {
     });
     expect(screen.getByTestId("table-cell-0-1")).toHaveValue("B");
     expect(screen.getByTestId("table-cell-1-0")).toHaveValue("C");
-    fireEvent.keyDown(screen.getByTestId("table-cell-0-0"), { key: "Escape" });
-    expect(screen.queryByTestId("data-table-editor")).not.toBeInTheDocument();
-    expect(h.elements).toHaveLength(0);
+    fireEvent.change(screen.getByTestId("table-stroke-width"), {
+      target: { value: "3" },
+    });
+    const table = h.elements[0];
+    const rectangle = API.createElement({ type: "rectangle", x: 700, y: 30 });
+    API.setElements([...h.elements, rectangle]);
+    API.setSelectedElements([rectangle]);
+    expect(
+      screen.queryByTestId("data-table-properties"),
+    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      const saved = h.elements.find((item) => item.id === table.id)!;
+      expect(getTableData(saved)?.rows[0][1]).toBe("B");
+      expect(getTableData(saved)?.strokeWidth).toBe(3);
+    });
+    expect(h.state.selectedElementIds).toEqual({ [rectangle.id]: true });
   });
   it("adds and deletes rows and columns using the focused cell", async () => {
     await render(<Excalidraw />);
-    fireEvent.click(screen.getByTestId("toolbar-data-table"));
+    const element = image();
+    API.setElements([element]);
+    API.setSelectedElements([element]);
     fireEvent.click(screen.getByRole("button", { name: "Add row" }));
     fireEvent.click(screen.getByRole("button", { name: "Add column" }));
     expect(screen.getByTestId("table-cell-3-3")).toHaveValue("");
@@ -97,6 +123,12 @@ describe("sketch data tables", () => {
     data.rows[0][0] = '<script>alert("x")</script>';
     const svg = renderTableSvg(data, document);
     expect(svg.querySelectorAll("path").length).toBeGreaterThan(5);
+    data.strokeWidth = 4;
+    expect(
+      renderTableSvg(data, document)
+        .querySelector('path[stroke-width="4"]')
+        ?.getAttribute("stroke-width"),
+    ).toBe("4");
     expect(svg.querySelector("script")).toBeNull();
     expect(svg.textContent).toContain(data.rows[0][0]);
     expect(

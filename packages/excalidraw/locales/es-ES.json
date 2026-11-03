@@ -1,6 +1,7 @@
 {
   "labels": {
-    "tableEditHint": "Haz doble clic en la tabla para editar sus datos o usa Editar datos de tabla en el menú contextual.",
+    "tableAutoSaveHint": "Los cambios se guardan automáticamente al deseleccionar la tabla.",
+    "tableEditHint": "Selecciona la tabla para editar las celdas y sus propiedades. Deselecciona para guardar automáticamente.",
     "insertDataTable": "Insertar tabla de datos",
     "editDataTable": "Editar datos de tabla",
     "tableColumn": "Columna",

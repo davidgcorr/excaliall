@@ -1,6 +1,11 @@
 import { IconButton } from "../components/IconButton";
 import { dataTableIcon } from "../components/icons";
-import { getTableData } from "../components/DataTable/data";
+import {
+  getTableData,
+  sampleTable,
+  saveTable,
+} from "../components/DataTable/data";
+import { DataTableEditor } from "../components/DataTable/DataTableEditor";
 import { t } from "../i18n";
 import { getSelectedElements } from "../scene";
 
@@ -13,13 +18,17 @@ export const actionInsertDataTable = register({
   keywords: ["table", "data", "shadcn", "spreadsheet", "rows", "columns"],
   trackEvent: { category: "element" },
   predicate: (_elements, state) => !state.viewModeEnabled,
-  perform: (_elements, state, _value, app) => {
+  perform: async (_elements, state, _value, app) => {
     if (state.viewModeEnabled) {
-      return false;
+      return false as const;
     }
     app.setActiveTool({ type: state.preferredSelectionTool.type });
-    app.setAppState({ editingDataTableId: "new" });
-    return false;
+    try {
+      await saveTable(app, sampleTable());
+    } catch (failure) {
+      app.setAppState({ errorMessage: (failure as Error).message });
+    }
+    return false as const;
   },
   PanelComponent: ({ updateData }) => (
     <IconButton
@@ -37,6 +46,19 @@ export const actionEditDataTable = register({
   label: "labels.editDataTable",
   icon: dataTableIcon,
   keywords: ["table", "data", "cells", "rows", "columns"],
+  PanelComponent: ({ elements, appState }) => {
+    const selected = getSelectedElements(elements, appState);
+    const element = selected[0];
+    return !appState.viewModeEnabled &&
+      selected.length === 1 &&
+      !element.locked &&
+      getTableData(element) ? (
+      <DataTableEditor
+        key={`${element.id}:${element.type === "image" ? element.fileId : ""}`}
+        elementId={element.id}
+      />
+    ) : null;
+  },
   trackEvent: { category: "element" },
   predicate: (elements, state) => {
     const selected = getSelectedElements(elements, state);
@@ -55,7 +77,11 @@ export const actionEditDataTable = register({
       !selected[0].locked &&
       getTableData(selected[0])
     ) {
-      app.setAppState({ editingDataTableId: selected[0].id });
+      app.setAppState({
+        selectedElementIds: { [selected[0].id]: true },
+        selectedGroupIds: {},
+        editingGroupId: null,
+      });
     }
     return false;
   },

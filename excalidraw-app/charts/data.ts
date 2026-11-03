@@ -20,6 +20,7 @@ export type RoughVizChart = {
   valueColumns: string[];
   color: string;
   roughness: number;
+  strokeWidth?: number;
   sourceUrl: string;
 };
 export const SAMPLE_DATA =
@@ -136,7 +137,11 @@ export const validateChart = (chart: RoughVizChart) => {
     chart.title.length > 200 ||
     !Number.isFinite(chart.roughness) ||
     chart.roughness < 0.25 ||
-    chart.roughness > 3
+    chart.roughness > 3 ||
+    (chart.strokeWidth !== undefined &&
+      (!Number.isFinite(chart.strokeWidth) ||
+        chart.strokeWidth < 0.5 ||
+        chart.strokeWidth > 3))
   ) {
     throw new Error("Invalid chart appearance settings.");
   }

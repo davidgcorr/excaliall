@@ -376,7 +376,6 @@ import {
 } from "../actions/colorTargets";
 
 import { getTableData } from "./DataTable/data";
-import { DataTableEditor } from "./DataTable/DataTableEditor";
 
 import ConvertElementTypePopup, {
   getConversionTypeFromElements,
@@ -2627,12 +2626,6 @@ class App extends React.Component<AppProps, AppState> {
                                   callback?.();
                                 });
                               }}
-                            />
-                          )}
-                          {this.state.editingDataTableId && (
-                            <DataTableEditor
-                              key={this.state.editingDataTableId}
-                              elementId={this.state.editingDataTableId}
                             />
                           )}
                           <StaticCanvas
@@ -6286,7 +6279,11 @@ class App extends React.Component<AppProps, AppState> {
       !chartHit.locked &&
       getTableData(chartHit)
     ) {
-      this.setState({ editingDataTableId: chartHit.id });
+      this.setState({
+        selectedElementIds: { [chartHit.id]: true },
+        selectedGroupIds: {},
+        editingGroupId: null,
+      });
       return;
     }
     if (

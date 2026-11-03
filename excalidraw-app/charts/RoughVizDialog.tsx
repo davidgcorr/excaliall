@@ -74,6 +74,10 @@ export const RoughVizDialog = ({
   );
   const [sourceUrl, setSourceUrl] = useState(initial?.sourceUrl ?? "");
   const [color, setColor] = useState(initial?.color ?? "#1971c2");
+  const [strokeWidth, setStrokeWidth] = useState(
+    initial?.strokeWidth ??
+      (initial?.type === "Pie" || initial?.type === "Donut" ? 0.75 : 1),
+  );
   const [roughness, setRoughness] = useState(initial?.roughness ?? 1);
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -136,6 +140,7 @@ export const RoughVizDialog = ({
       sourceUrl,
       color,
       roughness,
+      strokeWidth,
     });
   const run = async (insert: boolean) => {
     if (busy) {
@@ -499,6 +504,23 @@ export const RoughVizDialog = ({
               />
             </label>
           </div>
+          <label>
+            Stroke width
+            <input
+              data-testid="roughviz-stroke-width"
+              type="range"
+              min="0.5"
+              max="3"
+              step="0.05"
+              value={strokeWidth}
+              disabled={busy}
+              onChange={(event) => {
+                setStrokeWidth(Number(event.currentTarget.value));
+                setPreview(null);
+              }}
+            />
+            <output>{strokeWidth}px</output>
+          </label>
           <div className="RoughVizDialog__preview">
             {preview ? (
               <img src={preview} alt={title || "Chart preview"} />
