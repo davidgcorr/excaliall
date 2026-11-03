@@ -49,6 +49,11 @@
   "homepage": ".",
   "prettier": "@excalidraw/prettier-config",
   "scripts": {
+    "desktop:install": "npm --prefix desktop ci",
+    "desktop:build": "node desktop/scripts/build-web.cjs && npm --prefix desktop run pack",
+    "desktop:dist": "node desktop/scripts/build-web.cjs && npm --prefix desktop run dist",
+    "desktop:start": "npm --prefix desktop start",
+    "desktop:test": "node --test desktop/*.test.cjs",
     "build-node": "node ./scripts/build-node.js",
     "build:app:docker": "yarn --cwd ./excalidraw-app build:app:docker",
     "build:app": "yarn --cwd ./excalidraw-app build:app",

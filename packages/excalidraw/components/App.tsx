@@ -11318,10 +11318,11 @@ class App extends React.Component<AppProps, AppState> {
       CONTEXT_MENU_SEPARATOR,
       actionLink,
       actionCopyElementLink,
+      CONTEXT_MENU_SEPARATOR,
       ...(this.scene
         .getSelectedElements(this.state)
         .some((element) => isLinearElement(element) && !element.locked)
-        ? [CONTEXT_MENU_ANIMATION, CONTEXT_MENU_SEPARATOR]
+        ? ([CONTEXT_MENU_ANIMATION, CONTEXT_MENU_SEPARATOR] as ContextMenuItems)
         : []),
       actionDuplicateSelection,
       actionToggleElementLock,

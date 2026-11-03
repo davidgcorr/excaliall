@@ -7,7 +7,7 @@ const OSS_FONTS_FALLBACK = "/";
  *
  * @returns {import("vite").PluginOption}
  */
-module.exports.woff2BrowserPlugin = () => {
+module.exports.woff2BrowserPlugin = ({ local = false } = {}) => {
   let isDev;
 
   return {
@@ -20,6 +20,9 @@ module.exports.woff2BrowserPlugin = () => {
       // using copy / replace as fonts defined in the `.css` don't have to be manually copied over (vite/rollup does this automatically),
       // but at the same time can't be easily prefixed with the `EXCALIDRAW_ASSET_PATH` only for the `excalidraw-app`
       if (!isDev && id.endsWith("/excalidraw/fonts/fonts.css")) {
+        if (local) {
+          return code;
+        }
         return `/* WARN: The following content is generated during excalidraw-app build */
 
       @font-face {
@@ -64,6 +67,12 @@ module.exports.woff2BrowserPlugin = () => {
       }
 
       if (!isDev && id.endsWith("excalidraw-app/index.html")) {
+        if (local) {
+          return code.replace(
+            "<!-- PLACEHOLDER:EXCALIDRAW_APP_FONTS -->",
+            '<script>window.EXCALIDRAW_ASSET_PATH = "/";</script>',
+          );
+        }
         return code.replace(
           "<!-- PLACEHOLDER:EXCALIDRAW_APP_FONTS -->",
           `<script>

@@ -52,7 +52,7 @@ export const ContextMenu = React.memo(
       if (
         item &&
         (item === CONTEXT_MENU_SEPARATOR ||
-          item === CONTEXT_MENU_ANIMATION ||
+          (typeof item !== "string" && "type" in item) ||
           !("predicate" in item) ||
           !item.predicate ||
           item.predicate(
@@ -94,14 +94,15 @@ export const ContextMenu = React.memo(
               return <hr key={idx} className="context-menu-item-separator" />;
             }
 
-            if (item === CONTEXT_MENU_ANIMATION) {
-              const selectedElements = elements.filter(
-                (element) =>
-                  appState.selectedElementIds[element.id] &&
-                  !element.isDeleted &&
-                  !element.locked &&
-                  isLinearElement(element),
-              );
+            if ("type" in item) {
+              const selectedElements = elements
+                .filter(
+                  (element) =>
+                    appState.selectedElementIds[element.id] &&
+                    !element.isDeleted &&
+                    !element.locked,
+                )
+                .filter(isLinearElement);
               const animation = selectedElements[0]?.animation;
 
               return (
@@ -114,9 +115,7 @@ export const ContextMenu = React.memo(
                     type="button"
                     className="context-menu-item"
                     aria-expanded={isAnimationMenuOpen}
-                    onClick={() =>
-                      setIsAnimationMenuOpen(!isAnimationMenuOpen)
-                    }
+                    onClick={() => setIsAnimationMenuOpen(!isAnimationMenuOpen)}
                   >
                     <div className="context-menu-item__label">
                       {t("labels.animate")}

@@ -101,6 +101,7 @@ const lazyChunksPlugin = (
 export default defineConfig(({ mode }) => {
   // To load .env variables
   const envVars = loadEnv(mode, `../`);
+  const isDesktop = mode === "desktop";
   // mermaid (+ its many deps & per-diagram chunks) is lazy-loaded and large,
   // so we don't precache it. Populated at build time by `lazyChunksPlugin`.
   const mermaidChunkFileNames = new Set<string>();
@@ -240,7 +241,7 @@ export default defineConfig(({ mode }) => {
         // its static in public folder
         generateRobotsTxt: false,
       }),
-      woff2BrowserPlugin(),
+      woff2BrowserPlugin({ local: isDesktop }),
       lazyChunksPlugin(
         /[\\/]node_modules[\\/]@excalidraw[\\/]mermaid-to-excalidraw[\\/]/,
         mermaidChunkFileNames,
@@ -260,6 +261,7 @@ export default defineConfig(({ mode }) => {
       svgrPlugin(),
       ViteEjsPlugin(),
       VitePWA({
+        disable: isDesktop,
         registerType: "autoUpdate",
         devOptions: {
           /* set this flag to true to enable in Development mode */

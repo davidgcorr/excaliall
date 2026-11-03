@@ -106,6 +106,7 @@ export type RenderInteractiveSceneCallback = {
 };
 
 export type StaticSceneRenderConfig = {
+  animationTime?: number;
   canvas: HTMLCanvasElement;
   rc: RoughCanvas;
   elementsMap: RenderableElementsMap;
