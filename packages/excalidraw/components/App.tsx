@@ -426,6 +426,8 @@ import { findShapeByKey, TOGGLE_TOOLS } from "./Tools";
 
 import UnlockPopup from "./UnlockPopup";
 
+import type { GifExportOptions } from "../data/gif";
+
 import type { ExcalidrawLibraryIds } from "../data/types";
 
 import type {
@@ -2785,7 +2787,10 @@ class App extends React.Component<AppProps, AppState> {
   public onExportImage = async (
     type: keyof typeof EXPORT_IMAGE_TYPES,
     elements: ExportedElements,
-    opts: { exportingFrame: NonDeleted<ExcalidrawFrameLikeElement> | null },
+    opts: {
+      exportingFrame: NonDeleted<ExcalidrawFrameLikeElement> | null;
+      gif?: GifExportOptions;
+    },
   ) => {
     trackEvent("export", type, "ui");
     const fileHandle = await exportCanvas(
@@ -2796,6 +2801,7 @@ class App extends React.Component<AppProps, AppState> {
       {
         name: this.getName(),
         exportingFrame: opts.exportingFrame,
+        gif: opts.gif,
         renderEnvironment: this.renderEnvironment,
       },
     )
@@ -2806,6 +2812,7 @@ class App extends React.Component<AppProps, AppState> {
       });
 
     if (
+      type !== "gif" &&
       this.state.exportEmbedScene &&
       fileHandle &&
       isImageFileHandle(fileHandle)

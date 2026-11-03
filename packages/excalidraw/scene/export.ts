@@ -72,7 +72,10 @@ import {
   copyToClipboard,
 } from "../clipboard";
 
-import type { RenderableElementsMap } from "./types";
+import { t } from "../i18n";
+
+import type { RenderableElementsMap, StaticSceneRenderConfig } from "./types";
+import type { GifExportOptions } from "../data/gif";
 
 import type { AppState, BinaryFiles, NormalizedZoomValue } from "../types";
 
@@ -835,12 +838,14 @@ const configExportDimension = async ({
 // exportToCanvas
 // ---------------------------------------------------------------------------
 
-const exportToCanvas = async ({
+const createCanvasRenderer = async ({
   data,
   config,
+  maxPixels,
 }: {
   data: ExportSceneData;
   config?: ExportSceneConfig;
+  maxPixels?: number;
 }) => {
   const renderEnvironment = getExportRenderEnvironment(config?.environment);
 
@@ -863,6 +868,14 @@ const exportToCanvas = async ({
     theme,
   } = await configExportDimension({ data, config, renderEnvironment });
 
+  if (
+    maxPixels &&
+    (exportWidth * exportHeight > maxPixels ||
+      exportWidth > 65535 ||
+      exportHeight > 65535)
+  ) {
+    throw new Error(t("imageExportDialog.gif.tooLarge"));
+  }
   const canvas = renderEnvironment.createCanvas();
 
   // round rather than letting the canvas truncate, which would turn float
@@ -879,7 +892,7 @@ const exportToCanvas = async ({
     createImage: renderEnvironment.createImage,
   });
 
-  renderStaticScene({
+  const renderConfig: StaticSceneRenderConfig = {
     canvas,
     rc: rough.canvas(canvas),
     elementsMap: toBrandedType<RenderableElementsMap>(
@@ -919,9 +932,33 @@ const exportToCanvas = async ({
       pendingFlowchartNodes: null,
       theme,
     },
-  });
+  };
 
-  return canvas;
+  return (animationTime?: number) => {
+    renderStaticScene({ ...renderConfig, animationTime });
+    return canvas;
+  };
+};
+
+const exportToCanvas = async (opts: {
+  data: ExportSceneData;
+  config?: ExportSceneConfig;
+}) => {
+  const renderFrame = await createCanvasRenderer(opts);
+  return renderFrame();
+};
+
+const exportToGif = async (opts: {
+  data: ExportSceneData;
+  config?: ExportSceneConfig & GifExportOptions;
+}) => {
+  const { encodeGif, validateGifOptions } = await import("../data/gif");
+  validateGifOptions(opts.config);
+  const renderFrame = await createCanvasRenderer({
+    ...opts,
+    maxPixels: 2_000_000,
+  });
+  return encodeGif(renderFrame, opts.config);
 };
 
 // ---------------------------------------------------------------------------
@@ -1336,19 +1373,20 @@ const exportToBlob = async (
 
 export type ExportSceneOptions = { data: ExportSceneData } & (
   | { type: "canvas"; config?: ExportSceneConfig }
+  | { type: "gif"; config?: ExportSceneConfig & GifExportOptions }
   | { type: "png"; config?: ExportToPngConfig }
   | { type: "jpeg"; config?: ExportToJpegConfig }
   | { type: "svg"; config?: ExportToSvgConfig }
 );
 
 /**
- * Exports the scene to a canvas, a PNG or JPEG blob, or an SVG element.
+ * Exports the scene to a canvas, PNG/JPEG/GIF blob, or SVG element.
  */
 export function exportScene(
   opts: Extract<ExportSceneOptions, { type: "canvas" }>,
 ): Promise<HTMLCanvasElement>;
 export function exportScene(
-  opts: Extract<ExportSceneOptions, { type: "png" | "jpeg" }>,
+  opts: Extract<ExportSceneOptions, { type: "png" | "jpeg" | "gif" }>,
 ): Promise<Blob>;
 export function exportScene(
   opts: Extract<ExportSceneOptions, { type: "svg" }>,
@@ -1362,6 +1400,8 @@ export function exportScene(
   switch (opts.type) {
     case "canvas":
       return exportToCanvas(opts);
+    case "gif":
+      return exportToGif(opts);
     case "png":
     case "jpeg":
       return exportToBlob(opts);

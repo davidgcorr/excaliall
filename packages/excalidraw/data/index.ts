@@ -36,6 +36,8 @@ import { canvasToBlob } from "./blob";
 import { fileSave } from "./filesystem";
 import { serializeAsJSON } from "./json";
 
+import type { GifExportOptions } from "./gif";
+
 import type { ExportType } from "../scene/types";
 import type { AppState, BinaryFiles } from "../types";
 
@@ -107,6 +109,7 @@ export const exportCanvas = async (
     fileHandle = null,
     exportingFrame = null,
     renderEnvironment,
+    gif,
   }: {
     exportPadding?: number;
     /** filename, if applicable */
@@ -114,6 +117,7 @@ export const exportCanvas = async (
     fileHandle?: FileSystemFileHandle | null;
     exportingFrame: NonDeleted<ExcalidrawFrameLikeElement> | null;
     renderEnvironment?: RenderEnvironment;
+    gif?: GifExportOptions;
   },
 ) => {
   if (elements.length === 0) {
@@ -125,6 +129,24 @@ export const exportCanvas = async (
     padding: exportPadding,
     exportingFrame,
   };
+
+  if (type === "gif") {
+    const blob = exportScene({
+      type: "gif",
+      data: { elements, appState, files },
+      config: { ...config, ...gif, environment: renderEnvironment },
+    });
+    // The native save picker may be cancelled before it consumes the blob.
+    // Observe rejections immediately; fileSave still receives the original promise.
+    void blob.catch(() => {});
+    return fileSave(blob, {
+      description: "Export animated GIF",
+      name,
+      extension: "gif",
+      mimeTypes: [MIME_TYPES.gif],
+      fileHandle,
+    });
+  }
 
   if (type === "svg" || type === "clipboard-svg") {
     const svgPromise = exportScene({

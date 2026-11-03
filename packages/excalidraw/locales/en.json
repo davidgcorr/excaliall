@@ -556,12 +556,21 @@
     "title": {
       "exportToPng": "Export to PNG",
       "exportToSvg": "Export to SVG",
-      "copyPngToClipboard": "Copy PNG to clipboard"
+      "copyPngToClipboard": "Copy PNG to clipboard",
+      "exportToGif": "Export animated GIF"
     },
     "button": {
       "exportToPng": "PNG",
       "exportToSvg": "SVG",
-      "copyPngToClipboard": "Copy to clipboard"
+      "copyPngToClipboard": "Copy to clipboard",
+      "exportToGif": "GIF"
+    },
+    "gif": {
+      "duration": "GIF duration",
+      "seconds": "{{seconds}} s",
+      "progress": "Encoding GIF… {{progress}}%",
+      "hint": "GIF loops at 20 fps. Scene data is not embedded. For large diagrams, lower the export scale or export a selection.",
+      "tooLarge": "This GIF is too large. Lower the export scale or export a smaller selection (maximum 2 million pixels per frame)."
     }
   },
   "encrypted": {

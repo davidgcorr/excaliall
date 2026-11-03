@@ -26,7 +26,6 @@ import {
   renderElement,
   withSavedContext,
 } from "@excalidraw/element";
-import { drawAnimatedLinearElement } from "./animatedLinearElement";
 
 import { getRenderEnvironment } from "@excalidraw/element/renderEnvironment";
 
@@ -48,6 +47,8 @@ import {
   getElementLinkImg,
   getLinkHandleFromCoords,
 } from "../components/hyperlink/helpers";
+
+import { drawAnimatedLinearElement } from "./animatedLinearElement";
 
 import {
   bootstrapCanvas,
@@ -498,7 +499,6 @@ const _renderStaticScene = ({
 
           if (
             animationTime !== undefined &&
-            !isExporting &&
             isLinearElement(element) &&
             element.animation
           ) {

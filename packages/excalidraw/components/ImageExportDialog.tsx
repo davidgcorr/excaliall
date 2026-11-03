@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   DEFAULT_EXPORT_PADDING,
@@ -7,6 +7,8 @@ import {
   EXPORT_SCALES,
   cloneJSON,
 } from "@excalidraw/common";
+
+import { isLinearElement } from "@excalidraw/element";
 
 import type { NonDeletedExcalidrawElement } from "@excalidraw/element/types";
 
@@ -86,6 +88,17 @@ const ImageExportModal = ({
   );
   const [exportScale, setExportScale] = useState(appStateSnapshot.exportScale);
 
+  const [gifDuration, setGifDuration] = useState(3);
+  const [gifProgress, setGifProgress] = useState<number | null>(null);
+  const gifControllerRef = useRef<AbortController | null>(null);
+  useEffect(
+    () => () => {
+      gifControllerRef.current?.abort();
+      gifControllerRef.current = null;
+    },
+    [],
+  );
+
   const previewRef = useRef<HTMLDivElement>(null);
   const previewRenderRequestIdRef = useRef(0);
   const [renderError, setRenderError] = useState<Error | null>(null);
@@ -105,10 +118,18 @@ const ImageExportModal = ({
     resetCopyStatus,
   ]);
 
-  const { exportedElements, exportingFrame } = prepareElementsForExport(
-    elementsSnapshot,
-    appStateSnapshot,
-    exportSelectionOnly,
+  const { exportedElements, exportingFrame } = useMemo(
+    () =>
+      prepareElementsForExport(
+        elementsSnapshot,
+        appStateSnapshot,
+        exportSelectionOnly,
+      ),
+    [elementsSnapshot, appStateSnapshot, exportSelectionOnly],
+  );
+
+  const hasAnimation = exportedElements.some(
+    (element) => isLinearElement(element) && !!element.animation,
   );
 
   useEffect(() => {
@@ -305,6 +326,50 @@ const ImageExportModal = ({
           />
         </ExportSetting>
 
+        {hasAnimation && (
+          <ExportSetting
+            label={t("imageExportDialog.gif.duration")}
+            name="gifDuration"
+          >
+            <select
+              id="gifDuration"
+              className="TextInput"
+              value={gifDuration}
+              disabled={gifProgress !== null}
+              onChange={(event) =>
+                setGifDuration(Number(event.currentTarget.value))
+              }
+            >
+              {[1, 2, 3, 5, 10].map((seconds) => (
+                <option key={seconds} value={seconds}>
+                  {t("imageExportDialog.gif.seconds", { seconds })}
+                </option>
+              ))}
+            </select>
+          </ExportSetting>
+        )}
+        {hasAnimation && (
+          <p className="ImageExportModal__gif-hint">
+            {t("imageExportDialog.gif.hint")}
+          </p>
+        )}
+        {gifProgress !== null && (
+          <div
+            className="ImageExportModal__gif-progress"
+            role="status"
+            aria-live="polite"
+          >
+            {t("imageExportDialog.gif.progress", {
+              progress: Math.round(gifProgress * 100),
+            })}
+            <FilledButton
+              variant="outlined"
+              onClick={() => gifControllerRef.current?.abort()}
+            >
+              {t("buttons.cancel")}
+            </FilledButton>
+          </div>
+        )}
         <div className="ImageExportModal__settings__buttons">
           <FilledButton
             className="ImageExportModal__settings__buttons__button"
@@ -329,6 +394,36 @@ const ImageExportModal = ({
             icon={downloadIcon}
           >
             {t("imageExportDialog.button.exportToSvg")}
+          </FilledButton>
+          <FilledButton
+            className="ImageExportModal__settings__buttons__button"
+            label={t("imageExportDialog.title.exportToGif")}
+            disabled={!hasAnimation || gifProgress !== null}
+            onClick={async () => {
+              const controller =
+                new actionManager.app.ownerWindow.AbortController();
+              gifControllerRef.current = controller;
+              setGifProgress(0);
+              try {
+                await onExportImage(EXPORT_IMAGE_TYPES.gif, exportedElements, {
+                  exportingFrame,
+                  gif: {
+                    duration: gifDuration,
+                    signal: controller.signal,
+                    onProgress: setGifProgress,
+                  },
+                });
+              } finally {
+                controller.abort();
+                if (gifControllerRef.current === controller) {
+                  gifControllerRef.current = null;
+                  setGifProgress(null);
+                }
+              }
+            }}
+            icon={downloadIcon}
+          >
+            {t("imageExportDialog.button.exportToGif")}
           </FilledButton>
           {(probablySupportsClipboardBlob || isFirefox) && (
             <FilledButton

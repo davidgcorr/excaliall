@@ -423,6 +423,8 @@ export {
 
 export { reconcileElements } from "./data/reconcile";
 
+export type { GifExportOptions } from "./data/gif";
+
 export { exportScene, exportToClipboard } from "./scene/export";
 
 export type {

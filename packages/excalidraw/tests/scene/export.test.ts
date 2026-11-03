@@ -1078,3 +1078,58 @@ describe("exporting frames", () => {
     });
   });
 });
+
+describe("animated GIF scene export", () => {
+  it("renders animation timestamps while preparing fonts and canvas once", async () => {
+    const renderSpy = vi.spyOn(staticSceneModule, "renderStaticScene");
+    const loadFonts = vi.fn(async () => {});
+    const createCanvas = vi.fn(() => document.createElement("canvas"));
+    try {
+      const arrow = API.createElement({ type: "arrow", width: 30, height: 20 });
+      const blob = await exportScene({
+        type: "gif",
+        data: {
+          elements: [
+            {
+              ...arrow,
+              animation: { type: "dots", speed: 1, direction: "forward" },
+            },
+          ],
+        },
+        config: {
+          duration: 1,
+          fps: 10,
+          padding: 10,
+          theme: THEME.DARK,
+          environment: { loadFonts, createCanvas },
+        },
+      });
+      expect(blob.type).toBe("image/gif");
+      expect(loadFonts).toHaveBeenCalledTimes(1);
+      expect(createCanvas).toHaveBeenCalledTimes(1);
+      expect(
+        renderSpy.mock.calls.map(([config]) => config.animationTime),
+      ).toEqual(Array.from({ length: 10 }, (_, frame) => frame * 100));
+      expect(renderSpy.mock.calls[0][0].appState.theme).toBe(THEME.DARK);
+      expect(renderSpy.mock.calls[0][0].renderConfig.isExporting).toBe(true);
+    } finally {
+      renderSpy.mockRestore();
+    }
+  });
+
+  it("rejects oversized exports before allocating a canvas", async () => {
+    const createCanvas = vi.fn(() => document.createElement("canvas"));
+    await expect(
+      exportScene({
+        type: "gif",
+        data: {
+          elements: [
+            API.createElement({ type: "rectangle", width: 2000, height: 2000 }),
+          ],
+        },
+        config: { environment: { createCanvas } },
+      }),
+    ).rejects.toThrow("too large");
+    expect(createCanvas).not.toHaveBeenCalled();
+  });
+});

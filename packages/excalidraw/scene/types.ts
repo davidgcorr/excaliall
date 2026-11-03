@@ -154,6 +154,7 @@ export type SceneScroll = {
 };
 
 export type ExportType =
+  | "gif"
   | "png"
   | "clipboard"
   | "clipboard-svg"

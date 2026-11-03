@@ -102,6 +102,30 @@
       }
     }
 
+    &__gif-hint {
+      max-width: 320px;
+      margin: 0;
+      color: var(--color-gray-60);
+      font-size: 0.8rem;
+    }
+
+    &__gif-progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.85rem;
+    }
+
+    #gifDuration {
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--default-border-color);
+      border-radius: 0.5rem;
+      color: var(--text-primary-color);
+      background: var(--island-bg-color);
+      font: inherit;
+    }
+
     &__settings {
       display: flex;
       flex-direction: column;
