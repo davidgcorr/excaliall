@@ -1,3 +1,4 @@
+export { actionInsertDataChart, actionEditDataChart } from "./actionDataChart";
 export { actionDeleteSelected } from "./actionDeleteSelected";
 export { actionChangeLinearAnimation } from "./actionAnimation";
 export {

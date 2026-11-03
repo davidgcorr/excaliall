@@ -6,7 +6,11 @@ import { KEYS } from "@excalidraw/common";
 import { useTunnels } from "../context/tunnels";
 import { t } from "../i18n";
 
-import { useEditorInterface, useStylesPanelMode } from "./App";
+import {
+  useEditorInterface,
+  useStylesPanelMode,
+  useExcalidrawActionManager,
+} from "./App";
 import { HintViewer } from "./HintViewer";
 import { Island } from "./Island";
 import { LockButton } from "./LockButton";
@@ -242,6 +246,7 @@ export const Toolbar = ({
 
   const activeTool = appState.activeTool;
   const toolProps = { app, activeTool };
+  const actionManager = useExcalidrawActionManager();
 
   return (
     <Island
@@ -308,6 +313,8 @@ export const Toolbar = ({
         <TextToolButton {...toolProps} />
         <StickyNoteToolButton {...toolProps} />
         <EraserToolButton {...toolProps} />
+        {app.props.onOpenDataChart &&
+          actionManager.renderAction("insertDataChart")}
 
         <div
           className="App-toolbar__divider"

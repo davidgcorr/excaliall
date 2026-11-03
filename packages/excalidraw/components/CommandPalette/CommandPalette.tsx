@@ -336,6 +336,7 @@ function CommandPaletteInner({
         actionManager.actions.decreaseFontSize,
         actionManager.actions.toggleLinearEditor,
         actionManager.actions.cropEditor,
+        actionManager.actions.editDataChart,
         actionManager.actions.togglePolygon,
         actionLink,
         actionCopyElementLink,
@@ -375,6 +376,7 @@ function CommandPaletteInner({
         actionManager.actions.toggleElementLock,
         actionManager.actions.unlockAllElements,
         actionManager.actions.stats,
+        actionManager.actions.insertDataChart,
       ].map((action) => actionToCommand(action, DEFAULT_CATEGORIES.editor));
 
       const exportCommands: CommandPaletteItem[] = [

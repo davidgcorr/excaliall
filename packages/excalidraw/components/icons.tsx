@@ -2591,3 +2591,16 @@ export const settingsIcon = createIcon(
   </g>,
   tablerIconProps,
 );
+
+export const dataChartIcon = createIcon(
+  <path d="M4 3v17h17M8 16v-5m5 5V6m5 10V9" />,
+  {
+    width: 24,
+    height: 24,
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  },
+);

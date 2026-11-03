@@ -5,14 +5,19 @@ import {
 } from "@excalidraw/excalidraw/components/icons";
 import { useI18n } from "@excalidraw/excalidraw/i18n";
 import { MainMenu } from "@excalidraw/excalidraw/index";
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense } from "react";
 
 import { isDevEnv } from "@excalidraw/common";
+
+import { dataChartIcon } from "@excalidraw/excalidraw/components/icons";
 
 import type { Theme } from "@excalidraw/element/types";
 
 import { LanguageList } from "../app-language/LanguageList";
 import { isExcalidrawPlusSignedUser } from "../app_constants";
+
+import { useAtom } from "../app-jotai";
+import { roughVizDialogAtom } from "../charts/state";
 
 import { saveDebugState } from "./DebugCanvas";
 
@@ -30,11 +35,14 @@ export const AppMainMenu: React.FC<{
   refresh: () => void;
 }> = React.memo((props) => {
   const { t } = useI18n();
-  const [chartOpen, setChartOpen] = useState(false);
+  const [chartRequest, setChartRequest] = useAtom(roughVizDialogAtom);
   return (
     <>
       <MainMenu>
-        <MainMenu.Item onSelect={() => setChartOpen(true)}>
+        <MainMenu.Item
+          icon={dataChartIcon}
+          onSelect={() => setChartRequest({})}
+        >
           {t("labels.roughVizChart")}
         </MainMenu.Item>
         <MainMenu.DefaultItems.LoadScene />
@@ -117,9 +125,12 @@ export const AppMainMenu: React.FC<{
         </MainMenu.ItemCustom>
         <MainMenu.DefaultItems.ChangeCanvasBackground />
       </MainMenu>
-      {chartOpen && (
+      {chartRequest && (
         <Suspense fallback={null}>
-          <RoughVizDialog onClose={() => setChartOpen(false)} />
+          <RoughVizDialog
+            elementId={chartRequest.elementId}
+            onClose={() => setChartRequest(null)}
+          />
         </Suspense>
       )}
     </>

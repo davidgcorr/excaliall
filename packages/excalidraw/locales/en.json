@@ -1,5 +1,7 @@
 {
   "labels": {
+    "insertDataChart": "Insert data chart",
+    "editDataChart": "Edit chart data and settings",
     "roughVizChart": "Data chart (roughViz)…",
     "appVersion": "Version {{version}}",
     "appBuild": "Build {{revision}}",

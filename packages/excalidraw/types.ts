@@ -881,6 +881,8 @@ export interface ExcalidrawProps {
     appState: AppState,
     files: BinaryFiles,
   ) => void;
+  /** Opens the host chart editor; omitted ID inserts a new chart. */
+  onOpenDataChart?: (elementId?: string) => void;
   onThemeChange?: (theme: Theme | "system") => void;
   /**
    * note: only subscribes if the props.onIncrement is defined on initial render

@@ -35,10 +35,24 @@ const NAMES: Record<ChartType, string> = {
   StackedBar: "Stacked bar",
 };
 
-export const RoughVizDialog = ({ onClose }: { onClose: () => void }) => {
+export const RoughVizDialog = ({
+  onClose,
+  elementId,
+}: {
+  onClose: () => void;
+  elementId?: string | null;
+}) => {
   const app = useApp();
   const [target] = useState(() => {
-    const selected = app.scene.getSelectedElements(app.state);
+    const selected =
+      elementId === null
+        ? []
+        : typeof elementId === "string"
+        ? [app.scene.getElement(elementId)].filter(
+            (element): element is NonNullable<typeof element> =>
+              !!element && !element.isDeleted,
+          )
+        : app.scene.getSelectedElements(app.state);
     return selected.length === 1 &&
       selected[0].type === "image" &&
       !selected[0].locked &&
@@ -190,17 +204,30 @@ export const RoughVizDialog = ({ onClose }: { onClose: () => void }) => {
               status: "saved",
               customData: { roughViz: chart },
             });
-      app.api.addFiles([
-        { id: fileId, dataURL, mimeType: "image/svg+xml", created: Date.now() },
-      ]);
       const existing = app.api.getSceneElementsIncludingDeleted();
       app.api.updateScene({
         elements: currentTarget
           ? existing.map((item) => (item.id === element.id ? element : item))
           : [...existing, element],
-        appState: { selectedElementIds: { [element.id]: true } },
+        appState: currentTarget
+          ? undefined
+          : {
+              selectedElementIds: { [element.id]: true },
+              selectedGroupIds: {},
+              editingGroupId: null,
+            },
         captureUpdate: CaptureUpdateAction.IMMEDIATELY,
       });
+      // Load the image after its fileId is referenced by the scene.
+      app.api.addFiles([
+        {
+          id: fileId,
+          dataURL,
+          mimeType: "image/svg+xml",
+          created: Date.now(),
+          lastRetrieved: Date.now(),
+        },
+      ]);
       onClose();
     } catch (failure) {
       if (!request.signal.aborted) {
@@ -289,6 +316,14 @@ export const RoughVizDialog = ({ onClose }: { onClose: () => void }) => {
       }
     }
   };
+
+  if (elementId && !target) {
+    return (
+      <Dialog title="Edit roughViz chart" onCloseRequest={onClose}>
+        <p>This chart is unavailable or locked.</p>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog

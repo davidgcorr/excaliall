@@ -1,3 +1,5 @@
+import { isRoughVizChartElement } from "@excalidraw/element";
+
 import clsx from "clsx";
 import throttle from "lodash.throttle";
 import React, { useContext } from "react";
@@ -243,6 +245,8 @@ import type {
 } from "@excalidraw/element";
 
 import type { Mutable, ValueOf } from "@excalidraw/common/utility-types";
+
+import { actionEditDataChart } from "../actions/actionDataChart";
 
 import {
   actionAddToLibrary,
@@ -6265,6 +6269,17 @@ class App extends React.Component<AppProps, AppState> {
       this.state,
     );
 
+    const chartHit = this.getElementAtPosition(sceneX, sceneY);
+    if (
+      this.props.onOpenDataChart &&
+      !this.state.viewModeEnabled &&
+      isRoughVizChartElement(chartHit) &&
+      !chartHit.locked
+    ) {
+      this.props.onOpenDataChart(chartHit.id);
+      return;
+    }
+
     if (selectedElements.length === 1 && isLinearElement(selectedElements[0])) {
       const selectedLinearElement: ExcalidrawLinearElement =
         selectedElements[0];
@@ -11301,6 +11316,7 @@ class App extends React.Component<AppProps, AppState> {
       actionRemoveAllElementsFromFrame,
       actionWrapSelectionInFrame,
       CONTEXT_MENU_SEPARATOR,
+      ...(this.props.onOpenDataChart ? [actionEditDataChart] : []),
       actionToggleCropEditor,
       CONTEXT_MENU_SEPARATOR,
       ...options,

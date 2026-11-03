@@ -79,6 +79,8 @@ import type {
 import type { ResolutionType } from "@excalidraw/common/utility-types";
 import type { ResolvablePromise } from "@excalidraw/common/utils";
 
+import { openRoughVizDialog } from "./charts/state";
+
 import CustomStats from "./CustomStats";
 import {
   Provider,
@@ -958,6 +960,7 @@ const ExcalidrawWrapper = () => {
         userToFollow={userToFollow}
         onChange={onChange}
         onExport={onExport}
+        onOpenDataChart={openRoughVizDialog}
         initialData={initialStatePromiseRef.current.promise}
         isCollaborating={isCollaborating}
         onPointerUpdate={collabAPI?.onPointerUpdate}

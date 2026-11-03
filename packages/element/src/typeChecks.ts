@@ -430,3 +430,14 @@ export const isEligibleFrameChildType = (type: ElementOrToolType) => {
     }
   }
 };
+
+/** Data-backed SVG chart images are edited by the host's chart editor. */
+export const isRoughVizChartElement = (
+  element: ExcalidrawElement | null | undefined,
+): element is ExcalidrawImageElement =>
+  !!element &&
+  element.type === "image" &&
+  !element.isDeleted &&
+  element.customData?.roughViz?.version === 1 &&
+  Array.isArray(element.customData.roughViz.rows) &&
+  typeof element.customData.roughViz.type === "string";
