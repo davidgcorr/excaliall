@@ -6,6 +6,8 @@ Excaliall combines freehand diagrams, animated connectors, data-driven graphs an
 
 No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 
+![Excaliall main screen](public/screenshots/main-screen.png)
+
 [Download](https://github.com/davidgcorr/excalidraw/releases) · [Report an issue](https://github.com/davidgcorr/excalidraw/issues) · [Source code](https://github.com/davidgcorr/excalidraw)
 
 ## One canvas for ideas and data
