@@ -1,5 +1,6 @@
 {
   "labels": {
+    "animationMixed": "Mixed",
     "insertDataChart": "Insert data chart",
     "editDataChart": "Edit chart data and settings",
     "roughVizChart": "Data chart (roughViz)…",

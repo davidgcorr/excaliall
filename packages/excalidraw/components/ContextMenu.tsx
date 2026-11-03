@@ -10,6 +10,7 @@ import { t } from "../i18n";
 import { useExcalidrawAppState, useExcalidrawElements } from "./App";
 
 import { Popover } from "./Popover";
+import { LinearElementAnimationControls } from "./LinearElementAnimationControls";
 
 import "./ContextMenu.scss";
 
@@ -103,7 +104,6 @@ export const ContextMenu = React.memo(
                     !element.locked,
                 )
                 .filter(isLinearElement);
-              const animation = selectedElements[0]?.animation;
 
               return (
                 <li
@@ -126,114 +126,16 @@ export const ContextMenu = React.memo(
                   </button>
                   {isAnimationMenuOpen && (
                     <div className="context-menu-animation">
-                      <label>
-                        {t("labels.animationType")}
-                        <select
-                          aria-label={t("labels.animationType")}
-                          data-testid="animation-type"
-                          value={animation?.type ?? "none"}
-                          onChange={(event) => {
-                            const type = event.currentTarget.value;
-                            if (type === "none") {
-                              actionManager.executeAction(
-                                actionChangeLinearAnimation,
-                                "contextMenu",
-                                { animation: null },
-                              );
-                              return;
-                            }
-                            if (
-                              type !== "dots" &&
-                              type !== "pulse" &&
-                              type !== "dashes"
-                            ) {
-                              return;
-                            }
-                            actionManager.executeAction(
-                              actionChangeLinearAnimation,
-                              "contextMenu",
-                              {
-                                animation: {
-                                  type,
-                                  speed: animation?.speed ?? 3,
-                                  direction: animation?.direction ?? "forward",
-                                },
-                              },
-                            );
-                          }}
-                        >
-                          <option value="none">
-                            {t("labels.animationNone")}
-                          </option>
-                          <option value="dots">
-                            {t("labels.animationDots")}
-                          </option>
-                          <option value="pulse">
-                            {t("labels.animationPulse")}
-                          </option>
-                          <option value="dashes">
-                            {t("labels.animationDashes")}
-                          </option>
-                        </select>
-                      </label>
-                      <label>
-                        {t("labels.animationSpeed")}
-                        <input
-                          aria-label={t("labels.animationSpeed")}
-                          data-testid="animation-speed"
-                          type="range"
-                          min="1"
-                          max="5"
-                          step="1"
-                          disabled={!animation}
-                          value={animation?.speed ?? 3}
-                          onChange={(event) => {
-                            if (animation) {
-                              actionManager.executeAction(
-                                actionChangeLinearAnimation,
-                                "contextMenu",
-                                {
-                                  animation: {
-                                    ...animation,
-                                    speed: Number(event.currentTarget.value),
-                                  },
-                                },
-                              );
-                            }
-                          }}
-                        />
-                      </label>
-                      <label>
-                        {t("labels.animationDirection")}
-                        <select
-                          aria-label={t("labels.animationDirection")}
-                          data-testid="animation-direction"
-                          disabled={!animation}
-                          value={animation?.direction ?? "forward"}
-                          onChange={(event) => {
-                            if (animation) {
-                              const direction =
-                                event.currentTarget.value === "reverse"
-                                  ? "reverse"
-                                  : "forward";
-                              actionManager.executeAction(
-                                actionChangeLinearAnimation,
-                                "contextMenu",
-                                {
-                                  animation: { ...animation, direction },
-                                },
-                              );
-                            }
-                          }}
-                        >
-                          <option value="forward">
-                            {t("labels.animationForward")}
-                          </option>
-                          <option value="reverse">
-                            {t("labels.animationReverse")}
-                          </option>
-                        </select>
-                      </label>
+                      <LinearElementAnimationControls
+                        elements={selectedElements}
+                        onChange={(data) =>
+                          actionManager.executeAction(
+                            actionChangeLinearAnimation,
+                            "contextMenu",
+                            data,
+                          )
+                        }
+                      />
                     </div>
                   )}
                 </li>

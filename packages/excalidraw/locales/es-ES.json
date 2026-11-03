@@ -1,5 +1,16 @@
 {
   "labels": {
+    "animate": "Animar",
+    "animationType": "Animación",
+    "animationNone": "Sin animación",
+    "animationDots": "Puntos en movimiento",
+    "animationPulse": "Pulso",
+    "animationDashes": "Guiones en movimiento",
+    "animationSpeed": "Velocidad",
+    "animationDirection": "Dirección",
+    "animationForward": "Hacia delante",
+    "animationReverse": "Inversa",
+    "animationMixed": "Varios valores",
     "insertDataChart": "Insertar gráfico de datos",
     "editDataChart": "Editar datos y parámetros del gráfico",
     "roughVizChart": "Gráfico de datos (roughViz)…",

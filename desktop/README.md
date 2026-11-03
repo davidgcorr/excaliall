@@ -80,3 +80,9 @@ GIF supports a maximum of 256 colors per frame and binary transparency. Scene da
 Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select one chart and reopen the dialog to edit or refresh its data. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
 
 Use **Export image → HTML** or **Copy iframe** for standalone embedding; see the [HTML export guide](HTML-EXPORT.md).
+
+## Animate arrows and lines
+
+Select an arrow or line to show **Animate / Animar** in the properties side panel. Choose **Moving dots**, **Pulse**, or **Flowing dashes**, set speed (1×–5×), and choose forward or reverse direction. Choose **None** to stop the animation. The controls are also available in compact properties popovers and the right-click Animate submenu.
+
+Multiple selected lines/arrows can be changed together. Speed and direction changes preserve each element's other animation settings; locked elements are left unchanged. Changes support undo/redo and are saved in `.excalidraw` files. GIF and standalone HTML exports preserve animations.

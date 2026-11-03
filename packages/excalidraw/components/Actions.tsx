@@ -187,6 +187,7 @@ export const SelectedShapeActions = ({
 
       {predicates.verticalAlign && renderAction("changeVerticalAlign")}
       {predicates.arrowheads && <>{renderAction("changeArrowhead")}</>}
+      {renderAction("changeLinearAnimation")}
 
       {predicates.opacity && renderAction("changeOpacity")}
 
@@ -296,6 +297,7 @@ const CombinedShapeProperties = ({
               {predicates.sloppiness && <>{renderAction("changeSloppiness")}</>}
               {predicates.roundness && renderAction("changeRoundness")}
               {predicates.opacity && renderAction("changeOpacity")}
+              {renderAction("changeLinearAnimation")}
             </div>
           </PropertiesPopover>
         )}
@@ -393,6 +395,7 @@ const CombinedArrowProperties = ({
             onClose={() => {}}
           >
             {renderAction("changeArrowProperties")}
+            {renderAction("changeLinearAnimation")}
           </PropertiesPopover>
         )}
       </Popover.Root>
