@@ -627,3 +627,9 @@ export const MOBILE_ACTION_BUTTON_BG = {
 
 export const DEFAULT_STROKE_STREAMLINE = 0.5;
 export const DEFAULT_STROKE_STREAMLINE_PRECISE = 0.2;
+
+export const PROJECT_REPOSITORY_URL =
+  "https://github.com/davidgcorr/excalidraw";
+export const PROJECT_ISSUES_URL = `${PROJECT_REPOSITORY_URL}/issues`;
+export const PROJECT_DOCUMENTATION_URL = `${PROJECT_REPOSITORY_URL}#readme`;
+export const PROJECT_RELEASES_URL = `${PROJECT_REPOSITORY_URL}/releases`;

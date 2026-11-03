@@ -334,6 +334,8 @@ export interface AppState {
     left: number;
   } | null;
   showWelcomeScreen: boolean;
+  /** Local preference: hide upstream marketing and paid-service entry points. */
+  hidePromotions: boolean;
   isLoading: boolean;
   errorMessage: React.ReactNode;
   activeEmbeddable: {

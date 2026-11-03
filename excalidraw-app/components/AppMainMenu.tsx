@@ -7,6 +7,10 @@ import { useI18n } from "@excalidraw/excalidraw/i18n";
 import { MainMenu } from "@excalidraw/excalidraw/index";
 import React, { lazy, Suspense } from "react";
 
+import {
+  useApp,
+  useExcalidrawAppState,
+} from "@excalidraw/excalidraw/components/App";
 import { isDevEnv } from "@excalidraw/common";
 
 import { dataChartIcon } from "@excalidraw/excalidraw/components/icons";
@@ -35,6 +39,8 @@ export const AppMainMenu: React.FC<{
   refresh: () => void;
 }> = React.memo((props) => {
   const { t } = useI18n();
+  const app = useApp();
+  const { hidePromotions } = useExcalidrawAppState();
   const [chartRequest, setChartRequest] = useAtom(roughVizDialogAtom);
   return (
     <>
@@ -60,25 +66,31 @@ export const AppMainMenu: React.FC<{
         <MainMenu.DefaultItems.Help />
         <MainMenu.DefaultItems.ClearCanvas />
         <MainMenu.Separator />
-        <MainMenu.ItemLink
-          icon={ExcalLogo}
-          href={`${
-            import.meta.env.VITE_APP_PLUS_LP
-          }/plus?utm_source=excalidraw&utm_medium=app&utm_content=hamburger`}
-          className=""
-        >
-          Excalidraw+
-        </MainMenu.ItemLink>
+        {!hidePromotions && (
+          <MainMenu.ItemLink
+            icon={ExcalLogo}
+            href={`${
+              import.meta.env.VITE_APP_PLUS_LP
+            }/plus?utm_source=excalidraw&utm_medium=app&utm_content=hamburger`}
+            className=""
+          >
+            Excalidraw+
+          </MainMenu.ItemLink>
+        )}
         <MainMenu.DefaultItems.Socials />
-        <MainMenu.ItemLink
-          icon={loginIcon}
-          href={`${import.meta.env.VITE_APP_PLUS_APP}${
-            isExcalidrawPlusSignedUser ? "" : "/sign-up"
-          }?utm_source=signin&utm_medium=app&utm_content=hamburger`}
-          className="highlighted"
-        >
-          {isExcalidrawPlusSignedUser ? t("labels.signIn") : t("labels.signUp")}
-        </MainMenu.ItemLink>
+        {!hidePromotions && (
+          <MainMenu.ItemLink
+            icon={loginIcon}
+            href={`${import.meta.env.VITE_APP_PLUS_APP}${
+              isExcalidrawPlusSignedUser ? "" : "/sign-up"
+            }?utm_source=signin&utm_medium=app&utm_content=hamburger`}
+            className="highlighted"
+          >
+            {isExcalidrawPlusSignedUser
+              ? t("labels.signIn")
+              : t("labels.signUp")}
+          </MainMenu.ItemLink>
+        )}
         {isDevEnv() && (
           <MainMenu.Item
             icon={eyeIcon}
@@ -100,6 +112,19 @@ export const AppMainMenu: React.FC<{
         <MainMenu.DefaultItems.Preferences
           additionalItems={
             <>
+              <MainMenu.Item
+                icon={eyeIcon}
+                selected={hidePromotions}
+                aria-pressed={hidePromotions}
+                data-testid="toggle-upstream-promotions"
+                onSelect={() =>
+                  app.setAppState({ hidePromotions: !app.state.hidePromotions })
+                }
+              >
+                {hidePromotions
+                  ? t("labels.showUpstreamPromotions")
+                  : t("labels.hideUpstreamPromotions")}
+              </MainMenu.Item>
               <MainMenu.Separator />
               <MainMenu.ItemCustom className="AppMainMenu__version">
                 <span data-testid="app-version">

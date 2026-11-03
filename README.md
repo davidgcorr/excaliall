@@ -1,153 +1,61 @@
-**macOS desktop app:** [Build, install, and release Excalidraw Animation](desktop/README.md).
+# Excalidraw Animation
 
-## Install on macOS
+Animated connectors, data-driven roughViz graphs, editable sketch tables, and standalone diagram exports. This fork is maintained at [davidgcorr/excalidraw](https://github.com/davidgcorr/excalidraw).
 
-Download the latest `.dmg` from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), open it, and drag **Excalidraw Animation.app** into **Applications**. Launch it from Applications or Spotlight. Choose a universal build for either Intel or Apple Silicon, or an `arm64` build for Apple Silicon.
+## Install
 
-To build and install the current checkout on your Mac (Node.js 22.12 or newer):
+Download installers from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases):
+
+| Platform | Installer | Installation |
+| --- | --- | --- |
+| macOS | `.dmg` (universal in CI; local builds match your Mac) | Open and drag the app into Applications. |
+| Windows x64 | `windows-x64-setup.exe` | Run the setup wizard; no administrator access is required for a per-user installation. |
+| Linux x64 | `.AppImage` or `.deb` | Make the AppImage executable and run it, or install the Debian package. |
+
+The installed app runs without Node.js. Quit an older copy before upgrading. Save important drawings as `.excalidraw` files; upgrades preserve the application data directory. **☰ → Preferences / Preferencias** shows the running version and Git revision.
+
+See the [desktop installation, build, signing, and release guide](desktop/README.md).
+
+## Features
+
+- Animated arrows and lines: dots, pulse, or dashes, with speed and direction controls in the selection side panel.
+- [GIF export and standalone HTML / iframe embedding](desktop/HTML-EXPORT.md).
+- [Data-driven roughViz graphs](desktop/ROUGHVIZ.md) from CSV, JSON, and data URLs. Select to edit styling, columns, titles, and axes; double-click to edit/import data.
+- [Editable sketch tables](desktop/DATA-TABLES.md), with on-table row/column icons, native color/fill/stroke/roughness controls, and actual rounded table corners. Deselect to save edits.
+- PNG/SVG export, offline editing, fonts bundled in the desktop app, local autosave, and the original Excalidraw drawing tools.
+- **☰ → Preferences → Hide upstream promotions** hides Excalidraw+ banners, sign-up links, paid-service commands, and paid export options. The choice is saved locally and can be reversed from the same menu.
+
+## Build from source
+
+Use Node.js 22.12 or newer:
 
 ```sh
 corepack yarn install --frozen-lockfile
 corepack yarn desktop:install
 corepack yarn desktop:dist
-open desktop/dist
 ```
 
-Open the generated `.dmg`, drag the app into Applications, and launch it. Quit the running app before replacing it during an upgrade. The installed app runs on its own without Node.js.
+Installers appear in `desktop/dist`. This command builds for the current platform. Explicit packaging commands, after building the editor, are:
 
-Open the editor's **☰ → Preferences / Preferencias** menu to see the running **Version** and **Build** (Git revision). The native **Excalidraw Animation → About** menu also shows the app version. Builds with uncommitted changes include `-modified` in the build revision.
-
-For manual upgrades, replace the app using the newer DMG. Signed releases support **Excalidraw Animation → Check for Updates…**. Drawing data is preserved in `~/Library/Application Support/excalidraw-animation-desktop`; save important diagrams as `.excalidraw` files.
-
-## Data-driven charts
-
-Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart to use the standard color palettes, fill styles, stroke widths/styles, and edit column mappings, title, axis titles, and roughness in the properties side panel. Double-click to import or edit CSV/JSON data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
-
-Use the **table icon** in the central toolbar for editable sketch tables. Edit cells on the canvas, paste a spreadsheet range, and use the on-table icons to add/remove rows and columns. The selection side panel provides standard color/fill/stroke controls, roughness, and true table corners. Deselect to save automatically. Double-click a table to edit it again. See the [data table guide](desktop/DATA-TABLES.md).
-
-See the [roughViz chart guide](desktop/ROUGHVIZ.md) and [HTML/iframe embedding guide](desktop/HTML-EXPORT.md).
-
-<a href="https://excalidraw.com/" target="_blank" rel="noopener">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" alt="Excalidraw" srcset="https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github/excalidraw_github_cover_2_dark.png" />
-    <img alt="Excalidraw" src="https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github/excalidraw_github_cover_2.png" />
-  </picture>
-</a>
-
-<h4 align="center">
-  <a href="https://excalidraw.com">Excalidraw Editor</a> |
-  <a href="https://plus.excalidraw.com/blog">Blog</a> |
-  <a href="https://docs.excalidraw.com">Documentation</a> |
-  <a href="https://plus.excalidraw.com">Excalidraw+</a>
-</h4>
-
-<div align="center">
-  <h2>
-    An open source virtual hand-drawn style whiteboard. </br>
-    Collaborative and end-to-end encrypted. </br>
-  <br />
-  </h2>
-</div>
-
-<br />
-<p align="center">
-  <a href="https://github.com/excalidraw/excalidraw/blob/master/LICENSE">
-    <img alt="Excalidraw is released under the MIT license." src="https://img.shields.io/badge/license-MIT-blue.svg"  /></a>
-  <a href="https://www.npmjs.com/package/@excalidraw/excalidraw">
-    <img alt="npm downloads/month" src="https://img.shields.io/npm/dm/@excalidraw/excalidraw"  /></a>
-  <a href="https://docs.excalidraw.com/docs/introduction/contributing">
-    <img alt="PRs welcome!" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"  /></a>
-  <a href="https://discord.gg/UexuTaE">
-    <img alt="Chat on Discord" src="https://img.shields.io/discord/723672430744174682?color=738ad6&label=Chat%20on%20Discord&logo=discord&logoColor=ffffff&widget=false"/></a>
-  <a href="https://deepwiki.com/excalidraw/excalidraw">
-    <img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg" /></a>
-  <a href="https://twitter.com/excalidraw">
-    <img alt="Follow Excalidraw on Twitter" src="https://img.shields.io/twitter/follow/excalidraw.svg?label=follow+@excalidraw&style=social&logo=twitter"/></a>
-</p>
-
-<div align="center">
-  <figure>
-    <a href="https://excalidraw.com" target="_blank" rel="noopener">
-      <img src="https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github%2Fproduct_showcase.png" alt="Product showcase" />
-    </a>
-    <figcaption>
-      <p align="center">
-        Create beautiful hand-drawn like diagrams, wireframes, or whatever you like.
-      </p>
-    </figcaption>
-  </figure>
-</div>
-
-## Features
-
-The Excalidraw editor (npm package) supports:
-
-- 💯&nbsp;Free & open-source.
-- 🎨&nbsp;Infinite, canvas-based whiteboard.
-- ✍️&nbsp;Hand-drawn like style.
-- 🌓&nbsp;Dark mode.
-- 🏗️&nbsp;Customizable.
-- 📷&nbsp;Image support.
-- 😀&nbsp;Shape libraries support.
-- 🌐&nbsp;Localization (i18n) support.
-- 🖼️&nbsp;Export to PNG, SVG & clipboard.
-- 💾&nbsp;Open format - export drawings as an `.excalidraw` json file.
-- ⚒️&nbsp;Wide range of tools - rectangle, circle, diamond, arrow, line, free-draw, eraser...
-- ➡️&nbsp;Arrow-binding & labeled arrows.
-- 🔙&nbsp;Undo / Redo.
-- 🔍&nbsp;Zoom and panning support.
-
-## Excalidraw.com
-
-The app hosted at [excalidraw.com](https://excalidraw.com) is a minimal showcase of what you can build with Excalidraw. Its [source code](https://github.com/excalidraw/excalidraw/tree/master/excalidraw-app) is part of this repository as well, and the app features:
-
-- 📡&nbsp;PWA support (works offline).
-- 🤼&nbsp;Real-time collaboration.
-- 🔒&nbsp;End-to-end encryption.
-- 💾&nbsp;Local-first support (autosaves to the browser).
-- 🔗&nbsp;Shareable links (export to a readonly link you can share with others).
-
-We'll be adding these features as drop-in plugins for the npm package in the future.
-
-## Quick start
-
-**Note:** following instructions are for installing the Excalidraw [npm package](https://www.npmjs.com/package/@excalidraw/excalidraw) when integrating Excalidraw into your own app. To run the repository locally for development, please refer to our [Development Guide](https://docs.excalidraw.com/docs/introduction/development).
-
-Use `npm` or `yarn` to install the package.
-
-```bash
-npm install react react-dom @excalidraw/excalidraw
-# or
-yarn add react react-dom @excalidraw/excalidraw
+```sh
+node desktop/scripts/build-web.cjs
+npm --prefix desktop run dist:mac -- --universal
+npm --prefix desktop run dist:windows
+npm --prefix desktop run dist:linux
 ```
 
-Check out our [documentation](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/installation) for more details!
+Use the corresponding native OS or the documented Docker builder for Windows/Linux. GitHub Actions builds all three platforms on native runners and creates a draft release for `desktop-v*` tags. Nothing is published automatically.
 
-## Contributing
+For browser development, run `corepack yarn start`. For the reusable editor package, see [packages/excalidraw/README.md](packages/excalidraw/README.md).
 
-- Missing something or found a bug? [Report here](https://github.com/excalidraw/excalidraw/issues).
-- Want to contribute? Check out our [contribution guide](https://docs.excalidraw.com/docs/introduction/contributing) or let us know on [Discord](https://discord.gg/UexuTaE).
-- Want to help with translations? See the [translation guide](https://docs.excalidraw.com/docs/introduction/contributing#translating).
+## Project links
 
-## Integrations
+- [Source](https://github.com/davidgcorr/excalidraw)
+- [Issues and feature requests](https://github.com/davidgcorr/excalidraw/issues)
+- [Releases](https://github.com/davidgcorr/excalidraw/releases)
+- [Feature milestone tags](desktop/MILESTONES.md)
+- [Contributing](CONTRIBUTING.md)
 
-- [VScode extension](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor)
-- [npm package](https://www.npmjs.com/package/@excalidraw/excalidraw)
+## License and attribution
 
-## Who's integrating Excalidraw
-
-[Google Cloud](https://googlecloudcheatsheet.withgoogle.com/architecture) • [Meta](https://meta.com/) • [CodeSandbox](https://codesandbox.io/) • [Obsidian Excalidraw](https://github.com/zsviczian/obsidian-excalidraw-plugin) • [Replit](https://replit.com/) • [Slite](https://slite.com/) • [Notion](https://notion.so/) • [HackerRank](https://www.hackerrank.com/) • and many others
-
-## Sponsors & support
-
-If you like the project, you can become a sponsor at [Open Collective](https://opencollective.com/excalidraw) or use [Excalidraw+](https://plus.excalidraw.com/).
-
-## Thank you for supporting Excalidraw
-
-[<img src="https://opencollective.com/excalidraw/tiers/sponsors/0/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/0/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/1/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/1/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/2/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/2/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/3/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/3/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/4/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/4/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/5/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/5/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/6/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/6/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/7/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/7/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/8/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/8/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/9/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/9/website) [<img src="https://opencollective.com/excalidraw/tiers/sponsors/10/avatar.svg?avatarHeight=120"/>](https://opencollective.com/excalidraw/tiers/sponsors/10/website)
-
-<a href="https://opencollective.com/excalidraw#category-CONTRIBUTE" target="_blank"><img src="https://opencollective.com/excalidraw/tiers/backers.svg?avatarHeight=32"/></a>
-
-Last but not least, we're thankful to these companies for offering their services for free:
-
-[![Vercel](./.github/assets/vercel.svg)](https://vercel.com) [![Sentry](./.github/assets/sentry.svg)](https://sentry.io) [![Crowdin](./.github/assets/crowdin.svg)](https://crowdin.com)
+MIT; see [LICENSE](LICENSE). Based on the original [Excalidraw project](https://github.com/excalidraw/excalidraw). Original copyright and dependency license notices are retained. The roughViz integration uses [davidgcorr/roughViz](https://github.com/davidgcorr/roughViz).

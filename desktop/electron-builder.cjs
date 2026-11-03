@@ -35,5 +35,26 @@ module.exports = {
     entitlementsInherit: "resources/entitlements.mac.plist",
     notarize: process.env.DESKTOP_SIGNED === "true",
   },
+  win: {
+    icon: "../public/android-chrome-512x512.png",
+    target: ["nsis"],
+    artifactName:
+      "Excalidraw-Animation-${version}-windows-${arch}-setup.${ext}",
+  },
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    createDesktopShortcut: true,
+    deleteAppDataOnUninstall: false,
+  },
+  linux: {
+    target: ["AppImage", "deb"],
+    category: "Graphics",
+    syncDesktopName: true,
+    maintainer: "David Corr",
+    icon: "../public/android-chrome-512x512.png",
+    artifactName: "Excalidraw-Animation-${version}-linux-${arch}.${ext}",
+  },
   dmg: { title: "Excalidraw Animation ${version}" },
 };

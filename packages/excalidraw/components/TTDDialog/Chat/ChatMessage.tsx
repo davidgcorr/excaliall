@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { useState, useEffect } from "react";
 
 import { t } from "../../../i18n";
+import { useExcalidrawAppState } from "../../App";
 import { FilledButton } from "../../FilledButton";
 import { TrashIcon, codeIcon, stackPushIcon, RetryIcon } from "../../icons";
 
@@ -30,6 +31,7 @@ export const ChatMessage: React.FC<{
   renderWarning,
   allowFixingParseError,
 }) => {
+  const { hidePromotions } = useExcalidrawAppState();
   const [canRetry, setCanRetry] = useState(false);
 
   useEffect(() => {
@@ -79,22 +81,28 @@ export const ChatMessage: React.FC<{
                 customOverride
               ) : message.warningType === "messageLimitExceeded" ? (
                 <>
-                  {t("chat.rateLimit.messageLimit")}
-                  <div style={{ marginTop: "10px" }}>
-                    <FilledButton
-                      onClick={() => {
-                        window.open(
-                          `${
-                            import.meta.env.VITE_APP_PLUS_LP
-                          }/plus?utm_source=excalidraw&utm_medium=app&utm_content=ttdChatBanner#excalidraw-redirect`,
-                          "_blank",
-                          "noopener",
-                        );
-                      }}
-                    >
-                      {t("chat.upsellBtnLabel")}
-                    </FilledButton>
-                  </div>
+                  {t(
+                    hidePromotions
+                      ? "chat.rateLimit.messageLimitInputPlaceholder"
+                      : "chat.rateLimit.messageLimit",
+                  )}
+                  {!hidePromotions && (
+                    <div style={{ marginTop: "10px" }}>
+                      <FilledButton
+                        onClick={() => {
+                          window.open(
+                            `${
+                              import.meta.env.VITE_APP_PLUS_LP
+                            }/plus?utm_source=excalidraw&utm_medium=app&utm_content=ttdChatBanner#excalidraw-redirect`,
+                            "_blank",
+                            "noopener",
+                          );
+                        }}
+                      >
+                        {t("chat.upsellBtnLabel")}
+                      </FilledButton>
+                    </div>
+                  )}
                 </>
               ) : (
                 t("chat.rateLimit.generalRateLimit")

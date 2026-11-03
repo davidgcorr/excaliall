@@ -1,4 +1,4 @@
-name: macOS desktop release
+name: Desktop release (macOS, Windows, Linux)
 
 on:
   push:
@@ -12,16 +12,34 @@ concurrency:
   group: desktop-release-${{ github.ref }}
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
-    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos
+            runner: macos-15
+            args: --mac --universal
+          - platform: windows
+            runner: windows-2022
+            args: --win --x64
+          - platform: linux
+            runner: ubuntu-24.04
+            args: --linux --x64
+    runs-on: ${{ matrix.runner }}
     env:
-      CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
-      CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+      CSC_LINK: ${{ matrix.platform == 'macos' && secrets.MAC_CERTIFICATE || '' }}
+      CSC_KEY_PASSWORD: ${{ matrix.platform == 'macos' && secrets.MAC_CERTIFICATE_PASSWORD || '' }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-      DESKTOP_SIGNED: ${{ secrets.MAC_CERTIFICATE != '' && 'true' || 'false' }}
+      DESKTOP_SIGNED: ${{ matrix.platform == 'macos' && secrets.MAC_CERTIFICATE != '' && 'true' || 'false' }}
+      APPIMAGE_EXTRACT_AND_RUN: 1
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -37,20 +55,23 @@ jobs:
         run: |
           corepack yarn install --frozen-lockfile
           npm --prefix desktop ci
-      - name: Test desktop file isolation
+      - name: Test desktop file isolation and packaging
         run: node --test desktop/*.test.cjs
       - name: Build bundled editor
         run: node desktop/scripts/build-web.cjs
-      - name: Package universal macOS app
-        run: npm --prefix desktop run dist -- --universal
+      - name: Package desktop app
+        run: npm --prefix desktop run dist -- ${{ matrix.args }}
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-desktop
+          name: desktop-${{ matrix.platform }}
           path: |
             desktop/dist/*.dmg
             desktop/dist/*.zip
+            desktop/dist/*.exe
+            desktop/dist/*.AppImage
+            desktop/dist/*.deb
             desktop/dist/*.blockmap
-            desktop/dist/latest-mac.yml
+            desktop/dist/latest*.yml
           if-no-files-found: error
 
   release:
@@ -62,7 +83,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: macos-desktop
+          pattern: desktop-*
+          merge-multiple: true
           path: artifacts
       - name: Create draft GitHub release
         env:

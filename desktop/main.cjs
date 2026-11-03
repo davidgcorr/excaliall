@@ -143,7 +143,7 @@ function createWindow() {
   );
   mainWindow.once("ready-to-show", () => mainWindow.show());
   mainWindow.on("close", (event) => {
-    if (!quitting) {
+    if (process.platform === "darwin" && !quitting) {
       event.preventDefault();
       mainWindow.hide();
     }
@@ -200,16 +200,20 @@ if (!app.requestSingleInstanceLock()) {
       Menu.setApplicationMenu(
         Menu.buildFromTemplate([
           {
-            label: app.name,
+            label: process.platform === "darwin" ? app.name : "File",
             submenu: [
               { role: "about" },
               { label: "Check for Updates…", click: checkForUpdates },
               { type: "separator" },
-              { role: "services" },
-              { type: "separator" },
-              { role: "hide" },
-              { role: "hideOthers" },
-              { role: "unhide" },
+              ...(process.platform === "darwin"
+                ? [
+                    { role: "services" },
+                    { type: "separator" },
+                    { role: "hide" },
+                    { role: "hideOthers" },
+                    { role: "unhide" },
+                  ]
+                : []),
               { type: "separator" },
               { role: "quit" },
             ],
@@ -243,4 +247,10 @@ if (!app.requestSingleInstanceLock()) {
 }
 app.on("before-quit", () => {
   quitting = true;
+});
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });

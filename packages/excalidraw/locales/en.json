@@ -1,5 +1,9 @@
 {
   "labels": {
+    "hideUpstreamPromotions": "Hide upstream promotions",
+    "showUpstreamPromotions": "Show upstream promotions",
+    "projectReleases": "Project releases",
+    "projectIssues": "Report an issue",
     "chartProperties": "Graph properties",
     "chartLabelColumn": "Labels / X column",
     "chartValueColumns": "Values / Y column",

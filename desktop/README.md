@@ -1,14 +1,33 @@
-# Excalidraw Animation for macOS
+# Excalidraw Animation desktop
 
 The desktop app bundles this checkout's editor and fonts. Drawing, animated connectors, local autosave, file import, and export work locally. Collaboration, shared libraries, and other online services still need internet access. The app stores its own drawing data in `~/Library/Application Support/excalidraw-animation-desktop`; browser data is separate. Save important drawings as `.excalidraw` files before upgrading.
 
-## Install or upgrade
+## Install or upgrade on macOS
 
 Download a DMG from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), or build one using the commands below. Open it and drag **Excalidraw Animation.app** to **Applications**. Quit any running copy before replacing the app, then launch it from Applications or Spotlight.
 
 Use **☰ → Preferences / Preferencias** to read the installed version and build revision. **Excalidraw Animation → About** shows the native app version. Both use the version in `desktop/package.json`. Local builds with uncommitted changes show `-modified` after the Git revision; source archives without Git metadata show `unknown`.
 
-## Build and run on your Mac
+## Install or upgrade on Windows
+
+Download `Excalidraw-Animation-<version>-windows-x64-setup.exe` from [Releases](https://github.com/davidgcorr/excalidraw/releases), quit the existing app, and run the wizard. The default installation is per-user; the wizard lets you choose a directory and creates a desktop shortcut. Uninstalling does not delete your drawing data.
+
+## Install or upgrade on Linux
+
+Download the x64 `.AppImage` or `.deb` from [Releases](https://github.com/davidgcorr/excalidraw/releases). For the AppImage:
+
+```sh
+chmod +x Excalidraw-Animation-*-linux-x86_64.AppImage
+./Excalidraw-Animation-<version>-linux-x86_64.AppImage
+```
+
+Some distributions require FUSE 2 support to launch AppImages. Alternatively, install the Debian package with `sudo apt install ./Excalidraw-Animation-<version>-linux-amd64.deb` (use the exact downloaded filename). Quit before replacing the executable or upgrading the package. Drawing data is normally under `~/.config/excalidraw-animation-desktop` on Linux and `%APPDATA%\excalidraw-animation-desktop` on Windows.
+
+## Hide upstream promotions
+
+Choose **☰ → Preferences → Hide upstream promotions**. This hides the paid-service banner, sign-up/sign-in shortcuts, welcome-screen promotion, paid export/overwrite options, and paid command-palette entries. Choose **Show upstream promotions** in the same menu to restore them. The preference is local to this installation; exported drawings do not carry it. Drawing, collaboration, local exports, libraries, and license notices remain available.
+
+## Build and run from source
 
 Install Node.js 22.12 or newer, then run from the repository root:
 
@@ -18,14 +37,26 @@ corepack yarn desktop:install
 corepack yarn desktop:dist
 ```
 
-Open the `.dmg` in `desktop/dist`, drag **Excalidraw Animation.app** to Applications, and launch it. Local builds target your Mac's architecture. To build a universal installer for Intel and Apple Silicon:
+Open the installer in `desktop/dist` using the platform instructions above. Local builds target the current platform and architecture. To build a universal installer for Intel and Apple Silicon:
 
 ```sh
 node desktop/scripts/build-web.cjs
-npm --prefix desktop run dist -- --universal
+npm --prefix desktop run dist:mac -- --universal
 ```
 
 For development, `corepack yarn desktop:build` builds an unpacked app, and `corepack yarn desktop:start` runs the bundled editor. Rebuild after editing the editor. No dev server or Node.js installation is needed to run the installed app.
+
+## Windows and Linux builds
+
+After `node desktop/scripts/build-web.cjs`, run `npm --prefix desktop run dist:windows` on Windows or `npm --prefix desktop run dist:linux` on Linux. Use `npm --prefix desktop run dist:mac -- --universal` on macOS. Cross-building Windows/Linux from a Mac uses the pinned official [electron-builder Docker image](https://www.electron.build/docs/features/multi-platform-build/). With Docker Desktop running:
+
+```sh
+corepack yarn desktop:dist:cross
+```
+
+This builds x64 Windows NSIS and Linux AppImage/Debian installers under `desktop/dist-cross`, using isolated Docker volumes for Linux dependencies and a read-only source mount. On macOS, Windows packaging uses the native NSIS extractor to avoid Wine under ARM emulation. It requires downloading the build image on first use. The native GitHub Actions matrix avoids Docker for releases.
+
+Windows and Linux builds currently use manual upgrades from Releases. The existing signed macOS update flow is unchanged. Local unsigned builds and public downloads may show the operating system's standard unsigned-app prompt.
 
 ## Release a new version
 
@@ -34,20 +65,22 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.11 --no-git-tag-version
+   npm --prefix desktop version 0.1.12 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.11
+   git tag desktop-v0.1.12
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.11
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.12
    ```
 
-3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
+3. GitHub Actions builds a universal macOS DMG/ZIP, Windows x64 NSIS installer, and Linux x64 AppImage/Debian package, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
 
-You can also run **macOS desktop release** manually in Actions to download build artifacts without creating a release. Version tags must match the package version exactly. Use increasing stable versions (`0.1.0`, `0.1.1`, `0.2.0`).
+You can also run **Desktop release (macOS, Windows, Linux)** manually in Actions to download build artifacts without creating a release. Version tags must match the package version exactly. Use increasing stable versions (`0.1.0`, `0.1.1`, `0.2.0`).
+
+See [feature milestone tags](MILESTONES.md) for the annotated history.
 
 ## Signing and automatic upgrades
 

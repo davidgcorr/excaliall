@@ -1,8 +1,8 @@
 {
   "name": "excalidraw-animation-desktop",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": true,
-  "description": "Excalidraw with animated connectors for macOS",
+  "description": "Excalidraw with animated connectors, data graphs and editable tables",
   "author": "David Corr",
   "license": "MIT",
   "main": "main.cjs",
@@ -10,8 +10,11 @@
   "scripts": {
     "postinstall": "node node_modules/electron/install.js",
     "start": "electron .",
-    "pack": "electron-builder --mac --dir --publish never",
-    "dist": "electron-builder --mac --publish never"
+    "pack": "electron-builder --dir --publish never",
+    "dist": "electron-builder --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:windows": "electron-builder --win --x64 --publish never",
+    "dist:linux": "electron-builder --linux --x64 --publish never"
   },
   "dependencies": {
     "electron-updater": "6.8.11"
@@ -19,5 +22,6 @@
   "devDependencies": {
     "electron": "45.2.1",
     "electron-builder": "26.18.0"
-  }
+  },
+  "desktopName": "excalidraw-animation.desktop"
 }

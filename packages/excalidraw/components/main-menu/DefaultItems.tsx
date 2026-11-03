@@ -1,3 +1,8 @@
+import {
+  PROJECT_REPOSITORY_URL,
+  PROJECT_ISSUES_URL,
+  PROJECT_RELEASES_URL,
+} from "@excalidraw/common";
 import clsx from "clsx";
 
 import { THEME } from "@excalidraw/common";
@@ -42,13 +47,7 @@ import DropdownMenuItemCheckbox from "../dropdownMenu/DropdownMenuItemCheckbox";
 import DropdownMenuItemContentRadio from "../dropdownMenu/DropdownMenuItemContentRadio";
 import DropdownMenuItemLink from "../dropdownMenu/DropdownMenuItemLink";
 import DropdownMenuSub from "../dropdownMenu/DropdownMenuSub";
-import {
-  GithubIcon,
-  DiscordIcon,
-  XBrandIcon,
-  settingsIcon,
-  emptyIcon,
-} from "../icons";
+import { GithubIcon, settingsIcon, emptyIcon } from "../icons";
 import {
   boltIcon,
   DeviceDesktopIcon,
@@ -373,29 +372,20 @@ Export.displayName = "Export";
 
 export const Socials = () => {
   const { t } = useI18n();
-
   return (
     <>
       <DropdownMenuItemLink
         icon={GithubIcon}
-        href="https://github.com/excalidraw/excalidraw"
+        href={PROJECT_REPOSITORY_URL}
         aria-label="GitHub"
       >
         GitHub
       </DropdownMenuItemLink>
-      <DropdownMenuItemLink
-        icon={XBrandIcon}
-        href="https://x.com/excalidraw"
-        aria-label="X"
-      >
-        {t("labels.followUs")}
+      <DropdownMenuItemLink icon={GithubIcon} href={PROJECT_ISSUES_URL}>
+        {t("labels.projectIssues")}
       </DropdownMenuItemLink>
-      <DropdownMenuItemLink
-        icon={DiscordIcon}
-        href="https://discord.gg/UexuTaE"
-        aria-label="Discord"
-      >
-        {t("labels.discordChat")}
+      <DropdownMenuItemLink icon={GithubIcon} href={PROJECT_RELEASES_URL}>
+        {t("labels.projectReleases")}
       </DropdownMenuItemLink>
     </>
   );

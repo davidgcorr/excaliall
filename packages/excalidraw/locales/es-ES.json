@@ -1,5 +1,9 @@
 {
   "labels": {
+    "hideUpstreamPromotions": "Ocultar promociones de Excalidraw",
+    "showUpstreamPromotions": "Mostrar promociones de Excalidraw",
+    "projectReleases": "Versiones del proyecto",
+    "projectIssues": "Informar de un problema",
     "chartProperties": "Propiedades del gráfico",
     "chartLabelColumn": "Etiquetas / Columna X",
     "chartValueColumns": "Valores / Columna Y",

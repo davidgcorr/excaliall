@@ -1,3 +1,4 @@
+import { useExcalidrawAppState } from "@excalidraw/excalidraw/components/App";
 import { Footer } from "@excalidraw/excalidraw/index";
 import React from "react";
 
@@ -8,6 +9,7 @@ import { EncryptedIcon } from "./EncryptedIcon";
 
 export const AppFooter = React.memo(
   ({ onChange }: { onChange: () => void }) => {
+    const { hidePromotions } = useExcalidrawAppState();
     return (
       <Footer>
         <div
@@ -18,7 +20,7 @@ export const AppFooter = React.memo(
           }}
         >
           {isVisualDebuggerEnabled() && <DebugFooter onChange={onChange} />}
-          {!isExcalidrawPlusSignedUser && <EncryptedIcon />}
+          {!hidePromotions && !isExcalidrawPlusSignedUser && <EncryptedIcon />}
         </div>
       </Footer>
     );
