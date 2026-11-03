@@ -19,6 +19,12 @@ Open the editor's **☰ → Preferences / Preferencias** menu to see the running
 
 For manual upgrades, replace the app using the newer DMG. Signed releases support **Excalidraw Animation → Check for Updates…**. Drawing data is preserved in `~/Library/Application Support/excalidraw-animation-desktop`; save important diagrams as `.excalidraw` files.
 
+## Data-driven charts
+
+Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart and reopen the same menu to edit its data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
+
+See the [roughViz chart guide](desktop/ROUGHVIZ.md) and [HTML/iframe embedding guide](desktop/HTML-EXPORT.md).
+
 <a href="https://excalidraw.com/" target="_blank" rel="noopener">
   <picture>
     <source media="(prefers-color-scheme: dark)" alt="Excalidraw" srcset="https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github/excalidraw_github_cover_2_dark.png" />

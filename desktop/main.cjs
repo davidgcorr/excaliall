@@ -179,7 +179,7 @@ if (!app.requestSingleInstanceLock()) {
           const headers = new Headers(response.headers);
           headers.set(
             "Content-Security-Policy",
-            "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src https:; media-src 'self' blob: data: https:; object-src 'none'; base-uri 'self'",
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src 'self' https: about:; media-src 'self' blob: data: https:; object-src 'none'; base-uri 'self'",
           );
           return new Response(response.body, {
             status: response.status,

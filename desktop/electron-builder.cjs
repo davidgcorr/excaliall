@@ -7,6 +7,7 @@ module.exports = {
   extraResources: [
     { from: "web", to: "web" },
     { from: "../LICENSE", to: "LICENSE.excalidraw.txt" },
+    { from: "resources/roughviz-LICENSE.txt", to: "licenses/roughviz.txt" },
   ],
   artifactName: "Excalidraw-Animation-${version}-${arch}.${ext}",
   extraMetadata: {

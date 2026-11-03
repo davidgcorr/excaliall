@@ -5,7 +5,7 @@ import {
 } from "@excalidraw/excalidraw/components/icons";
 import { useI18n } from "@excalidraw/excalidraw/i18n";
 import { MainMenu } from "@excalidraw/excalidraw/index";
-import React from "react";
+import React, { lazy, Suspense, useState } from "react";
 
 import { isDevEnv } from "@excalidraw/common";
 
@@ -16,6 +16,12 @@ import { isExcalidrawPlusSignedUser } from "../app_constants";
 
 import { saveDebugState } from "./DebugCanvas";
 
+const RoughVizDialog = lazy(() =>
+  import("../charts/RoughVizDialog").then((module) => ({
+    default: module.RoughVizDialog,
+  })),
+);
+
 export const AppMainMenu: React.FC<{
   onCollabDialogOpen: () => any;
   isCollaborating: boolean;
@@ -24,84 +30,98 @@ export const AppMainMenu: React.FC<{
   refresh: () => void;
 }> = React.memo((props) => {
   const { t } = useI18n();
+  const [chartOpen, setChartOpen] = useState(false);
   return (
-    <MainMenu>
-      <MainMenu.DefaultItems.LoadScene />
-      <MainMenu.DefaultItems.SaveToActiveFile />
-      <MainMenu.DefaultItems.Export />
-      <MainMenu.DefaultItems.SaveAsImage />
-      {props.isCollabEnabled && (
-        <MainMenu.DefaultItems.LiveCollaborationTrigger
-          isCollaborating={props.isCollaborating}
-          onSelect={() => props.onCollabDialogOpen()}
-        />
-      )}
-      <MainMenu.DefaultItems.CommandPalette className="highlighted" />
-      <MainMenu.DefaultItems.SearchMenu />
-      <MainMenu.DefaultItems.Help />
-      <MainMenu.DefaultItems.ClearCanvas />
-      <MainMenu.Separator />
-      <MainMenu.ItemLink
-        icon={ExcalLogo}
-        href={`${
-          import.meta.env.VITE_APP_PLUS_LP
-        }/plus?utm_source=excalidraw&utm_medium=app&utm_content=hamburger`}
-        className=""
-      >
-        Excalidraw+
-      </MainMenu.ItemLink>
-      <MainMenu.DefaultItems.Socials />
-      <MainMenu.ItemLink
-        icon={loginIcon}
-        href={`${import.meta.env.VITE_APP_PLUS_APP}${
-          isExcalidrawPlusSignedUser ? "" : "/sign-up"
-        }?utm_source=signin&utm_medium=app&utm_content=hamburger`}
-        className="highlighted"
-      >
-        {isExcalidrawPlusSignedUser ? t("labels.signIn") : t("labels.signUp")}
-      </MainMenu.ItemLink>
-      {isDevEnv() && (
-        <MainMenu.Item
-          icon={eyeIcon}
-          onSelect={() => {
-            if (window.visualDebug) {
-              delete window.visualDebug;
-              saveDebugState({ enabled: false });
-            } else {
-              window.visualDebug = { data: [] };
-              saveDebugState({ enabled: true });
-            }
-            props?.refresh();
-          }}
-        >
-          Visual Debug
+    <>
+      <MainMenu>
+        <MainMenu.Item onSelect={() => setChartOpen(true)}>
+          {t("labels.roughVizChart")}
         </MainMenu.Item>
+        <MainMenu.DefaultItems.LoadScene />
+        <MainMenu.DefaultItems.SaveToActiveFile />
+        <MainMenu.DefaultItems.Export />
+        <MainMenu.DefaultItems.SaveAsImage />
+        {props.isCollabEnabled && (
+          <MainMenu.DefaultItems.LiveCollaborationTrigger
+            isCollaborating={props.isCollaborating}
+            onSelect={() => props.onCollabDialogOpen()}
+          />
+        )}
+        <MainMenu.DefaultItems.CommandPalette className="highlighted" />
+        <MainMenu.DefaultItems.SearchMenu />
+        <MainMenu.DefaultItems.Help />
+        <MainMenu.DefaultItems.ClearCanvas />
+        <MainMenu.Separator />
+        <MainMenu.ItemLink
+          icon={ExcalLogo}
+          href={`${
+            import.meta.env.VITE_APP_PLUS_LP
+          }/plus?utm_source=excalidraw&utm_medium=app&utm_content=hamburger`}
+          className=""
+        >
+          Excalidraw+
+        </MainMenu.ItemLink>
+        <MainMenu.DefaultItems.Socials />
+        <MainMenu.ItemLink
+          icon={loginIcon}
+          href={`${import.meta.env.VITE_APP_PLUS_APP}${
+            isExcalidrawPlusSignedUser ? "" : "/sign-up"
+          }?utm_source=signin&utm_medium=app&utm_content=hamburger`}
+          className="highlighted"
+        >
+          {isExcalidrawPlusSignedUser ? t("labels.signIn") : t("labels.signUp")}
+        </MainMenu.ItemLink>
+        {isDevEnv() && (
+          <MainMenu.Item
+            icon={eyeIcon}
+            onSelect={() => {
+              if (window.visualDebug) {
+                delete window.visualDebug;
+                saveDebugState({ enabled: false });
+              } else {
+                window.visualDebug = { data: [] };
+                saveDebugState({ enabled: true });
+              }
+              props?.refresh();
+            }}
+          >
+            Visual Debug
+          </MainMenu.Item>
+        )}
+        <MainMenu.Separator />
+        <MainMenu.DefaultItems.Preferences
+          additionalItems={
+            <>
+              <MainMenu.Separator />
+              <MainMenu.ItemCustom className="AppMainMenu__version">
+                <span data-testid="app-version">
+                  {t("labels.appVersion", {
+                    version: import.meta.env.VITE_APP_VERSION,
+                  })}
+                </span>
+                <small data-testid="app-build-revision">
+                  {t("labels.appBuild", {
+                    revision: import.meta.env.VITE_APP_BUILD_REVISION,
+                  })}
+                </small>
+              </MainMenu.ItemCustom>
+            </>
+          }
+        />
+        <MainMenu.DefaultItems.ToggleTheme
+          allowSystemTheme
+          theme={props.theme}
+        />
+        <MainMenu.ItemCustom>
+          <LanguageList style={{ width: "100%" }} />
+        </MainMenu.ItemCustom>
+        <MainMenu.DefaultItems.ChangeCanvasBackground />
+      </MainMenu>
+      {chartOpen && (
+        <Suspense fallback={null}>
+          <RoughVizDialog onClose={() => setChartOpen(false)} />
+        </Suspense>
       )}
-      <MainMenu.Separator />
-      <MainMenu.DefaultItems.Preferences
-        additionalItems={
-          <>
-            <MainMenu.Separator />
-            <MainMenu.ItemCustom className="AppMainMenu__version">
-              <span data-testid="app-version">
-                {t("labels.appVersion", {
-                  version: import.meta.env.VITE_APP_VERSION,
-                })}
-              </span>
-              <small data-testid="app-build-revision">
-                {t("labels.appBuild", {
-                  revision: import.meta.env.VITE_APP_BUILD_REVISION,
-                })}
-              </small>
-            </MainMenu.ItemCustom>
-          </>
-        }
-      />
-      <MainMenu.DefaultItems.ToggleTheme allowSystemTheme theme={props.theme} />
-      <MainMenu.ItemCustom>
-        <LanguageList style={{ width: "100%" }} />
-      </MainMenu.ItemCustom>
-      <MainMenu.DefaultItems.ChangeCanvasBackground />
-    </MainMenu>
+    </>
   );
 });

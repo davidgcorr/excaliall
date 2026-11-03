@@ -34,15 +34,15 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.3 --no-git-tag-version
+   npm --prefix desktop version 0.1.5 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.3
+   git tag desktop-v0.1.5
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.3
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.5
    ```
 
 3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
@@ -74,3 +74,9 @@ References: [electron-builder updates](https://www.electron.build/docs/features/
 Select **Export image** from the editor menu (Cmd+Shift+E). When the diagram or selected elements contain animated lines or arrows, choose a **GIF duration** (1–10 seconds), then **GIF**. The clip loops at 20 frames per second and uses the current selection, background, dark mode, and scale settings. Progress and cancellation are available while encoding.
 
 GIF supports a maximum of 256 colors per frame and binary transparency. Scene data cannot be embedded in GIF; save a separate `.excalidraw` file to keep the editable animation settings. For diagrams over 2 million pixels per frame, lower the export scale or export a smaller selection.
+
+## Data-driven charts and embedding
+
+Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select one chart and reopen the dialog to edit or refresh its data. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
+
+Use **Export image → HTML** or **Copy iframe** for standalone embedding; see the [HTML export guide](HTML-EXPORT.md).

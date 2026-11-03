@@ -1,0 +1,82 @@
+.excalidraw .RoughVizDialog {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  input:not([type="color"]):not([type="range"]),
+  select,
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.55rem;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.5rem;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    font: inherit;
+  }
+  textarea {
+    min-height: 250px;
+    resize: vertical;
+    font-family: monospace;
+    font-weight: 400;
+  }
+  &__data,
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  &__hint {
+    color: var(--text-secondary-color);
+  }
+  &__fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  &__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.5rem;
+    background: white;
+    color: #666;
+    font-size: 0.85rem;
+  }
+  &__preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+  }
+  &__error {
+    color: var(--color-danger);
+  }
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    textarea {
+      min-height: 160px;
+    }
+  }
+}
