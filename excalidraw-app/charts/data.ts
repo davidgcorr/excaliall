@@ -159,7 +159,7 @@ export const validateChart = (chart: RoughVizChart) => {
         (typeof title !== "string" || title.length > 200),
     ) ||
     !Number.isFinite(chart.roughness) ||
-    chart.roughness < 0.25 ||
+    chart.roughness < 0 ||
     chart.roughness > 3 ||
     (chart.strokeWidth !== undefined &&
       (!Number.isFinite(chart.strokeWidth) ||

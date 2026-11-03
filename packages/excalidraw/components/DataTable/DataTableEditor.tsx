@@ -392,6 +392,7 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
           corners
           style={{
             strokeColor: data.color,
+            roughness: data.roughness,
             backgroundColor: data.backgroundColor ?? "#e8edff",
             fillStyle: data.fillStyle ?? "hachure",
             strokeWidth: data.strokeWidth ?? 1.3,
@@ -407,20 +408,7 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
             }));
           }}
         />
-        <label>
-          {t("labels.tableRoughness")}{" "}
-          <input
-            type="range"
-            aria-label={t("labels.tableRoughness")}
-            min="0"
-            max="3"
-            step="0.25"
-            value={data.roughness}
-            onChange={(event) =>
-              setData({ ...data, roughness: Number(event.currentTarget.value) })
-            }
-          />
-        </label>
+
         <span>{t("labels.tableAutoSaveHint")}</span>
         {error && <span role="alert">{error}</span>}
       </fieldset>

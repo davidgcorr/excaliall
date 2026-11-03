@@ -9,7 +9,7 @@ Click the **table icon** in the central toolbar, or search **Insert data table**
 - Choose **Hachure**, **Cross-hatch**, or **Solid** fill; Alt-click Hachure for Zigzag. A chosen background applies to the table body.
 - Choose the standard **Thin / Medium / Bold** stroke width and **Solid / Dashed / Dotted** stroke style.
 - **Edges → Round** curves the table's actual border and clips its fill and grid to the rounded outline. It does not round the containing image. **Sharp** restores square corners.
-- Adjust **Roughness** for the sketch effect.
+- Choose the standard roughness buttons: **Architect** (0), **Artist** (1), or **Cartoonist** (2), just like ordinary Excalidraw elements. Existing fractional settings remain saved until you choose a preset.
 - Scroll horizontally or vertically to pan the canvas while editing large tables.
 - Click an empty part of the canvas or select another element to save the table automatically as one undoable change. Escape or Cmd/Ctrl+Enter from a cell also deselects and saves. No Save button is required. Deselect before exporting to include your latest edits.
 

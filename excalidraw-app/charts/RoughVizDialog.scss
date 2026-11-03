@@ -9,7 +9,7 @@
     font-size: 0.85rem;
     font-weight: 600;
   }
-  input:not([type="color"]):not([type="range"]),
+  input:not([type="color"]):not([type="range"]):not([type="radio"]),
   select,
   textarea {
     box-sizing: border-box;

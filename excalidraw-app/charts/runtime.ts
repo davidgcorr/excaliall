@@ -25,6 +25,9 @@ ownerWindow.addEventListener("message", (event) => {
       font: "Arial",
       interactive: false,
       roughness: chart.roughness,
+      // Avoid roughViz's `0 || default` axis fallback while keeping offsets zero.
+      axisRoughness: chart.roughness || Number.MIN_VALUE,
+      circleRoughness: chart.roughness,
       ...(chart.strokeWidth !== undefined
         ? {
             strokeWidth: chart.strokeWidth,

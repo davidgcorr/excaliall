@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@excalidraw/excalidraw/components/App";
 import { Dialog } from "@excalidraw/excalidraw/components/Dialog";
+import { DataElementRoughnessControls } from "@excalidraw/excalidraw/components/DataElementStyleControls";
 import { FilledButton } from "@excalidraw/excalidraw/components/FilledButton";
 import { getDataURL } from "@excalidraw/excalidraw/data/blob";
 
@@ -440,18 +441,11 @@ export const RoughVizDialog = ({
                 onChange={(event) => setColor(event.target.value)}
               />
             </label>
-            <label>
-              Roughness
-              <input
-                type="range"
-                min="0.25"
-                max="3"
-                step="0.25"
-                value={roughness}
-                disabled={busy}
-                onChange={(event) => setRoughness(Number(event.target.value))}
-              />
-            </label>
+            <DataElementRoughnessControls
+              value={roughness}
+              onChange={setRoughness}
+              disabled={busy}
+            />
           </div>
           <label>
             X axis title

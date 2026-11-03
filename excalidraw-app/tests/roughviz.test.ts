@@ -24,6 +24,16 @@ const chart = (): RoughVizChart => ({
 });
 
 describe("roughViz data charts", () => {
+  it("accepts native roughness presets and keeps existing fractional settings", () => {
+    for (const roughness of [0, 1, 2, 1.25]) {
+      expect(validateChart({ ...chart(), roughness }).roughness).toBe(
+        roughness,
+      );
+    }
+    expect(() => validateChart({ ...chart(), roughness: -1 })).toThrow(
+      "appearance",
+    );
+  });
   it("keeps independent axis titles and supports blank titles and legacy defaults", () => {
     expect(validateChart(chart()).xAxisTitle).toBeUndefined();
     expect(

@@ -137,6 +137,7 @@ const ChartPropertiesEditor = ({
       <DataElementStyleControls
         style={{
           strokeColor: chart.strokeColor ?? "#1e1e1e",
+          roughness: chart.roughness,
           backgroundColor: chart.color,
           fillStyle: chart.fillStyle ?? "hachure",
           strokeWidth:
@@ -224,20 +225,7 @@ const ChartPropertiesEditor = ({
           }
         />
       </label>
-      <label>
-        {t("labels.tableRoughness")}
-        <input
-          type="range"
-          data-testid="chart-roughness"
-          min="0.25"
-          max="3"
-          step="0.25"
-          value={chart.roughness}
-          onChange={(event) =>
-            setChart({ ...chart, roughness: Number(event.currentTarget.value) })
-          }
-        />
-      </label>
+
       <small role="status">
         {busy ? t("labels.chartUpdating") : t("labels.chartDataHint")}
       </small>

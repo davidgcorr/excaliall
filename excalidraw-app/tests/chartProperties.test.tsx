@@ -1,4 +1,6 @@
 import React from "react";
+import { render as renderControls } from "@testing-library/react";
+import { DataElementRoughnessControls } from "@excalidraw/excalidraw/components/DataElementStyleControls";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { API } from "@excalidraw/excalidraw/tests/helpers/api";
 import {
@@ -56,6 +58,16 @@ const setup = async () => {
   return image;
 };
 describe("graph property editing", () => {
+  it("keeps sidebar and dialog roughness selections independent", () => {
+    const result = renderControls(
+      <>
+        <DataElementRoughnessControls value={1} onChange={() => {}} />
+        <DataElementRoughnessControls value={0} onChange={() => {}} />
+      </>,
+    );
+    expect(result.getAllByTestId("roughness-1")[0]).toBeChecked();
+    expect(result.getAllByTestId("roughness-0")[1]).toBeChecked();
+  });
   it("updates axis titles and styles without opening an import dialog or changing geometry", async () => {
     const image = await setup();
     expect(screen.getByTestId("chart-x-axis-title")).toHaveValue("Month");
@@ -69,6 +81,7 @@ describe("graph property editing", () => {
       target: { value: "Revenue (€)" },
     });
     fireEvent.click(screen.getByTestId("strokeWidth-bold"));
+    fireEvent.click(screen.getByTestId("roughness-2"));
     fireEvent.click(screen.getByTestId("fill-solid"));
     fireEvent.click(screen.getByTestId("strokeStyle-dashed"));
     const pickers = screen
@@ -88,6 +101,7 @@ describe("graph property editing", () => {
         xAxisTitle: "Period",
         yAxisTitle: "Revenue (€)",
         strokeWidth: 4,
+        roughness: 2,
         fillStyle: "solid",
         strokeStyle: "dashed",
         strokeColor: strokePick.title,

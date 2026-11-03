@@ -52,6 +52,7 @@ describe("sketch data tables", () => {
     expect(screen.getByTestId("table-cell-0-1")).toHaveValue("B");
     expect(screen.getByTestId("table-cell-1-0")).toHaveValue("C");
     fireEvent.click(screen.getByTestId("strokeWidth-bold"));
+    fireEvent.click(screen.getByTestId("roughness-0"));
     const table = h.elements[0];
     const rectangle = API.createElement({ type: "rectangle", x: 700, y: 30 });
     API.setElements([...h.elements, rectangle]);
@@ -63,6 +64,7 @@ describe("sketch data tables", () => {
       const saved = h.elements.find((item) => item.id === table.id)!;
       expect(getTableData(saved)?.rows[0][1]).toBe("B");
       expect(getTableData(saved)?.strokeWidth).toBe(4);
+      expect(getTableData(saved)?.roughness).toBe(0);
     });
     expect(h.state.selectedElementIds).toEqual({ [rectangle.id]: true });
   });

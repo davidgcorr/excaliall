@@ -42,7 +42,7 @@ export const sampleTable = (): TableData => ({
     ["Project C", "Planned", "600"],
   ],
   color: "#1e1e1e",
-  roughness: 1.2,
+  roughness: 1,
   strokeWidth: 1.3,
   backgroundColor: "#e8edff",
   fillStyle: "hachure",

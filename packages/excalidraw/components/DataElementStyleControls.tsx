@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useId, useRef } from "react";
 import { STROKE_WIDTH, isTransparent } from "@excalidraw/common";
 
 import type { ExcalidrawElement } from "@excalidraw/element/types";
@@ -16,6 +16,9 @@ import {
   FillHachureIcon,
   FillSolidIcon,
   FillZigZagIcon,
+  SloppinessArchitectIcon,
+  SloppinessArtistIcon,
+  SloppinessCartoonistIcon,
   StrokeStyleDashedIcon,
   StrokeStyleDottedIcon,
   StrokeWidthBaseIcon,
@@ -30,6 +33,7 @@ export type DataElementStyle = Pick<
   | "fillStyle"
   | "strokeStyle"
   | "strokeWidth"
+  | "roughness"
 > & { rounded?: boolean };
 
 /** Shared palette and radio primitives used by the ordinary shape properties. */
@@ -194,6 +198,10 @@ export const DataElementStyleControls = ({
           />
         </div>
       </fieldset>
+      <DataElementRoughnessControls
+        value={style.roughness}
+        onChange={(roughness) => change({ roughness })}
+      />
       {corners && (
         <fieldset>
           <legend>{t("labels.edges")}</legend>
@@ -221,5 +229,49 @@ export const DataElementStyleControls = ({
         </fieldset>
       )}
     </div>
+  );
+};
+
+export const DataElementRoughnessControls = ({
+  value,
+  onChange,
+  disabled = false,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  disabled?: boolean;
+}) => {
+  const group = useId();
+  return (
+    <fieldset disabled={disabled} data-testid="data-element-roughness">
+      <legend>{t("labels.sloppiness")}</legend>
+      <div className="buttonList">
+        <RadioSelection
+          group={`sloppiness-${group}`}
+          value={value}
+          options={[
+            {
+              value: 0,
+              text: t("labels.architect"),
+              icon: SloppinessArchitectIcon,
+              testId: "roughness-0",
+            },
+            {
+              value: 1,
+              text: t("labels.artist"),
+              icon: SloppinessArtistIcon,
+              testId: "roughness-1",
+            },
+            {
+              value: 2,
+              text: t("labels.cartoonist"),
+              icon: SloppinessCartoonistIcon,
+              testId: "roughness-2",
+            },
+          ]}
+          onChange={onChange}
+        />
+      </div>
+    </fieldset>
   );
 };
