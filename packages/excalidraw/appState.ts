@@ -33,7 +33,7 @@ export const getDefaultAppState = (): Omit<
 > => {
   return {
     showWelcomeScreen: false,
-    hidePromotions: false,
+    hidePromotions: true,
     theme: THEME.LIGHT,
     collaborators: new Map(),
     currentItemBackgroundColor: DEFAULT_ELEMENT_PROPS.backgroundColor,

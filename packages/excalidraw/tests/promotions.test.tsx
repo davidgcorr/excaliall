@@ -35,6 +35,14 @@ const openPreferences = () => {
 describe("upstream promotion preference", () => {
   it("toggles from Preferences and removes paid menu entries while retaining fork links", async () => {
     await setup();
+    expect(h.state.hidePromotions).toBe(true);
+    expect(screen.getByText("Excaliall")).toBeInTheDocument();
+    openPreferences();
+    expect(screen.getByTestId("toggle-upstream-promotions")).toHaveTextContent(
+      "Show upstream promotions",
+    );
+    fireEvent.click(screen.getByTestId("toggle-upstream-promotions"));
+    expect(h.state.hidePromotions).toBe(false);
     openPreferences();
     fireEvent.click(screen.getByTestId("toggle-upstream-promotions"));
     expect(h.state.hidePromotions).toBe(true);

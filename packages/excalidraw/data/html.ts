@@ -1,7 +1,7 @@
 /** Wrap an SVG with its inlined assets into a responsive, script-free page. */
 export const createStandaloneHtml = (
   svg: SVGSVGElement,
-  title = "Excalidraw Animation",
+  title = "Excaliall",
 ): Blob => {
   const ownerDocument = svg.ownerDocument;
   const page = ownerDocument.implementation.createHTMLDocument(title);
@@ -44,10 +44,7 @@ const escapeAttribute = (text: string) =>
     .replace(/>/g, "&gt;");
 
 /** A single pasteable element containing the complete artifact. */
-export const createIframeSnippet = (
-  html: string,
-  title = "Excalidraw Animation",
-) =>
+export const createIframeSnippet = (html: string, title = "Excaliall") =>
   `<iframe title="${escapeAttribute(title)}" srcdoc="${escapeAttribute(
     html,
   )}" sandbox="" loading="lazy" style="width:100%;height:480px;border:0;display:block"></iframe>`;

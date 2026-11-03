@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string -- electron-builder expands these macros */
 module.exports = {
   appId: "com.davidgcorr.excalidraw-animation",
-  productName: "Excalidraw Animation",
+  productName: "Excaliall",
   directories: { output: "dist", buildResources: "resources" },
   files: ["main.cjs", "paths.cjs", "package.json"],
   extraResources: [
@@ -14,7 +14,7 @@ module.exports = {
       to: "licenses/tanstack-table.txt",
     },
   ],
-  artifactName: "Excalidraw-Animation-${version}-${arch}.${ext}",
+  artifactName: "Excaliall-${version}-${arch}.${ext}",
   extraMetadata: {
     desktopUpdatesEnabled: process.env.DESKTOP_SIGNED === "true",
   },
@@ -38,8 +38,7 @@ module.exports = {
   win: {
     icon: "../public/android-chrome-512x512.png",
     target: ["nsis"],
-    artifactName:
-      "Excalidraw-Animation-${version}-windows-${arch}-setup.${ext}",
+    artifactName: "Excaliall-${version}-windows-${arch}-setup.${ext}",
   },
   nsis: {
     oneClick: false,
@@ -54,7 +53,7 @@ module.exports = {
     syncDesktopName: true,
     maintainer: "David Corr",
     icon: "../public/android-chrome-512x512.png",
-    artifactName: "Excalidraw-Animation-${version}-linux-${arch}.${ext}",
+    artifactName: "Excaliall-${version}-linux-${arch}.${ext}",
   },
-  dmg: { title: "Excalidraw Animation ${version}" },
+  dmg: { title: "Excaliall ${version}" },
 };

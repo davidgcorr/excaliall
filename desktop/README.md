@@ -1,31 +1,31 @@
-# Excalidraw Animation desktop
+# Excaliall desktop
 
 The desktop app bundles this checkout's editor and fonts. Drawing, animated connectors, local autosave, file import, and export work locally. Collaboration, shared libraries, and other online services still need internet access. The app stores its own drawing data in `~/Library/Application Support/excalidraw-animation-desktop`; browser data is separate. Save important drawings as `.excalidraw` files before upgrading.
 
 ## Install or upgrade on macOS
 
-Download a DMG from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), or build one using the commands below. Open it and drag **Excalidraw Animation.app** to **Applications**. Quit any running copy before replacing the app, then launch it from Applications or Spotlight.
+Download a DMG from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), or build one using the commands below. Open it and drag **Excaliall.app** to **Applications**. Quit any running copy before replacing the app, then launch it from Applications or Spotlight.
 
-Use **☰ → Preferences / Preferencias** to read the installed version and build revision. **Excalidraw Animation → About** shows the native app version. Both use the version in `desktop/package.json`. Local builds with uncommitted changes show `-modified` after the Git revision; source archives without Git metadata show `unknown`.
+Use **☰ → Preferences / Preferencias** to read the installed version and build revision. **Excaliall → About** shows the native app version. Both use the version in `desktop/package.json`. Local builds with uncommitted changes show `-modified` after the Git revision; source archives without Git metadata show `unknown`.
 
 ## Install or upgrade on Windows
 
-Download `Excalidraw-Animation-<version>-windows-x64-setup.exe` from [Releases](https://github.com/davidgcorr/excalidraw/releases), quit the existing app, and run the wizard. The default installation is per-user; the wizard lets you choose a directory and creates a desktop shortcut. Uninstalling does not delete your drawing data.
+Download `Excaliall-<version>-windows-x64-setup.exe` from [Releases](https://github.com/davidgcorr/excalidraw/releases), quit the existing app, and run the wizard. The default installation is per-user; the wizard lets you choose a directory and creates a desktop shortcut. Uninstalling does not delete your drawing data.
 
 ## Install or upgrade on Linux
 
 Download the x64 `.AppImage` or `.deb` from [Releases](https://github.com/davidgcorr/excalidraw/releases). For the AppImage:
 
 ```sh
-chmod +x Excalidraw-Animation-*-linux-x86_64.AppImage
-./Excalidraw-Animation-<version>-linux-x86_64.AppImage
+chmod +x Excaliall-*-linux-x86_64.AppImage
+./Excaliall-<version>-linux-x86_64.AppImage
 ```
 
-Some distributions require FUSE 2 support to launch AppImages. Alternatively, install the Debian package with `sudo apt install ./Excalidraw-Animation-<version>-linux-amd64.deb` (use the exact downloaded filename). Quit before replacing the executable or upgrading the package. Drawing data is normally under `~/.config/excalidraw-animation-desktop` on Linux and `%APPDATA%\excalidraw-animation-desktop` on Windows.
+Some distributions require FUSE 2 support to launch AppImages. Alternatively, install the Debian package with `sudo apt install ./Excaliall-<version>-linux-amd64.deb` (use the exact downloaded filename). Quit before replacing the executable or upgrading the package. Drawing data is normally under `~/.config/excalidraw-animation-desktop` on Linux and `%APPDATA%\excalidraw-animation-desktop` on Windows.
 
 ## Hide upstream promotions
 
-Choose **☰ → Preferences → Hide upstream promotions**. This hides the paid-service banner, sign-up/sign-in shortcuts, welcome-screen promotion, paid export/overwrite options, and paid command-palette entries. Choose **Show upstream promotions** in the same menu to restore them. The preference is local to this installation; exported drawings do not carry it. Drawing, collaboration, local exports, libraries, and license notices remain available.
+Promotions are hidden by default in new installations. This hides the paid-service banner, sign-up/sign-in shortcuts, welcome-screen promotion, paid export/overwrite options, and paid command-palette entries. Choose **Show upstream promotions** in the same menu to restore them. Existing installations keep their saved preference. The preference is local to this installation; exported drawings do not carry it. Drawing, collaboration, local exports, libraries, and license notices remain available.
 
 ## Build and run from source
 
@@ -98,7 +98,7 @@ For signed, notarized releases, add these GitHub Actions secrets:
 
 The workflow enables notarization and in-app updates when `MAC_CERTIFICATE` is present. Supply all five secrets together. For signed local builds, use the corresponding electron-builder environment variables (`CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`) and set `DESKTOP_SIGNED=true`.
 
-Choose **Excalidraw Animation → Check for Updates…** to check GitHub, download a new release, and choose when to restart. Save your drawing first. Unsigned builds open GitHub Releases for manual download. Upgrades preserve the app's data directory and use the same stable app identifier and origin. Automatic updates expect a public repository; never embed a GitHub token in the app for private releases.
+Choose **Excaliall → Check for Updates…** to check GitHub, download a new release, and choose when to restart. Save your drawing first. Unsigned builds open GitHub Releases for manual download. Upgrades preserve the app's data directory and use the same stable app identifier and origin. Automatic updates expect a public repository; never embed a GitHub token in the app for private releases.
 
 References: [electron-builder updates](https://www.electron.build/docs/features/auto-update/) and [macOS signing](https://www.electron.build/code-signing-mac.html).
 

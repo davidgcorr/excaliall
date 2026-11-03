@@ -105,7 +105,7 @@ function createWindow() {
     height: 960,
     minWidth: 800,
     minHeight: 600,
-    title: "Excalidraw Animation",
+    title: "Excaliall",
     backgroundColor: "#ffffff",
     show: false,
     webPreferences: {
@@ -238,10 +238,7 @@ if (!app.requestSingleInstanceLock()) {
       });
     })
     .catch((error) => {
-      dialog.showErrorBox(
-        "Unable to start Excalidraw Animation",
-        error.message,
-      );
+      dialog.showErrorBox("Unable to start Excaliall", error.message);
       app.quit();
     });
 }

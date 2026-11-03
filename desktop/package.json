@@ -2,7 +2,7 @@
   "name": "excalidraw-animation-desktop",
   "version": "0.1.12",
   "private": true,
-  "description": "Excalidraw with animated connectors, data graphs and editable tables",
+  "description": "Excaliall — sketch diagrams with animations, data graphs and editable tables",
   "author": "David Corr",
   "license": "MIT",
   "main": "main.cjs",

@@ -377,7 +377,7 @@ const initializeScene = async (opts: {
 const ExcalidrawWrapper = () => {
   const excalidrawAPI = useExcalidrawAPI();
 
-  const [hidePromotions, setHidePromotions] = useState(false);
+  const [hidePromotions, setHidePromotions] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const isCollabDisabled = isRunningInIframe();
 
