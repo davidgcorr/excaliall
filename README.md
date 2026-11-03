@@ -17,7 +17,7 @@ Open the generated `.dmg`, drag the app into Applications, and launch it. Quit t
 
 Open the editor's **☰ → Preferences / Preferencias** menu to see the running **Version** and **Build** (Git revision). The native **Excalidraw Animation → About** menu also shows the app version. Builds with uncommitted changes include `-modified` in the build revision.
 
-For manual upgrades, replace the app using the newer DMG. Signed releases support **Excalidraw Animation → Check for Updates…**. Drawing data is preserved in `~/Library/Application Support/Excalidraw Animation`; save important diagrams as `.excalidraw` files.
+For manual upgrades, replace the app using the newer DMG. Signed releases support **Excalidraw Animation → Check for Updates…**. Drawing data is preserved in `~/Library/Application Support/excalidraw-animation-desktop`; save important diagrams as `.excalidraw` files.
 
 <a href="https://excalidraw.com/" target="_blank" rel="noopener">
   <picture>

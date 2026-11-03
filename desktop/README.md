@@ -1,6 +1,6 @@
 # Excalidraw Animation for macOS
 
-The desktop app bundles this checkout's editor and fonts. Drawing, animated connectors, local autosave, file import, and export work locally. Collaboration, shared libraries, and other online services still need internet access. The app stores its own drawing data in `~/Library/Application Support/Excalidraw Animation`; browser data is separate. Save important drawings as `.excalidraw` files before upgrading.
+The desktop app bundles this checkout's editor and fonts. Drawing, animated connectors, local autosave, file import, and export work locally. Collaboration, shared libraries, and other online services still need internet access. The app stores its own drawing data in `~/Library/Application Support/excalidraw-animation-desktop`; browser data is separate. Save important drawings as `.excalidraw` files before upgrading.
 
 ## Install or upgrade
 
