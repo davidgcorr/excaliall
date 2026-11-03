@@ -34,6 +34,8 @@ import {
   hasStrokeWidth,
 } from "../scene";
 
+import { getTableData } from "./DataTable/data";
+
 import type { ElementOrToolType } from "../types";
 
 import type { AppClassProperties, UIAppState } from "../types";
@@ -179,7 +181,8 @@ export const getShapeActionPredicates = (
     cropEditor:
       !appState.croppingElementId &&
       singleSelected &&
-      isImageElement(targetElements[0]),
+      isImageElement(targetElements[0]) &&
+      !getTableData(targetElements[0]),
     lineEditor:
       !appState.selectedLinearElement?.isEditing &&
       singleSelected &&

@@ -90,6 +90,7 @@
     "@excalidraw/mermaid-to-excalidraw": "2.2.2",
     "@excalidraw/random-username": "1.1.0",
     "@lezer/highlight": "^1.0.0",
+    "@tanstack/react-table": "8.21.3",
     "browser-fs-access": "0.38.0",
     "canvas-roundrect-polyfill": "0.0.1",
     "clsx": "1.1.1",

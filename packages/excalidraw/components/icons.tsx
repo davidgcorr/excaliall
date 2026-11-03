@@ -2604,3 +2604,16 @@ export const dataChartIcon = createIcon(
     strokeLinejoin: "round",
   },
 );
+
+export const dataTableIcon = createIcon(
+  <path d="M4 4h16v16H4zM4 9h16M4 14h16M10 4v16" />,
+  {
+    width: 24,
+    height: 24,
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  },
+);

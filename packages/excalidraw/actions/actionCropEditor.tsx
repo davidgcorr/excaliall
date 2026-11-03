@@ -4,6 +4,7 @@ import { CaptureUpdateAction } from "@excalidraw/element";
 
 import type { ExcalidrawImageElement } from "@excalidraw/element/types";
 
+import { getTableData } from "../components/DataTable/data";
 import { IconButton } from "../components/IconButton";
 import { cropIcon } from "../components/icons";
 import { t } from "../i18n";
@@ -23,6 +24,10 @@ export const actionToggleCropEditor = register({
       includeBoundTextElement: true,
     })[0] as ExcalidrawImageElement;
 
+    if (!selectedElement || getTableData(selectedElement)) {
+      return false;
+    }
+
     return {
       appState: {
         ...appState,
@@ -37,7 +42,8 @@ export const actionToggleCropEditor = register({
     if (
       !appState.croppingElementId &&
       selectedElements.length === 1 &&
-      isImageElement(selectedElements[0])
+      isImageElement(selectedElements[0]) &&
+      !getTableData(selectedElements[0])
     ) {
       return true;
     }

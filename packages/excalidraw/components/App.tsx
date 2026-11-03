@@ -247,6 +247,7 @@ import type {
 import type { Mutable, ValueOf } from "@excalidraw/common/utility-types";
 
 import { actionEditDataChart } from "../actions/actionDataChart";
+import { actionEditDataTable } from "../actions/actionDataTable";
 
 import {
   actionAddToLibrary,
@@ -373,6 +374,9 @@ import {
   getColorTargetAppStateUpdates,
   resolveColorTarget,
 } from "../actions/colorTargets";
+
+import { getTableData } from "./DataTable/data";
+import { DataTableEditor } from "./DataTable/DataTableEditor";
 
 import ConvertElementTypePopup, {
   getConversionTypeFromElements,
@@ -2623,6 +2627,12 @@ class App extends React.Component<AppProps, AppState> {
                                   callback?.();
                                 });
                               }}
+                            />
+                          )}
+                          {this.state.editingDataTableId && (
+                            <DataTableEditor
+                              key={this.state.editingDataTableId}
+                              elementId={this.state.editingDataTableId}
                             />
                           )}
                           <StaticCanvas
@@ -6270,6 +6280,15 @@ class App extends React.Component<AppProps, AppState> {
     );
 
     const chartHit = this.getElementAtPosition(sceneX, sceneY);
+    if (
+      chartHit &&
+      !this.state.viewModeEnabled &&
+      !chartHit.locked &&
+      getTableData(chartHit)
+    ) {
+      this.setState({ editingDataTableId: chartHit.id });
+      return;
+    }
     if (
       this.props.onOpenDataChart &&
       !this.state.viewModeEnabled &&
@@ -11317,6 +11336,7 @@ class App extends React.Component<AppProps, AppState> {
       actionWrapSelectionInFrame,
       CONTEXT_MENU_SEPARATOR,
       ...(this.props.onOpenDataChart ? [actionEditDataChart] : []),
+      actionEditDataTable,
       actionToggleCropEditor,
       CONTEXT_MENU_SEPARATOR,
       ...options,

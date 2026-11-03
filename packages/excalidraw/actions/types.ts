@@ -43,6 +43,8 @@ export type UpdaterFn = (res: ActionResult) => void;
 export type ActionFilterFn = (action: Action) => void;
 
 export type ActionName =
+  | "insertDataTable"
+  | "editDataTable"
   | "insertDataChart"
   | "editDataChart"
   | "copy"

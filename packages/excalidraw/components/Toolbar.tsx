@@ -313,6 +313,7 @@ export const Toolbar = ({
         <TextToolButton {...toolProps} />
         <StickyNoteToolButton {...toolProps} />
         <EraserToolButton {...toolProps} />
+        {actionManager.renderAction("insertDataTable")}
         {app.props.onOpenDataChart &&
           actionManager.renderAction("insertDataChart")}
 

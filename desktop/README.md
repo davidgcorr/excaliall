@@ -34,15 +34,15 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.5 --no-git-tag-version
+   npm --prefix desktop version 0.1.7 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.5
+   git tag desktop-v0.1.7
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.5
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.7
    ```
 
 3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
@@ -86,3 +86,7 @@ Use **Export image → HTML** or **Copy iframe** for standalone embedding; see t
 Select an arrow or line to show **Animate / Animar** in the properties side panel. Choose **Moving dots**, **Pulse**, or **Flowing dashes**, set speed (1×–5×), and choose forward or reverse direction. Choose **None** to stop the animation. The controls are also available in compact properties popovers and the right-click Animate submenu.
 
 Multiple selected lines/arrows can be changed together. Speed and direction changes preserve each element's other animation settings; locked elements are left unchanged. Changes support undo/redo and are saved in `.excalidraw` files. GIF and standalone HTML exports preserve animations.
+
+## Editable sketch tables
+
+Click the **table icon** in the central toolbar to insert a rough.js data table. Edit headers and cells directly on the canvas, paste spreadsheet ranges, add/remove rows or columns, and adjust color and roughness. Double-click a saved table or choose **Edit table data** from its context menu to edit it again. See the [data table guide](DATA-TABLES.md).

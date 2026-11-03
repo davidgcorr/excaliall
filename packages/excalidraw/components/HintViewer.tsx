@@ -24,6 +24,8 @@ import { getShortcutKey } from "../shortcut";
 import { isEraserActive } from "../appState";
 import { isGridModeEnabled } from "../snapping";
 
+import { getTableData } from "./DataTable/data";
+
 import "./HintViewer.scss";
 
 import type { AppClassProperties, UIAppState } from "../types";
@@ -192,6 +194,10 @@ const getHints = ({
       shortcut_1: getTaggedShortcutKey("Enter"),
       shortcut_2: getTaggedShortcutKey("Escape"),
     });
+  }
+
+  if (selectedElements.length === 1 && getTableData(selectedElements[0])) {
+    return t("labels.tableEditHint");
   }
 
   if (selectedElements.length === 1 && isImageElement(selectedElements[0])) {

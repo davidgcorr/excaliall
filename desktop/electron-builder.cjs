@@ -8,6 +8,11 @@ module.exports = {
     { from: "web", to: "web" },
     { from: "../LICENSE", to: "LICENSE.excalidraw.txt" },
     { from: "resources/roughviz-LICENSE.txt", to: "licenses/roughviz.txt" },
+    { from: "resources/shadcn-LICENSE.txt", to: "licenses/shadcn.txt" },
+    {
+      from: "resources/tanstack-table-LICENSE.txt",
+      to: "licenses/tanstack-table.txt",
+    },
   ],
   artifactName: "Excalidraw-Animation-${version}-${arch}.${ext}",
   extraMetadata: {
