@@ -32,7 +32,8 @@ ownerWindow.addEventListener("message", (event) => {
             innerStrokeWidth: chart.strokeWidth,
           }
         : {}),
-      fillStyle: "hachure",
+      fillStyle: chart.fillStyle ?? "hachure",
+      ...(chart.strokeColor !== undefined ? { stroke: chart.strokeColor } : {}),
       color: chart.color,
       colors: [chart.color, "#f59f00", "#2f9e44", "#e64980", "#7950f2"],
       margin: { top: 65, right: 35, bottom: 70, left: 80 },
@@ -73,6 +74,40 @@ ownerWindow.addEventListener("message", (event) => {
     const svg = mount.querySelector("svg");
     if (!svg || !svg.querySelector("path")) {
       throw new Error("roughViz did not produce a chart.");
+    }
+    // roughViz does not consistently forward dash/outline options to rough.js.
+    // The last path of each rough group is its outline; earlier paths are hatching.
+    for (const path of svg.querySelectorAll<SVGPathElement>("path")) {
+      const stroke = path.getAttribute("stroke") || path.style.stroke;
+      if (
+        !stroke ||
+        stroke === "none" ||
+        path.parentElement?.lastElementChild !== path
+      ) {
+        continue;
+      }
+      if (chart.strokeColor !== undefined) {
+        path.setAttribute("stroke", chart.strokeColor);
+        path.style.stroke = chart.strokeColor;
+      }
+      if (chart.strokeWidth !== undefined) {
+        path.setAttribute("stroke-width", String(chart.strokeWidth));
+        path.style.strokeWidth = String(chart.strokeWidth);
+      }
+      if (chart.strokeStyle) {
+        const dash =
+          chart.strokeStyle === "dashed"
+            ? "8 6"
+            : chart.strokeStyle === "dotted"
+            ? "1 5"
+            : "none";
+        path.setAttribute("stroke-dasharray", dash);
+        path.style.strokeDasharray = dash;
+        path.setAttribute(
+          "stroke-linecap",
+          chart.strokeStyle === "dotted" ? "round" : "butt",
+        );
+      }
     }
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svg.setAttribute("width", "640");

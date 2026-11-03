@@ -4,8 +4,12 @@ Click the **table icon** in the central toolbar, or search **Insert data table**
 
 - Type in any header or cell. Tab moves between cells.
 - Paste a rectangular range copied from Excel, Google Sheets, or a TSV file into a cell. Rows and columns expand to fit, up to 100 rows and 12 columns. Each cell supports 500 characters.
-- Use **Add row / Add column** to expand the table. Focus a cell before choosing **Delete row / Delete column** to remove its row or column. The last column cannot be removed.
-- Set **Color**, **Roughness**, and **Stroke width** to customize the rough.js grid and header shading.
+- Use the small **Add row / Add column** icons attached to the table’s top edge to expand it. Focus a cell before using **Delete row / Delete column** in that same on-table toolbar to remove its row or column. The last column cannot be removed.
+- Use the same **Stroke** and **Background** palettes as other Excalidraw elements: quick picks plus the full color picker, including transparency and custom colors.
+- Choose **Hachure**, **Cross-hatch**, or **Solid** fill; Alt-click Hachure for Zigzag. A chosen background applies to the table body.
+- Choose the standard **Thin / Medium / Bold** stroke width and **Solid / Dashed / Dotted** stroke style.
+- **Edges → Round** curves the table's actual border and clips its fill and grid to the rounded outline. It does not round the containing image. **Sharp** restores square corners.
+- Adjust **Roughness** for the sketch effect.
 - Scroll horizontally or vertically to pan the canvas while editing large tables.
 - Click an empty part of the canvas or select another element to save the table automatically as one undoable change. Escape or Cmd/Ctrl+Enter from a cell also deselects and saves. No Save button is required. Deselect before exporting to include your latest edits.
 

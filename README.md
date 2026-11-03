@@ -21,9 +21,9 @@ For manual upgrades, replace the app using the newer DMG. Signed releases suppor
 
 ## Data-driven charts
 
-Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart to edit its color, stroke width, column mappings, title, axis titles, and roughness in the properties side panel. Double-click to import or edit CSV/JSON data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
+Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart to use the standard color palettes, fill styles, stroke widths/styles, and edit column mappings, title, axis titles, and roughness in the properties side panel. Double-click to import or edit CSV/JSON data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
 
-Use the **table icon** in the central toolbar for editable sketch tables. Edit cells on the canvas, paste a spreadsheet range, and use the selection side panel for rows, columns, color, roughness, and stroke width. Deselect to save automatically. Double-click a table to edit it again. See the [data table guide](desktop/DATA-TABLES.md).
+Use the **table icon** in the central toolbar for editable sketch tables. Edit cells on the canvas, paste a spreadsheet range, and use the on-table icons to add/remove rows and columns. The selection side panel provides standard color/fill/stroke controls, roughness, and true table corners. Deselect to save automatically. Double-click a table to edit it again. See the [data table guide](desktop/DATA-TABLES.md).
 
 See the [roughViz chart guide](desktop/ROUGHVIZ.md) and [HTML/iframe embedding guide](desktop/HTML-EXPORT.md).
 

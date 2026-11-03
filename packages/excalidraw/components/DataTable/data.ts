@@ -2,7 +2,10 @@ import rough from "roughjs/bin/rough";
 
 import { CaptureUpdateAction, newElementWith } from "@excalidraw/element";
 import { newImageElement } from "@excalidraw/element/newElement";
-import { viewportCoordsToSceneCoords } from "@excalidraw/common";
+import {
+  normalizeInputColor,
+  viewportCoordsToSceneCoords,
+} from "@excalidraw/common";
 
 import type {
   ExcalidrawElement,
@@ -20,6 +23,10 @@ export type TableData = {
   color: string;
   roughness: number;
   strokeWidth?: number;
+  backgroundColor?: string;
+  fillStyle?: ExcalidrawElement["fillStyle"];
+  strokeStyle?: ExcalidrawElement["strokeStyle"];
+  rounded?: boolean;
 };
 export const CELL_WIDTH = 180;
 export const CELL_HEIGHT = 44;
@@ -37,6 +44,10 @@ export const sampleTable = (): TableData => ({
   color: "#1e1e1e",
   roughness: 1.2,
   strokeWidth: 1.3,
+  backgroundColor: "#e8edff",
+  fillStyle: "hachure",
+  strokeStyle: "solid",
+  rounded: false,
 });
 
 export const validateTable = (value: unknown): TableData => {
@@ -58,7 +69,18 @@ export const validateTable = (value: unknown): TableData => {
         row.length === data.columns.length &&
         row.every((cell) => typeof cell === "string" && cell.length <= 500),
     ) ||
-    !/^#[\da-f]{6}$/i.test(data.color) ||
+    typeof data.color !== "string" ||
+    !normalizeInputColor(data.color) ||
+    (data.backgroundColor !== undefined &&
+      (typeof data.backgroundColor !== "string" ||
+        !normalizeInputColor(data.backgroundColor))) ||
+    (data.fillStyle !== undefined &&
+      !["hachure", "cross-hatch", "solid", "zigzag"].includes(
+        data.fillStyle,
+      )) ||
+    (data.strokeStyle !== undefined &&
+      !["solid", "dashed", "dotted"].includes(data.strokeStyle)) ||
+    (data.rounded !== undefined && typeof data.rounded !== "boolean") ||
     !Number.isFinite(data.roughness) ||
     data.roughness < 0 ||
     data.roughness > 3 ||
@@ -108,34 +130,75 @@ export const renderTableSvg = (
   const y = TABLE_PADDING;
   const w = width - x * 2;
   const h = height - y * 2;
+  const radius = data.rounded ? 16 : 0;
+  const outline = `M ${x + radius} ${y} H ${x + w - radius} Q ${x + w} ${y} ${
+    x + w
+  } ${y + radius} V ${y + h - radius} Q ${x + w} ${y + h} ${x + w - radius} ${
+    y + h
+  } H ${x + radius} Q ${x} ${y + h} ${x} ${y + h - radius} V ${
+    y + radius
+  } Q ${x} ${y} ${x + radius} ${y} Z`;
+  const defs = ownerDocument.createElementNS(ns, "defs");
+  const clipPath = ownerDocument.createElementNS(ns, "clipPath");
+  clipPath.id = "table-corners";
+  const clipRect = ownerDocument.createElementNS(ns, "rect");
+  for (const [key, value] of Object.entries({
+    x,
+    y,
+    width: w,
+    height: h,
+    rx: radius,
+  })) {
+    clipRect.setAttribute(key, String(value));
+  }
+  clipPath.append(clipRect);
+  defs.append(clipPath);
+  svg.append(defs);
+  const content = ownerDocument.createElementNS(ns, "g");
+  content.setAttribute("clip-path", "url(#table-corners)");
+  svg.append(content);
   const options = {
     stroke: data.color,
     roughness: data.roughness,
     seed: 42,
     strokeWidth: data.strokeWidth ?? 1.3,
+    strokeLineDash:
+      data.strokeStyle === "dashed"
+        ? [8, 6]
+        : data.strokeStyle === "dotted"
+        ? [1, 5]
+        : undefined,
   };
-  svg.append(
-    rc.rectangle(x, y, w, h, {
+  // Legacy tables retain their white body and tinted header until a fill is chosen.
+  content.append(
+    rc.path(outline, {
       ...options,
-      fill: "#ffffff",
-      fillStyle: "solid",
+      stroke: "none",
+      fill: data.backgroundColor ?? "#ffffff",
+      fillStyle:
+        data.backgroundColor === undefined
+          ? "solid"
+          : data.fillStyle ?? "hachure",
     }),
   );
-  svg.append(
-    rc.rectangle(x, y, w, CELL_HEIGHT, {
-      ...options,
-      fill: "#e8edff",
-      fillStyle: "hachure",
-      fillWeight: 0.4,
-    }),
-  );
+  if (data.backgroundColor === undefined) {
+    content.append(
+      rc.rectangle(x, y, w, CELL_HEIGHT, {
+        ...options,
+        stroke: "none",
+        fill: "#e8edff",
+        fillStyle: "hachure",
+        fillWeight: 0.4,
+      }),
+    );
+  }
   for (let col = 1; col < data.columns.length; col++) {
-    svg.append(
+    content.append(
       rc.line(x + col * CELL_WIDTH, y, x + col * CELL_WIDTH, y + h, options),
     );
   }
   for (let row = 1; row <= data.rows.length; row++) {
-    svg.append(
+    content.append(
       rc.line(x, y + row * CELL_HEIGHT, x + w, y + row * CELL_HEIGHT, options),
     );
   }
@@ -158,9 +221,17 @@ export const renderTableSvg = (
         }
         text.textContent = cell;
         clip.append(text);
-        svg.append(clip);
+        content.append(clip);
       }),
     );
+  }
+  const border = rc.path(outline, options);
+  border.setAttribute("data-table-border", data.rounded ? "round" : "sharp");
+  svg.append(border);
+  if (data.strokeStyle === "dotted") {
+    svg
+      .querySelectorAll("path")
+      .forEach((path) => path.setAttribute("stroke-linecap", "round"));
   }
   return svg;
 };
@@ -217,6 +288,7 @@ export const saveTable = async (
           fileId,
           status: "saved",
           crop: null,
+          roundness: null,
           width: (target.width * size.width) / oldSize.width,
           height: (target.height * size.height) / oldSize.height,
           customData: { ...target.customData, dataTable: data },

@@ -9,6 +9,14 @@ import { sceneCoordsToViewportCoords } from "@excalidraw/common";
 
 import { useApp, useExcalidrawAppState, useExcalidrawContainer } from "../App";
 import { t } from "../../i18n";
+import { DataElementStyleControls } from "../DataElementStyleControls";
+import { IconButton } from "../IconButton";
+import {
+  tableAddRowIcon,
+  tableAddColumnIcon,
+  tableDeleteRowIcon,
+  tableDeleteColumnIcon,
+} from "../icons";
 
 import {
   Table,
@@ -43,7 +51,10 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
   const candidate =
     elementId === "new" ? null : app.scene.getElement(elementId);
   const target = candidate?.type === "image" ? candidate : null;
-  const initial = target ? getTableData(target) : sampleTable();
+  const metadata = target ? getTableData(target) : sampleTable();
+  const initial = metadata
+    ? { ...metadata, rounded: metadata.rounded ?? !!target?.roundness }
+    : metadata;
   const [data, setData] = useState(() => initial ?? sampleTable());
   const [active, setActive] = useState({ row: 0, column: 0 });
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +69,7 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
         current.isDeleted ||
         current.locked ||
         app.api.isDestroyed ||
-        JSON.stringify(latest.current) === original
+        (JSON.stringify(latest.current) === original && !target?.roundness)
       ) {
         return;
       }
@@ -238,11 +249,91 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
             target?.angle ?? 0
           }rad) scale(${scaleX}, ${scaleY})`,
           color: data.color,
+          backgroundColor: state.viewBackgroundColor,
+          borderRadius: data.rounded ? 20 : 0,
           backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(
             grid,
           )}")`,
         }}
       >
+        <div
+          className="DataTableEditor__toolbar"
+          role="toolbar"
+          aria-label={t("labels.editDataTable")}
+          data-testid="table-canvas-toolbar"
+        >
+          <IconButton
+            type="button"
+            size="small"
+            icon={tableAddRowIcon}
+            aria-label={t("labels.tableAddRow")}
+            title={t("labels.tableAddRow")}
+            data-testid="table-add-row"
+            disabled={data.rows.length >= MAX_ROWS}
+            onClick={() =>
+              setData((previous) => ({
+                ...previous,
+                rows: [...previous.rows, previous.columns.map(() => "")],
+              }))
+            }
+          />
+          <IconButton
+            type="button"
+            size="small"
+            icon={tableAddColumnIcon}
+            aria-label={t("labels.tableAddColumn")}
+            title={t("labels.tableAddColumn")}
+            data-testid="table-add-column"
+            disabled={data.columns.length >= MAX_COLUMNS}
+            onClick={() =>
+              setData((previous) => ({
+                ...previous,
+                columns: [
+                  ...previous.columns,
+                  `Column ${previous.columns.length + 1}`,
+                ],
+                rows: previous.rows.map((row) => [...row, ""]),
+              }))
+            }
+          />
+          <IconButton
+            type="button"
+            size="small"
+            icon={tableDeleteRowIcon}
+            aria-label={t("labels.tableDeleteRow")}
+            title={t("labels.tableDeleteRow")}
+            data-testid="table-delete-row"
+            disabled={active.row < 0 || !data.rows.length}
+            onClick={() => {
+              setData((previous) => ({
+                ...previous,
+                rows: previous.rows.filter((_, index) => index !== active.row),
+              }));
+              setActive((previous) => ({ ...previous, row: 0 }));
+            }}
+          />
+          <IconButton
+            type="button"
+            size="small"
+            icon={tableDeleteColumnIcon}
+            aria-label={t("labels.tableDeleteColumn")}
+            title={t("labels.tableDeleteColumn")}
+            data-testid="table-delete-column"
+            disabled={data.columns.length <= 1}
+            onClick={() => {
+              setData((previous) => ({
+                ...previous,
+                columns: previous.columns.filter(
+                  (_, index) => index !== active.column,
+                ),
+                rows: previous.rows.map((row) =>
+                  row.filter((_, index) => index !== active.column),
+                ),
+              }));
+              setActive((previous) => ({ ...previous, column: 0 }));
+            }}
+          />
+        </div>
         <Table
           style={{
             margin: TABLE_PADDING,
@@ -297,69 +388,25 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
         data-testid="data-table-properties"
       >
         <legend>{t("labels.editDataTable")}</legend>
-        <button
-          disabled={data.rows.length >= MAX_ROWS}
-          onClick={() =>
-            setData({
-              ...data,
-              rows: [...data.rows, data.columns.map(() => "")],
-            })
-          }
-        >
-          {t("labels.tableAddRow")}
-        </button>
-        <button
-          disabled={data.columns.length >= MAX_COLUMNS}
-          onClick={() =>
-            setData({
-              ...data,
-              columns: [...data.columns, `Column ${data.columns.length + 1}`],
-              rows: data.rows.map((row) => [...row, ""]),
-            })
-          }
-        >
-          {t("labels.tableAddColumn")}
-        </button>
-        <button
-          disabled={active.row < 0 || !data.rows.length}
-          onClick={() => {
-            setData({
-              ...data,
-              rows: data.rows.filter((_, index) => index !== active.row),
-            });
-            setActive({ ...active, row: 0 });
+        <DataElementStyleControls
+          corners
+          style={{
+            strokeColor: data.color,
+            backgroundColor: data.backgroundColor ?? "#e8edff",
+            fillStyle: data.fillStyle ?? "hachure",
+            strokeWidth: data.strokeWidth ?? 1.3,
+            strokeStyle: data.strokeStyle ?? "solid",
+            rounded: data.rounded,
           }}
-        >
-          {t("labels.tableDeleteRow")}
-        </button>
-        <button
-          disabled={data.columns.length <= 1}
-          onClick={() => {
-            setData({
-              ...data,
-              columns: data.columns.filter(
-                (_, index) => index !== active.column,
-              ),
-              rows: data.rows.map((row) =>
-                row.filter((_, index) => index !== active.column),
-              ),
-            });
-            setActive({ ...active, column: 0 });
+          onChange={(patch) => {
+            const { strokeColor, ...rest } = patch;
+            setData((previous) => ({
+              ...previous,
+              ...rest,
+              ...(strokeColor !== undefined ? { color: strokeColor } : {}),
+            }));
           }}
-        >
-          {t("labels.tableDeleteColumn")}
-        </button>
-        <label>
-          {t("labels.tableColor")}{" "}
-          <input
-            type="color"
-            aria-label={t("labels.tableColor")}
-            value={data.color}
-            onChange={(event) =>
-              setData({ ...data, color: event.currentTarget.value })
-            }
-          />
-        </label>
+        />
         <label>
           {t("labels.tableRoughness")}{" "}
           <input
@@ -373,24 +420,6 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
               setData({ ...data, roughness: Number(event.currentTarget.value) })
             }
           />
-        </label>
-        <label>
-          {t("labels.strokeWidth")}
-          <input
-            data-testid="table-stroke-width"
-            type="range"
-            min="0.5"
-            max="6"
-            step="0.1"
-            value={data.strokeWidth ?? 1.3}
-            onChange={(event) =>
-              setData({
-                ...data,
-                strokeWidth: Number(event.currentTarget.value),
-              })
-            }
-          />
-          <output>{data.strokeWidth ?? 1.3}px</output>
         </label>
         <span>{t("labels.tableAutoSaveHint")}</span>
         {error && <span role="alert">{error}</span>}

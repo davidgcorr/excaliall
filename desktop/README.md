@@ -34,15 +34,15 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.9 --no-git-tag-version
+   npm --prefix desktop version 0.1.10 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.9
+   git tag desktop-v0.1.10
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.9
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.10
    ```
 
 3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
@@ -77,7 +77,7 @@ GIF supports a maximum of 256 colors per frame and binary transparency. Scene da
 
 ## Data-driven charts and embedding
 
-Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select a chart to edit color, stroke width, data-column mappings, title, X/Y axis titles, and roughness in the properties side panel. Double-click to open the CSV/JSON data-import dialog or refresh its source. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
+Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select a chart to use the standard color palettes, fill styles, stroke widths and styles, and edit data-column mappings, title, X/Y axis titles, and roughness in the properties side panel. Double-click to open the CSV/JSON data-import dialog or refresh its source. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
 
 Use **Export image → HTML** or **Copy iframe** for standalone embedding; see the [HTML export guide](HTML-EXPORT.md).
 
@@ -89,4 +89,4 @@ Multiple selected lines/arrows can be changed together. Speed and direction chan
 
 ## Editable sketch tables
 
-Click the **table icon** in the central toolbar to insert a rough.js data table. Use the properties side panel to add/remove rows or columns and adjust color, roughness, and stroke width. Edit headers and cells directly on the canvas or paste spreadsheet ranges. Deselect the table to save changes automatically. Double-click a saved table or choose **Edit table data** from its context menu to edit it again. See the [data table guide](DATA-TABLES.md).
+Click the **table icon** in the central toolbar to insert a rough.js data table. Use the small icon toolbar on the table to add/remove rows or columns. Use the properties side panel for standard color palettes, fill styles, stroke widths/styles, and roughness. The edge selector rounds the actual table border and fill. Edit headers and cells directly on the canvas or paste spreadsheet ranges. Deselect the table to save changes automatically. Double-click a saved table or choose **Edit table data** from its context menu to edit it again. See the [data table guide](DATA-TABLES.md).

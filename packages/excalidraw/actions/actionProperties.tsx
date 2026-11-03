@@ -102,6 +102,7 @@ import type { CaptureUpdateActionType } from "@excalidraw/element";
 
 import { trackEvent } from "../analytics";
 import { RadioSelection } from "../components/RadioSelection";
+import { getTableData } from "../components/DataTable/data";
 import { IconButton } from "../components/IconButton";
 import { ColorPicker } from "../components/ColorPicker/ColorPicker";
 import { FontPicker } from "../components/FontPicker/FontPicker";
@@ -1765,7 +1766,7 @@ export const actionChangeRoundness = register<"sharp" | "round">({
   perform: (elements, appState, value) => {
     return {
       elements: changeProperty(elements, appState, (el) => {
-        if (isElbowArrow(el)) {
+        if (isElbowArrow(el) || getTableData(el)) {
           return el;
         }
 

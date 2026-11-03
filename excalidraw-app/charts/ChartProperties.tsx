@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useApp } from "@excalidraw/excalidraw/components/App";
 import { t } from "@excalidraw/excalidraw/i18n";
+import { DataElementStyleControls } from "@excalidraw/excalidraw/components/DataElementStyleControls";
 
 import { getChartMetadata, validateChart } from "./data";
 import { renderChart } from "./render";
@@ -133,42 +134,27 @@ const ChartPropertiesEditor = ({
   return (
     <fieldset className="ChartProperties" data-testid="chart-properties">
       <legend>{t("labels.chartProperties")}</legend>
-      <label>
-        {t("labels.tableColor")}
-        <input
-          type="color"
-          data-testid="chart-color"
-          value={chart.color}
-          onChange={(event) =>
-            setChart({ ...chart, color: event.currentTarget.value })
-          }
-        />
-      </label>
-      <label>
-        {t("labels.strokeWidth")}
-        <input
-          type="range"
-          data-testid="chart-stroke-width"
-          min="0.5"
-          max="3"
-          step="0.05"
-          value={
+      <DataElementStyleControls
+        style={{
+          strokeColor: chart.strokeColor ?? "#1e1e1e",
+          backgroundColor: chart.color,
+          fillStyle: chart.fillStyle ?? "hachure",
+          strokeWidth:
             chart.strokeWidth ??
-            (chart.type === "Pie" || chart.type === "Donut" ? 0.75 : 1)
-          }
-          onChange={(event) =>
-            setChart({
-              ...chart,
-              strokeWidth: Number(event.currentTarget.value),
-            })
-          }
-        />
-        <output>
-          {chart.strokeWidth ??
-            (chart.type === "Pie" || chart.type === "Donut" ? 0.75 : 1)}
-          px
-        </output>
-      </label>
+            (chart.type === "Pie" || chart.type === "Donut" ? 0.75 : 1),
+          strokeStyle: chart.strokeStyle ?? "solid",
+        }}
+        onChange={(patch) => {
+          const { backgroundColor, ...rest } = patch;
+          setChart((previous) => ({
+            ...previous,
+            ...rest,
+            ...(backgroundColor !== undefined
+              ? { color: backgroundColor }
+              : {}),
+          }));
+        }}
+      />
       <label>
         {t("labels.chartLabelColumn")}
         <select

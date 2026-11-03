@@ -5,7 +5,7 @@ Choose the **chart icon in the central toolbar** or search **Insert data chart /
 1. Paste CSV with a header row or JSON, import a `.csv`/`.json` file, or enter an HTTP(S) data URL and choose **Load / refresh data URL**.
 2. Choose **Bar**, **Horizontal bar**, **Line**, **Scatter**, **Pie**, **Donut**, or **Stacked bar**.
 3. Pick the label/X column and value/Y columns. Line and stacked bar support multiple value series; use Cmd-click to select them. Scatter requires numeric X and Y values.
-4. Set a title, X/Y axis titles, color, roughness, and stroke width (0.5–3 px). Choose **Preview**, then **Insert chart**.
+4. Set a title, X/Y axis titles, color, roughness, and stroke width. Choose **Preview**, then **Insert chart**.
 
 Example CSV:
 
@@ -21,7 +21,7 @@ JSON can be an array of rows (`[{"Month":"Jan","Revenue":40},…]`) or roughViz-
 
 ## Edit and refresh
 
-**Single-click a chart** to show **Graph properties** in the normal selection side panel. Change color, stroke width, label/X column, value/Y column(s), title, independent X/Y axis titles, and roughness. Line and stacked-bar charts support multiple value columns. Changes update the rendered chart automatically after a short pause; leaving the selection also applies the final valid edit. Invalid column combinations show an inline error and leave the last valid chart intact. Undo/redo restores both the chart and its controls.
+**Single-click a chart** to show **Graph properties** in the normal selection side panel. Use the standard **Stroke / Background** palettes with quick picks, a full picker, and custom colors. Choose **Hachure / Cross-hatch / Solid** fill (Alt-click Hachure for Zigzag), **Thin / Medium / Bold** stroke width, and **Solid / Dashed / Dotted** stroke style. Change label/X column, value/Y column(s), title, independent X/Y axis titles, and roughness. Line and stacked-bar charts support multiple value columns. Changes update the rendered chart automatically after a short pause; leaving the selection also applies the final valid edit. Invalid column combinations show an inline error and leave the last valid chart intact. Undo/redo restores both the chart and its controls.
 
 Axis titles default to the chosen column names in older diagrams. Set a custom title independently of the data mapping, or clear it to hide it. Pie and donut charts have no axes, so those title fields are disabled.
 

@@ -2617,3 +2617,20 @@ export const dataTableIcon = createIcon(
     strokeLinejoin: "round",
   },
 );
+
+export const tableAddRowIcon = createIcon(
+  <path d="M4 3h16v12H4zM4 9h16M10 3v12M9 20h6M12 17v6" />,
+  tablerIconProps,
+);
+export const tableDeleteRowIcon = createIcon(
+  <path d="M4 3h16v12H4zM4 9h16M10 3v12M9 20h6" />,
+  tablerIconProps,
+);
+export const tableAddColumnIcon = createIcon(
+  <path d="M3 4h12v16H3zM9 4v16M3 10h12M20 9v6M17 12h6" />,
+  tablerIconProps,
+);
+export const tableDeleteColumnIcon = createIcon(
+  <path d="M3 4h12v16H3zM9 4v16M3 10h12M17 12h6" />,
+  tablerIconProps,
+);

@@ -3,13 +3,13 @@
   flex-direction: column;
   gap: 10px;
   font-size: 12px;
-  label {
+  > label {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 6px;
   }
-  input:not([type="range"]):not([type="color"]),
+  input:not([type="range"]):not([type="color"]):not([type="radio"]),
   select {
     width: 100%;
     box-sizing: border-box;

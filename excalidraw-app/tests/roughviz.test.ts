@@ -45,11 +45,29 @@ describe("roughViz data charts", () => {
     expect(validateChart({ ...chart(), strokeWidth: 2.5 }).strokeWidth).toBe(
       2.5,
     );
-    for (const strokeWidth of [0, -1, Infinity, 4]) {
+    for (const strokeWidth of [0, -1, Infinity, 7]) {
       expect(() => validateChart({ ...chart(), strokeWidth })).toThrow(
         "appearance",
       );
     }
+  });
+  it("validates the native fill, stroke and color choices", () => {
+    expect(
+      validateChart({
+        ...chart(),
+        color: "transparent",
+        strokeColor: "#1238",
+        fillStyle: "solid",
+        strokeWidth: 4,
+        strokeStyle: "dotted",
+      }),
+    ).toMatchObject({ fillStyle: "solid", strokeWidth: 4 });
+    expect(() =>
+      validateChart({ ...chart(), fillStyle: "invalid" as never }),
+    ).toThrow("appearance");
+    expect(() =>
+      validateChart({ ...chart(), strokeStyle: "invalid" as never }),
+    ).toThrow("appearance");
   });
   it("reads CSV with quoted labels, CRLF, embedded commas and a BOM", () => {
     expect(

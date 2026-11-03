@@ -144,6 +144,9 @@ export const RoughVizDialog = ({
       color,
       roughness,
       strokeWidth,
+      strokeColor: initial?.strokeColor,
+      fillStyle: initial?.fillStyle,
+      strokeStyle: initial?.strokeStyle,
     });
   const run = async (insert: boolean) => {
     if (busy) {
@@ -476,7 +479,7 @@ export const RoughVizDialog = ({
               data-testid="roughviz-stroke-width"
               type="range"
               min="0.5"
-              max="3"
+              max="6"
               step="0.05"
               value={strokeWidth}
               disabled={busy}

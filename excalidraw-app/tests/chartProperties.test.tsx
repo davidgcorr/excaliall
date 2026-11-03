@@ -7,6 +7,7 @@ import {
   render,
   screen,
   waitFor,
+  togglePopover,
 } from "@excalidraw/excalidraw/tests/test-utils";
 
 import { ChartProperties } from "../charts/ChartProperties";
@@ -67,15 +68,30 @@ describe("graph property editing", () => {
     fireEvent.change(screen.getByTestId("chart-y-axis-title"), {
       target: { value: "Revenue (€)" },
     });
-    fireEvent.change(screen.getByTestId("chart-stroke-width"), {
-      target: { value: "2.5" },
-    });
+    fireEvent.click(screen.getByTestId("strokeWidth-bold"));
+    fireEvent.click(screen.getByTestId("fill-solid"));
+    fireEvent.click(screen.getByTestId("strokeStyle-dashed"));
+    const pickers = screen
+      .getByTestId("chart-properties")
+      .querySelectorAll(".color-picker-container");
+    const strokePick = pickers[0].querySelectorAll<HTMLButtonElement>(
+      "[data-top-pick-index]",
+    )[1];
+    const fillPick = pickers[1].querySelectorAll<HTMLButtonElement>(
+      "[data-top-pick-index]",
+    )[2];
+    fireEvent.click(strokePick);
+    fireEvent.click(fillPick);
     await waitFor(() =>
       expect(h.elements[0].customData?.roughViz).toMatchObject({
         title: "Quarterly revenue",
         xAxisTitle: "Period",
         yAxisTitle: "Revenue (€)",
-        strokeWidth: 2.5,
+        strokeWidth: 4,
+        fillStyle: "solid",
+        strokeStyle: "dashed",
+        strokeColor: strokePick.title,
+        color: fillPick.title,
       }),
     );
     expect(h.elements[0]).toMatchObject({
@@ -86,6 +102,25 @@ describe("graph property editing", () => {
       height: 420,
     });
     expect(screen.getByTestId("chart-title")).toHaveValue("Quarterly revenue");
+  });
+  it("opens the native full palette and preserves the latest chart fields", async () => {
+    await setup();
+    fireEvent.change(screen.getByTestId("chart-title"), {
+      target: { value: "Custom palette chart" },
+    });
+    const styles = screen.getByTestId("data-element-style-controls");
+    togglePopover("Stroke");
+    const input = styles.ownerDocument.querySelector<HTMLInputElement>(
+      ".color-picker-input",
+    )!;
+    expect(input).not.toBeNull();
+    fireEvent.change(input, { target: { value: "aabbcc" } });
+    await waitFor(() =>
+      expect(h.elements[0].customData?.roughViz).toMatchObject({
+        title: "Custom palette chart",
+        strokeColor: "#aabbcc",
+      }),
+    );
   });
   it("commits a valid last edit on deselection and keeps the new selection", async () => {
     const image = await setup();

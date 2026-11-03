@@ -145,7 +145,11 @@ export const getShapeActionPredicates = (
     freedrawMode: forToolOrSelection(hasFreedrawMode),
     strokeStyle: forToolOrSelection(hasStrokeStyle),
     sloppiness: forToolOrSelection(hasRoughness),
-    roundness: forToolOrSelection(canChangeRoundness),
+    roundness:
+      canChangeRoundness(activeToolType) ||
+      targetElements.some(
+        (element) => !getTableData(element) && canChangeRoundness(element.type),
+      ),
     arrowType: forToolOrSelection(toolIsArrow),
     arrowheads: forToolOrSelection(canHaveArrowheads),
 

@@ -1,4 +1,7 @@
 import { csvParseRows } from "d3-dsv";
+import { normalizeInputColor } from "@excalidraw/common";
+
+import type { ExcalidrawElement } from "@excalidraw/element/types";
 
 export const CHART_TYPES = [
   "Bar",
@@ -23,6 +26,9 @@ export type RoughVizChart = {
   color: string;
   roughness: number;
   strokeWidth?: number;
+  strokeColor?: string;
+  fillStyle?: ExcalidrawElement["fillStyle"];
+  strokeStyle?: ExcalidrawElement["strokeStyle"];
   sourceUrl: string;
 };
 export const SAMPLE_DATA =
@@ -135,7 +141,17 @@ export const validateChart = (chart: RoughVizChart) => {
     throw new Error("Choose label/X and value/Y columns from the data.");
   }
   if (
-    !/^#[0-9a-f]{6}$/i.test(chart.color) ||
+    typeof chart.color !== "string" ||
+    !normalizeInputColor(chart.color) ||
+    (chart.strokeColor !== undefined &&
+      (typeof chart.strokeColor !== "string" ||
+        !normalizeInputColor(chart.strokeColor))) ||
+    (chart.fillStyle !== undefined &&
+      !["hachure", "cross-hatch", "solid", "zigzag"].includes(
+        chart.fillStyle,
+      )) ||
+    (chart.strokeStyle !== undefined &&
+      !["solid", "dashed", "dotted"].includes(chart.strokeStyle)) ||
     chart.title.length > 200 ||
     [chart.xAxisTitle, chart.yAxisTitle].some(
       (title) =>
@@ -148,7 +164,7 @@ export const validateChart = (chart: RoughVizChart) => {
     (chart.strokeWidth !== undefined &&
       (!Number.isFinite(chart.strokeWidth) ||
         chart.strokeWidth < 0.5 ||
-        chart.strokeWidth > 3))
+        chart.strokeWidth > 6))
   ) {
     throw new Error("Invalid chart appearance settings.");
   }

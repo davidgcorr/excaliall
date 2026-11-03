@@ -51,9 +51,7 @@ describe("sketch data tables", () => {
     });
     expect(screen.getByTestId("table-cell-0-1")).toHaveValue("B");
     expect(screen.getByTestId("table-cell-1-0")).toHaveValue("C");
-    fireEvent.change(screen.getByTestId("table-stroke-width"), {
-      target: { value: "3" },
-    });
+    fireEvent.click(screen.getByTestId("strokeWidth-bold"));
     const table = h.elements[0];
     const rectangle = API.createElement({ type: "rectangle", x: 700, y: 30 });
     API.setElements([...h.elements, rectangle]);
@@ -64,7 +62,7 @@ describe("sketch data tables", () => {
     await waitFor(() => {
       const saved = h.elements.find((item) => item.id === table.id)!;
       expect(getTableData(saved)?.rows[0][1]).toBe("B");
-      expect(getTableData(saved)?.strokeWidth).toBe(3);
+      expect(getTableData(saved)?.strokeWidth).toBe(4);
     });
     expect(h.state.selectedElementIds).toEqual({ [rectangle.id]: true });
   });
@@ -73,6 +71,16 @@ describe("sketch data tables", () => {
     const element = image();
     API.setElements([element]);
     API.setSelectedElements([element]);
+    expect(
+      screen
+        .getByTestId("table-canvas-toolbar")
+        .closest(".DataTableEditor__sheet"),
+    ).not.toBeNull();
+    expect(
+      screen
+        .getByTestId("data-table-properties")
+        .querySelector("[data-testid=table-add-row]"),
+    ).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Add row" }));
     fireEvent.click(screen.getByRole("button", { name: "Add column" }));
     expect(screen.getByTestId("table-cell-3-3")).toHaveValue("");
@@ -140,6 +148,36 @@ describe("sketch data tables", () => {
         customData: { dataTable: { ...data, version: 999 } },
       }),
     ).toBeNull();
+  });
+  it("rounds and clips the actual table border, fill and grid instead of the parent image", () => {
+    const data = {
+      ...sampleTable(),
+      rounded: true,
+      fillStyle: "solid" as const,
+      backgroundColor: "#ff0000",
+      strokeStyle: "dashed" as const,
+      strokeWidth: 4,
+    };
+    const svg = renderTableSvg(data, document);
+    expect(svg.querySelector("clipPath rect")?.getAttribute("rx")).toBe("16");
+    expect(
+      svg
+        .querySelector('[data-table-border="round"] path')
+        ?.getAttribute("stroke-dasharray"),
+    ).toBe("8 6");
+    expect(svg.querySelector('path[fill="#ff0000"]')).not.toBeNull();
+    expect(
+      renderTableSvg({ ...data, rounded: false }, document)
+        .querySelector("clipPath rect")
+        ?.getAttribute("rx"),
+    ).toBe("0");
+    expect(() =>
+      validateTable({
+        ...data,
+        backgroundColor: "transparent",
+        color: "#1238",
+      }),
+    ).not.toThrow();
   });
   it("rejects invalid row shapes and oversized cells before rendering or saving", () => {
     expect(() =>
