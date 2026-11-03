@@ -1,5 +1,7 @@
 {
   "labels": {
+    "appVersion": "Version {{version}}",
+    "appBuild": "Build {{revision}}",
     "signUp": "Sign up",
     "signIn": "Sign in",
     "upgrade": "Upgrade",

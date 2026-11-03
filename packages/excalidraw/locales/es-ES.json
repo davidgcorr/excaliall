@@ -1,5 +1,7 @@
 {
   "labels": {
+    "appVersion": "Versión {{version}}",
+    "appBuild": "Compilación {{revision}}",
     "signUp": "",
     "signIn": "",
     "paste": "Pegar",

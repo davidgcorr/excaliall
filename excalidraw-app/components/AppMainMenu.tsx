@@ -78,7 +78,25 @@ export const AppMainMenu: React.FC<{
         </MainMenu.Item>
       )}
       <MainMenu.Separator />
-      <MainMenu.DefaultItems.Preferences />
+      <MainMenu.DefaultItems.Preferences
+        additionalItems={
+          <>
+            <MainMenu.Separator />
+            <MainMenu.ItemCustom className="AppMainMenu__version">
+              <span data-testid="app-version">
+                {t("labels.appVersion", {
+                  version: import.meta.env.VITE_APP_VERSION,
+                })}
+              </span>
+              <small data-testid="app-build-revision">
+                {t("labels.appBuild", {
+                  revision: import.meta.env.VITE_APP_BUILD_REVISION,
+                })}
+              </small>
+            </MainMenu.ItemCustom>
+          </>
+        }
+      />
       <MainMenu.DefaultItems.ToggleTheme allowSystemTheme theme={props.theme} />
       <MainMenu.ItemCustom>
         <LanguageList style={{ width: "100%" }} />

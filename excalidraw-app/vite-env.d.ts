@@ -2,6 +2,8 @@
 /// <reference types="vite-plugin-pwa/info" />
 /// <reference types="vite-plugin-svgr/client" />
 interface ImportMetaEnv {
+  readonly VITE_APP_VERSION: string;
+  readonly VITE_APP_BUILD_REVISION: string;
   // The port to run the dev server
   VITE_APP_PORT: string;
 

@@ -1,5 +1,24 @@
 **macOS desktop app:** [Build, install, and release Excalidraw Animation](desktop/README.md).
 
+## Install on macOS
+
+Download the latest `.dmg` from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), open it, and drag **Excalidraw Animation.app** into **Applications**. Launch it from Applications or Spotlight. Choose a universal build for either Intel or Apple Silicon, or an `arm64` build for Apple Silicon.
+
+To build and install the current checkout on your Mac (Node.js 22.12 or newer):
+
+```sh
+corepack yarn install --frozen-lockfile
+corepack yarn desktop:install
+corepack yarn desktop:dist
+open desktop/dist
+```
+
+Open the generated `.dmg`, drag the app into Applications, and launch it. Quit the running app before replacing it during an upgrade. The installed app runs on its own without Node.js.
+
+Open the editor's **☰ → Preferences / Preferencias** menu to see the running **Version** and **Build** (Git revision). The native **Excalidraw Animation → About** menu also shows the app version. Builds with uncommitted changes include `-modified` in the build revision.
+
+For manual upgrades, replace the app using the newer DMG. Signed releases support **Excalidraw Animation → Check for Updates…**. Drawing data is preserved in `~/Library/Application Support/Excalidraw Animation`; save important diagrams as `.excalidraw` files.
+
 <a href="https://excalidraw.com/" target="_blank" rel="noopener">
   <picture>
     <source media="(prefers-color-scheme: dark)" alt="Excalidraw" srcset="https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github/excalidraw_github_cover_2_dark.png" />

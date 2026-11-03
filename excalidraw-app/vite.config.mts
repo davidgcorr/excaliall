@@ -1,4 +1,5 @@
 import path from "path";
+import { execFileSync } from "node:child_process";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import svgrPlugin from "vite-plugin-svgr";
@@ -8,6 +9,7 @@ import checker from "vite-plugin-checker";
 import { createHtmlPlugin } from "vite-plugin-html";
 import Sitemap from "vite-plugin-sitemap";
 import { woff2BrowserPlugin } from "../scripts/woff2/woff2-vite-plugins";
+import desktopPackage from "../desktop/package.json";
 
 import type { Plugin, Rollup } from "vite";
 
@@ -102,11 +104,37 @@ export default defineConfig(({ mode }) => {
   // To load .env variables
   const envVars = loadEnv(mode, `../`);
   const isDesktop = mode === "desktop";
+  let buildRevision = "unknown";
+  try {
+    const options = {
+      cwd: path.resolve(__dirname, ".."),
+      encoding: "utf8" as const,
+    };
+    const revision = execFileSync(
+      "git",
+      ["rev-parse", "--short=8", "HEAD"],
+      options,
+    ).trim();
+    const modified = execFileSync(
+      "git",
+      ["status", "--porcelain", "--untracked-files=no"],
+      options,
+    ).trim();
+    buildRevision = `${revision}${modified ? "-modified" : ""}`;
+  } catch {
+    // Source archives may not include Git metadata.
+  }
   // mermaid (+ its many deps & per-diagram chunks) is lazy-loaded and large,
   // so we don't precache it. Populated at build time by `lazyChunksPlugin`.
   const mermaidChunkFileNames = new Set<string>();
   // https://vitejs.dev/config/
   return {
+    define: {
+      "import.meta.env.VITE_APP_VERSION": JSON.stringify(
+        desktopPackage.version,
+      ),
+      "import.meta.env.VITE_APP_BUILD_REVISION": JSON.stringify(buildRevision),
+    },
     server: {
       port: Number(envVars.VITE_APP_PORT || 3000),
       // open the browser
