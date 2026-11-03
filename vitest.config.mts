@@ -1,6 +1,6 @@
 import path from "path";
 
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
@@ -84,6 +84,8 @@ export default defineConfig({
     environment: "jsdom",
     // don't list skipped tests in the failure tree — keeps output readable
     hideSkippedTests: true,
+    // Desktop tests use node:test and run through yarn desktop:test.
+    exclude: [...configDefaults.exclude, "desktop/**"],
     coverage: {
       reporter: ["text", "json-summary", "json", "html", "lcovonly"],
       // Since v2, it ignores empty lines by default and we need to disable it as it affects the coverage
