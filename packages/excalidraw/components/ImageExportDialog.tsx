@@ -104,6 +104,8 @@ const ImageExportModal = ({
   const [renderError, setRenderError] = useState<Error | null>(null);
 
   const { onCopy, copyStatus, resetCopyStatus } = useCopyStatus();
+  const { onCopy: onCopyIframe, copyStatus: iframeCopyStatus } =
+    useCopyStatus();
 
   useEffect(() => {
     // if user changes setting right after export to clipboard, reset the status
@@ -424,6 +426,34 @@ const ImageExportModal = ({
             icon={downloadIcon}
           >
             {t("imageExportDialog.button.exportToGif")}
+          </FilledButton>
+          <FilledButton
+            className="ImageExportModal__settings__buttons__button"
+            label={t("imageExportDialog.title.exportToHtml")}
+            onClick={() =>
+              onExportImage(EXPORT_IMAGE_TYPES.html, exportedElements, {
+                exportingFrame,
+              })
+            }
+            icon={downloadIcon}
+          >
+            {t("imageExportDialog.button.exportToHtml")}
+          </FilledButton>
+          <FilledButton
+            className="ImageExportModal__settings__buttons__button"
+            label={t("imageExportDialog.title.copyIframe")}
+            status={iframeCopyStatus}
+            onClick={async () => {
+              await onExportImage(
+                EXPORT_IMAGE_TYPES["clipboard-html"],
+                exportedElements,
+                { exportingFrame },
+              );
+              onCopyIframe();
+            }}
+            icon={copyIcon}
+          >
+            {t("imageExportDialog.button.copyIframe")}
           </FilledButton>
           {(probablySupportsClipboardBlob || isFirefox) && (
             <FilledButton

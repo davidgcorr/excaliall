@@ -339,6 +339,8 @@ export const ALLOWED_PASTE_MIME_TYPES = [
 ] as const;
 
 export const EXPORT_IMAGE_TYPES = {
+  html: "html",
+  "clipboard-html": "clipboard-html",
   gif: "gif",
   png: "png",
   svg: "svg",

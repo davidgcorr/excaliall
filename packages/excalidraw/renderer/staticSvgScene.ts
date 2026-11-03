@@ -52,6 +52,8 @@ import type {
   NonDeletedExcalidrawElement,
 } from "@excalidraw/element/types";
 
+import { createAnimatedSvgElement } from "./animatedSvgElement";
+
 import type { RenderableElementsMap, SVGRenderConfig } from "../scene/types";
 import type { AppState, BinaryFiles } from "../types";
 import type { Drawable } from "roughjs/bin/core";
@@ -499,6 +501,21 @@ const renderElementToSvg = (
         }
         group.appendChild(node);
       });
+
+      if (renderConfig.animate) {
+        const animation = createAnimatedSvgElement(
+          element,
+          elementsMap,
+          svgRoot.ownerDocument,
+          renderConfig.offsetX,
+          renderConfig.offsetY,
+          renderConfig.exportWithDarkMode,
+          opacity,
+        );
+        if (animation) {
+          group.appendChild(animation);
+        }
+      }
 
       const g = maybeWrapNodesInFrameClipPath(
         element,

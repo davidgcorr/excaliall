@@ -62,6 +62,7 @@ export type StaticCanvasRenderConfig = {
 };
 
 export type SVGRenderConfig = {
+  animate?: boolean;
   /**
    * Host environment used for the text measurements this render needs (the
    * SVG itself is built through `exportToSvg`'s owner document). Defaults to
@@ -154,6 +155,8 @@ export type SceneScroll = {
 };
 
 export type ExportType =
+  | "html"
+  | "clipboard-html"
   | "gif"
   | "png"
   | "clipboard"

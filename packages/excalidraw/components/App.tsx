@@ -2812,7 +2812,7 @@ class App extends React.Component<AppProps, AppState> {
       });
 
     if (
-      type !== "gif" &&
+      (type === "png" || type === "svg") &&
       this.state.exportEmbedScene &&
       fileHandle &&
       isImageFileHandle(fileHandle)

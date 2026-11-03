@@ -99,7 +99,7 @@ export const prepareElementsForExport = (
 };
 
 export const exportCanvas = async (
-  type: Omit<ExportType, "backend">,
+  type: Exclude<ExportType, "backend">,
   elements: ExportedElements,
   appState: AppState,
   files: BinaryFiles,
@@ -129,6 +129,29 @@ export const exportCanvas = async (
     padding: exportPadding,
     exportingFrame,
   };
+
+  if (type === "html" || type === "clipboard-html") {
+    const blob = exportScene({
+      type: "html",
+      data: { elements, appState, files },
+      config: { ...config, title: name, environment: renderEnvironment },
+    });
+    void blob.catch(() => {});
+    if (type === "clipboard-html") {
+      const { createIframeSnippet } = await import("./html");
+      await copyTextToSystemClipboard(
+        createIframeSnippet(await (await blob).text(), name),
+      );
+      return;
+    }
+    return fileSave(blob, {
+      description: "Standalone animated HTML",
+      name,
+      extension: "html",
+      mimeTypes: [MIME_TYPES.html],
+      fileHandle,
+    });
+  }
 
   if (type === "gif") {
     const blob = exportScene({

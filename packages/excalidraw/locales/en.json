@@ -559,13 +559,17 @@
       "exportToPng": "Export to PNG",
       "exportToSvg": "Export to SVG",
       "copyPngToClipboard": "Copy PNG to clipboard",
-      "exportToGif": "Export animated GIF"
+      "exportToGif": "Export animated GIF",
+      "exportToHtml": "Export standalone animated HTML",
+      "copyIframe": "Copy a self-contained iframe to embed in your page"
     },
     "button": {
       "exportToPng": "PNG",
       "exportToSvg": "SVG",
       "copyPngToClipboard": "Copy to clipboard",
-      "exportToGif": "GIF"
+      "exportToGif": "GIF",
+      "exportToHtml": "HTML",
+      "copyIframe": "Copy iframe"
     },
     "gif": {
       "duration": "GIF duration",

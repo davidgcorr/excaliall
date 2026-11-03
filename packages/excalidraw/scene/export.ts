@@ -980,6 +980,7 @@ type ExportToSvgConfig = Pick<
      * if true, all embeddables passed in will be rendered when possible.
      */
     renderEmbeddables?: boolean;
+    animate?: boolean;
     skipInliningFonts?: true;
     reuseImages?: boolean;
     /**
@@ -1198,6 +1199,7 @@ const exportToSvg = async ({
       renderEnvironment,
       exportWithDarkMode,
       renderEmbeddables,
+      animate: config?.animate,
       frameRendering,
       canvasBackgroundColor: backgroundColor,
       embedsValidationStatus: renderEmbeddables
@@ -1215,6 +1217,23 @@ const exportToSvg = async ({
   // ---------------------------------------------------------------------------
 
   return svgRoot;
+};
+
+const exportToHtml = async (opts: {
+  data: ExportSceneData;
+  config?: ExportSceneConfig & { title?: string };
+}) => {
+  const { createStandaloneHtml } = await import("../data/html");
+  const svg = await exportToSvg({
+    ...opts,
+    config: {
+      ...opts.config,
+      animate: true,
+      renderEmbeddables: false,
+      embedScene: false,
+    },
+  });
+  return createStandaloneHtml(svg, opts.config?.title);
 };
 
 // ---------------------------------------------------------------------------
@@ -1373,6 +1392,7 @@ const exportToBlob = async (
 
 export type ExportSceneOptions = { data: ExportSceneData } & (
   | { type: "canvas"; config?: ExportSceneConfig }
+  | { type: "html"; config?: ExportSceneConfig & { title?: string } }
   | { type: "gif"; config?: ExportSceneConfig & GifExportOptions }
   | { type: "png"; config?: ExportToPngConfig }
   | { type: "jpeg"; config?: ExportToJpegConfig }
@@ -1386,7 +1406,7 @@ export function exportScene(
   opts: Extract<ExportSceneOptions, { type: "canvas" }>,
 ): Promise<HTMLCanvasElement>;
 export function exportScene(
-  opts: Extract<ExportSceneOptions, { type: "png" | "jpeg" | "gif" }>,
+  opts: Extract<ExportSceneOptions, { type: "png" | "jpeg" | "gif" | "html" }>,
 ): Promise<Blob>;
 export function exportScene(
   opts: Extract<ExportSceneOptions, { type: "svg" }>,
@@ -1400,6 +1420,8 @@ export function exportScene(
   switch (opts.type) {
     case "canvas":
       return exportToCanvas(opts);
+    case "html":
+      return exportToHtml(opts);
     case "gif":
       return exportToGif(opts);
     case "png":

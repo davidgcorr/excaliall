@@ -532,12 +532,16 @@
     "title": {
       "exportToPng": "Exportar a PNG",
       "exportToSvg": "Exportar a SVG",
-      "copyPngToClipboard": "Copiar PNG al portapapeles"
+      "copyPngToClipboard": "Copiar PNG al portapapeles",
+      "exportToHtml": "Exportar HTML animado independiente",
+      "copyIframe": "Copiar un iframe independiente para insertar en tu página"
     },
     "button": {
       "exportToPng": "PNG",
       "exportToSvg": "SVG",
-      "copyPngToClipboard": "Copiar al portapapeles"
+      "copyPngToClipboard": "Copiar al portapapeles",
+      "exportToHtml": "HTML",
+      "copyIframe": "Copiar iframe"
     }
   },
   "encrypted": {
