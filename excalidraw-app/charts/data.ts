@@ -15,6 +15,8 @@ export type RoughVizChart = {
   version: 1;
   type: ChartType;
   title: string;
+  xAxisTitle?: string;
+  yAxisTitle?: string;
   rows: ChartRow[];
   labelColumn: string;
   valueColumns: string[];
@@ -135,6 +137,11 @@ export const validateChart = (chart: RoughVizChart) => {
   if (
     !/^#[0-9a-f]{6}$/i.test(chart.color) ||
     chart.title.length > 200 ||
+    [chart.xAxisTitle, chart.yAxisTitle].some(
+      (title) =>
+        title !== undefined &&
+        (typeof title !== "string" || title.length > 200),
+    ) ||
     !Number.isFinite(chart.roughness) ||
     chart.roughness < 0.25 ||
     chart.roughness > 3 ||

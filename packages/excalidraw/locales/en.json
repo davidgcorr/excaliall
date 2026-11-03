@@ -1,5 +1,13 @@
 {
   "labels": {
+    "chartProperties": "Graph properties",
+    "chartLabelColumn": "Labels / X column",
+    "chartValueColumns": "Values / Y column",
+    "chartTitle": "Title",
+    "chartXAxisTitle": "X axis title",
+    "chartYAxisTitle": "Y axis title",
+    "chartUpdating": "Updating graph…",
+    "chartDataHint": "Double-click the graph to import or edit CSV / JSON data.",
     "tableAutoSaveHint": "Changes save automatically when you deselect the table.",
     "tableEditHint": "Select the table to edit cells and use its properties panel. Deselect to save automatically.",
     "insertDataTable": "Insert data table",

@@ -5,7 +5,7 @@ Choose the **chart icon in the central toolbar** or search **Insert data chart /
 1. Paste CSV with a header row or JSON, import a `.csv`/`.json` file, or enter an HTTP(S) data URL and choose **Load / refresh data URL**.
 2. Choose **Bar**, **Horizontal bar**, **Line**, **Scatter**, **Pie**, **Donut**, or **Stacked bar**.
 3. Pick the label/X column and value/Y columns. Line and stacked bar support multiple value series; use Cmd-click to select them. Scatter requires numeric X and Y values.
-4. Set a title, color, roughness, and stroke width (0.5–3 px). Choose **Preview**, then **Insert chart**.
+4. Set a title, X/Y axis titles, color, roughness, and stroke width (0.5–3 px). Choose **Preview**, then **Insert chart**.
 
 Example CSV:
 
@@ -21,7 +21,11 @@ JSON can be an array of rows (`[{"Month":"Jan","Revenue":40},…]`) or roughViz-
 
 ## Edit and refresh
 
-Double-click the chart, or right-click it and choose **Edit chart data and settings** / **Editar datos y parámetros del gráfico**. You can also select it and search **Edit chart** in the command palette, or reopen the main-menu chart item. These paths reopen its original data, source URL, chart type, title, column choices, color, roughness, and stroke width. Change its data, chart type, title, or styling, then choose **Update chart**. The update retains the element's identity, position, size, rotation, grouping, and bindings. Locked charts cannot be edited.
+**Single-click a chart** to show **Graph properties** in the normal selection side panel. Change color, stroke width, label/X column, value/Y column(s), title, independent X/Y axis titles, and roughness. Line and stacked-bar charts support multiple value columns. Changes update the rendered chart automatically after a short pause; leaving the selection also applies the final valid edit. Invalid column combinations show an inline error and leave the last valid chart intact. Undo/redo restores both the chart and its controls.
+
+Axis titles default to the chosen column names in older diagrams. Set a custom title independently of the data mapping, or clear it to hide it. Pie and donut charts have no axes, so those title fields are disabled.
+
+Double-click the chart, or right-click it and choose **Edit chart data and settings** / **Editar datos y parámetros del gráfico**. You can also select it and search **Edit chart** in the command palette, or reopen the main-menu chart item. These paths reopen the CSV/JSON data-import dialog with its original data, source URL, chart type, title, axis titles, column choices, color, roughness, and stroke width. Change its data, chart type, title, or styling, then choose **Update chart**. The update retains the element's identity, position, size, rotation, grouping, and bindings. Locked charts cannot be edited.
 
 URLs are fetched only when you click **Load / refresh data URL**; there is no automatic polling. The source server must allow browser CORS requests. Private authenticated endpoints are not supported. The current data snapshot and source URL are saved with the diagram, so reopening a chart does not require internet access.
 

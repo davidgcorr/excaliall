@@ -1,0 +1,38 @@
+.excalidraw .ChartProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12px;
+  label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  input:not([type="range"]):not([type="color"]),
+  select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border: 1px solid var(--default-border-color);
+    border-radius: 5px;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    font: inherit;
+  }
+  input[type="range"] {
+    flex: 1;
+    min-width: 60px;
+  }
+  input[type="color"] {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+  }
+  [role="alert"] {
+    color: var(--color-danger);
+  }
+  small {
+    line-height: 1.4;
+  }
+}

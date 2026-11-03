@@ -34,15 +34,15 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 1. Bump `desktop/package.json` and its lockfile together:
 
    ```sh
-   npm --prefix desktop version 0.1.8 --no-git-tag-version
+   npm --prefix desktop version 0.1.9 --no-git-tag-version
    ```
 
 2. Commit your changes, then tag that commit and push to your repository:
 
    ```sh
-   git tag desktop-v0.1.8
+   git tag desktop-v0.1.9
    git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.8
+   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.9
    ```
 
 3. GitHub Actions builds a universal DMG and update ZIP, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.
@@ -77,7 +77,7 @@ GIF supports a maximum of 256 colors per frame and binary transparency. Scene da
 
 ## Data-driven charts and embedding
 
-Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select one chart and reopen the dialog to edit or refresh its data. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
+Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select a chart to edit color, stroke width, data-column mappings, title, X/Y axis titles, and roughness in the properties side panel. Double-click to open the CSV/JSON data-import dialog or refresh its source. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
 
 Use **Export image → HTML** or **Copy iframe** for standalone embedding; see the [HTML export guide](HTML-EXPORT.md).
 

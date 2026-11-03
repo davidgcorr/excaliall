@@ -1,14 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { CaptureUpdateAction, newElementWith } from "@excalidraw/element";
-import { newImageElement } from "@excalidraw/element/newElement";
-import { viewportCoordsToSceneCoords } from "@excalidraw/common";
 import { useApp } from "@excalidraw/excalidraw/components/App";
 import { Dialog } from "@excalidraw/excalidraw/components/Dialog";
 import { FilledButton } from "@excalidraw/excalidraw/components/FilledButton";
-import {
-  generateIdFromFile,
-  getDataURL,
-} from "@excalidraw/excalidraw/data/blob";
+import { getDataURL } from "@excalidraw/excalidraw/data/blob";
 
 import type { ExcalidrawImageElement } from "@excalidraw/element/types";
 
@@ -20,6 +14,7 @@ import {
   validateChart,
 } from "./data";
 import { renderChart } from "./render";
+import { saveChartSvg } from "./save";
 
 import "./RoughVizDialog.scss";
 
@@ -66,6 +61,12 @@ export const RoughVizDialog = ({
   );
   const [type, setType] = useState<ChartType>(initial?.type ?? "Bar");
   const [title, setTitle] = useState(initial?.title ?? "Revenue by month");
+  const [xAxisTitle, setXAxisTitle] = useState(
+    initial?.xAxisTitle ?? initial?.labelColumn ?? "Month",
+  );
+  const [yAxisTitle, setYAxisTitle] = useState(
+    initial?.yAxisTitle ?? initial?.valueColumns.join(", ") ?? "Revenue",
+  );
   const [labelColumn, setLabelColumn] = useState(
     initial?.labelColumn ?? "Month",
   );
@@ -134,6 +135,8 @@ export const RoughVizDialog = ({
       version: 1,
       type,
       title,
+      xAxisTitle,
+      yAxisTitle,
       rows: parseChartData(text),
       labelColumn,
       valueColumns: multiple ? valueColumns : valueColumns.slice(0, 1),
@@ -169,70 +172,13 @@ export const RoughVizDialog = ({
       if (!insert) {
         return;
       }
-      const fileId = await generateIdFromFile(file);
+      await saveChartSvg(app, chart, svg, {
+        elementId: target?.id,
+        signal: request.signal,
+      });
       if (request.signal.aborted || app.api.isDestroyed) {
         return;
       }
-      const currentTarget = target ? app.scene.getElement(target.id) : null;
-      if (
-        target &&
-        (!currentTarget ||
-          currentTarget.isDeleted ||
-          currentTarget.locked ||
-          currentTarget.type !== "image")
-      ) {
-        throw new Error("The selected chart is no longer editable.");
-      }
-      const state = app.api.getAppState();
-      const center = viewportCoordsToSceneCoords(
-        {
-          clientX: state.offsetLeft + state.width / 2,
-          clientY: state.offsetTop + state.height / 2,
-        },
-        state,
-      );
-      const element =
-        currentTarget?.type === "image"
-          ? newElementWith(currentTarget, {
-              fileId,
-              status: "saved",
-              crop: null,
-              customData: { ...currentTarget.customData, roughViz: chart },
-            })
-          : newImageElement({
-              type: "image",
-              x: center.x - 320,
-              y: center.y - 210,
-              width: 640,
-              height: 420,
-              fileId,
-              status: "saved",
-              customData: { roughViz: chart },
-            });
-      const existing = app.api.getSceneElementsIncludingDeleted();
-      app.api.updateScene({
-        elements: currentTarget
-          ? existing.map((item) => (item.id === element.id ? element : item))
-          : [...existing, element],
-        appState: currentTarget
-          ? undefined
-          : {
-              selectedElementIds: { [element.id]: true },
-              selectedGroupIds: {},
-              editingGroupId: null,
-            },
-        captureUpdate: CaptureUpdateAction.IMMEDIATELY,
-      });
-      // Load the image after its fileId is referenced by the scene.
-      app.api.addFiles([
-        {
-          id: fileId,
-          dataURL,
-          mimeType: "image/svg+xml",
-          created: Date.now(),
-          lastRetrieved: Date.now(),
-        },
-      ]);
       onClose();
     } catch (failure) {
       if (!request.signal.aborted) {
@@ -504,6 +450,26 @@ export const RoughVizDialog = ({
               />
             </label>
           </div>
+          <label>
+            X axis title
+            <input
+              data-testid="roughviz-x-axis-title"
+              value={xAxisTitle}
+              maxLength={200}
+              disabled={busy || type === "Pie" || type === "Donut"}
+              onChange={(event) => setXAxisTitle(event.currentTarget.value)}
+            />
+          </label>
+          <label>
+            Y axis title
+            <input
+              data-testid="roughviz-y-axis-title"
+              value={yAxisTitle}
+              maxLength={200}
+              disabled={busy || type === "Pie" || type === "Donut"}
+              onChange={(event) => setYAxisTitle(event.currentTarget.value)}
+            />
+          </label>
           <label>
             Stroke width
             <input

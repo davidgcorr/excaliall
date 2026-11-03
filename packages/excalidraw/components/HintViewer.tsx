@@ -8,6 +8,7 @@ import {
   isArrowElement,
   isFlowchartNodeElement,
   isImageElement,
+  isRoughVizChartElement,
   isLinearElement,
   isLineElement,
   isStickyNoteElement,
@@ -194,6 +195,13 @@ const getHints = ({
       shortcut_1: getTaggedShortcutKey("Enter"),
       shortcut_2: getTaggedShortcutKey("Escape"),
     });
+  }
+
+  if (
+    selectedElements.length === 1 &&
+    isRoughVizChartElement(selectedElements[0])
+  ) {
+    return t("labels.chartDataHint");
   }
 
   if (selectedElements.length === 1 && getTableData(selectedElements[0])) {

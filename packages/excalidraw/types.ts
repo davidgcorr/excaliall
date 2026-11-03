@@ -883,6 +883,8 @@ export interface ExcalidrawProps {
   ) => void;
   /** Opens the host chart editor; omitted ID inserts a new chart. */
   onOpenDataChart?: (elementId?: string) => void;
+  /** Host-rendered properties shown for one selected editable data chart. */
+  renderDataChartProperties?: (elementId: string) => React.ReactNode;
   onThemeChange?: (theme: Theme | "system") => void;
   /**
    * note: only subscribes if the props.onIncrement is defined on initial render

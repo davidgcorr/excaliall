@@ -102,6 +102,7 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
     generateIdForFile,
     onLinkOpen,
     onOpenDataChart,
+    renderDataChartProperties,
     generateLinkForSelection,
     onPointerDown,
     onPointerUp,
@@ -247,6 +248,7 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
           generateIdForFile={generateIdForFile}
           onLinkOpen={onLinkOpen}
           onOpenDataChart={onOpenDataChart}
+          renderDataChartProperties={renderDataChartProperties}
           generateLinkForSelection={generateLinkForSelection}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}

@@ -50,6 +50,15 @@ export const actionEditDataChart = register({
   label: "labels.editDataChart",
   icon: dataChartIcon,
   keywords: ["roughviz", "chart", "graph", "data", "parameters", "settings"],
+  PanelComponent: ({ elements, appState, appProps }) => {
+    const selected = getSelectedElements(elements, appState);
+    return !appState.viewModeEnabled &&
+      selected.length === 1 &&
+      !selected[0].locked &&
+      isRoughVizChartElement(selected[0]) ? (
+      <>{appProps.renderDataChartProperties?.(selected[0].id)}</>
+    ) : null;
+  },
   trackEvent: { category: "element" },
   predicate: (elements, state, props) => {
     const selected = getSelectedElements(elements, state).filter(

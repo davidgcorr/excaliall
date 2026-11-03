@@ -21,7 +21,7 @@ For manual upgrades, replace the app using the newer DMG. Signed releases suppor
 
 ## Data-driven charts
 
-Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart and reopen the same menu to edit its data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
+Use **☰ → Data chart (roughViz)…** to insert bar, horizontal bar, line, scatter, pie, donut, or stacked bar charts from CSV, JSON, or a data URL. Select a chart to edit its color, stroke width, column mappings, title, axis titles, and roughness in the properties side panel. Double-click to import or edit CSV/JSON data or refresh its source. Charts retain their data in `.excalidraw` files and appear in image and HTML exports.
 
 Use the **table icon** in the central toolbar for editable sketch tables. Edit cells on the canvas, paste a spreadsheet range, and use the selection side panel for rows, columns, color, roughness, and stroke width. Deselect to save automatically. Double-click a table to edit it again. See the [data table guide](desktop/DATA-TABLES.md).
 

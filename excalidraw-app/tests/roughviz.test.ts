@@ -24,6 +24,22 @@ const chart = (): RoughVizChart => ({
 });
 
 describe("roughViz data charts", () => {
+  it("keeps independent axis titles and supports blank titles and legacy defaults", () => {
+    expect(validateChart(chart()).xAxisTitle).toBeUndefined();
+    expect(
+      validateChart({
+        ...chart(),
+        xAxisTitle: "Period",
+        yAxisTitle: "Revenue (€)",
+      }),
+    ).toMatchObject({ xAxisTitle: "Period", yAxisTitle: "Revenue (€)" });
+    expect(
+      validateChart({ ...chart(), xAxisTitle: "", yAxisTitle: "" }).xAxisTitle,
+    ).toBe("");
+    expect(() =>
+      validateChart({ ...chart(), xAxisTitle: "x".repeat(201) }),
+    ).toThrow("appearance");
+  });
   it("preserves legacy charts and validates editable stroke widths", () => {
     expect(validateChart(chart()).strokeWidth).toBeUndefined();
     expect(validateChart({ ...chart(), strokeWidth: 2.5 }).strokeWidth).toBe(

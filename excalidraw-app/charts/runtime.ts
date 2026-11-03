@@ -39,8 +39,8 @@ ownerWindow.addEventListener("message", (event) => {
       axisFontSize: "13px",
       labelFontSize: "14px",
       titleFontSize: "21px",
-      xLabel: chart.labelColumn,
-      yLabel: chart.valueColumns.join(", "),
+      xLabel: chart.xAxisTitle ?? chart.labelColumn,
+      yLabel: chart.yAxisTitle ?? chart.valueColumns.join(", "),
     };
     if (chart.type === "Line") {
       options.data = Object.fromEntries(

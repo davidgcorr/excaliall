@@ -1,5 +1,13 @@
 {
   "labels": {
+    "chartProperties": "Propiedades del gráfico",
+    "chartLabelColumn": "Etiquetas / Columna X",
+    "chartValueColumns": "Valores / Columna Y",
+    "chartTitle": "Título",
+    "chartXAxisTitle": "Título del eje X",
+    "chartYAxisTitle": "Título del eje Y",
+    "chartUpdating": "Actualizando gráfico…",
+    "chartDataHint": "Haz doble clic en el gráfico para importar o editar datos CSV / JSON.",
     "tableAutoSaveHint": "Los cambios se guardan automáticamente al deseleccionar la tabla.",
     "tableEditHint": "Selecciona la tabla para editar las celdas y sus propiedades. Deselecciona para guardar automáticamente.",
     "insertDataTable": "Insertar tabla de datos",

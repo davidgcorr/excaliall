@@ -26,6 +26,48 @@ const chart = () => ({
 });
 
 describe("data chart controls", () => {
+  it("shows host graph properties on selection without opening the data dialog", async () => {
+    const open = vi.fn();
+    const properties = vi.fn((id) => (
+      <fieldset data-testid="host-chart-properties">{id}</fieldset>
+    ));
+    await render(
+      <Excalidraw
+        onOpenDataChart={open}
+        renderDataChartProperties={properties}
+      />,
+    );
+    const image = chart();
+    API.setElements([image]);
+    API.setSelectedElements([image]);
+    expect(
+      screen
+        .getByTestId("host-chart-properties")
+        .closest(".selected-shape-actions"),
+    ).not.toBeNull();
+    expect(properties).toHaveBeenCalledWith(image.id);
+    expect(open).not.toHaveBeenCalled();
+    API.setSelectedElements([]);
+    expect(
+      screen.queryByTestId("host-chart-properties"),
+    ).not.toBeInTheDocument();
+  });
+  it("does not show graph properties for locked images or mixed selections", async () => {
+    const properties = vi.fn(() => <div data-testid="host-chart-properties" />);
+    await render(<Excalidraw renderDataChartProperties={properties} />);
+    const image = { ...chart(), locked: true };
+    const rectangle = API.createElement({ type: "rectangle" });
+    API.setElements([image, rectangle]);
+    API.setSelectedElements([image]);
+    expect(
+      screen.queryByTestId("host-chart-properties"),
+    ).not.toBeInTheDocument();
+    API.setElements([{ ...image, locked: false }, rectangle]);
+    API.setSelectedElements([image, rectangle]);
+    expect(
+      screen.queryByTestId("host-chart-properties"),
+    ).not.toBeInTheDocument();
+  });
   it("offers an icon button that creates a new chart even when a chart is selected", async () => {
     const open = vi.fn();
     await render(<Excalidraw onOpenDataChart={open} />);
