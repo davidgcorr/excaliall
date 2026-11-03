@@ -1,4 +1,5 @@
 export { actionDeleteSelected } from "./actionDeleteSelected";
+export { actionChangeLinearAnimation } from "./actionAnimation";
 export {
   actionBringForward,
   actionBringToFront,

@@ -98,6 +98,7 @@ import type {
   ExcalidrawTextElement,
   FixedPointBinding,
   FontFamilyValues,
+  LinearElementAnimation,
   NonDeleted,
   NonDeletedSceneElementsMap,
   OrderedExcalidrawElement,
@@ -214,6 +215,32 @@ const restoreFreedrawPoints = (
   return {
     points: restoredPoints,
     pressures: restoredPressures,
+  };
+};
+
+const restoreLinearElementAnimation = (
+  animation: unknown,
+): LinearElementAnimation | null | undefined => {
+  if (animation === null) {
+    return null;
+  }
+  if (typeof animation !== "object") {
+    return undefined;
+  }
+
+  const { type, speed, direction } = animation as Record<string, unknown>;
+  if (
+    (type !== "dots" && type !== "pulse" && type !== "dashes") ||
+    !isFiniteNumber(speed) ||
+    (direction !== "forward" && direction !== "reverse")
+  ) {
+    return undefined;
+  }
+
+  return {
+    type,
+    speed: clamp(Math.round(speed), 1, 5),
+    direction,
   };
 };
 
@@ -650,6 +677,9 @@ export const restoreElement = (
         startArrowhead,
         endArrowhead,
         points,
+        ...(restoreLinearElementAnimation(element.animation) !== undefined
+          ? { animation: restoreLinearElementAnimation(element.animation) }
+          : {}),
         x,
         y,
         ...(isLineElement(element)
@@ -702,6 +732,9 @@ export const restoreElement = (
         startArrowhead,
         endArrowhead,
         points,
+        ...(restoreLinearElementAnimation(element.animation) !== undefined
+          ? { animation: restoreLinearElementAnimation(element.animation) }
+          : {}),
         x: x ?? 0,
         y: y ?? 0,
         elbowed: (element as ExcalidrawArrowElement).elbowed,

@@ -5,6 +5,7 @@ import {
   THEME,
   throttleRAF,
 } from "@excalidraw/common";
+import { isLinearElement } from "@excalidraw/element";
 import { isElementLink } from "@excalidraw/element";
 import { createPlaceholderEmbeddableLabel } from "@excalidraw/element";
 import { getBoundTextElement } from "@excalidraw/element";
@@ -25,6 +26,7 @@ import {
   renderElement,
   withSavedContext,
 } from "@excalidraw/element";
+import { drawAnimatedLinearElement } from "./animatedLinearElement";
 
 import { getRenderEnvironment } from "@excalidraw/element/renderEnvironment";
 
@@ -339,6 +341,7 @@ const _renderStaticScene = ({
   scale,
   appState: unsnappedAppState,
   renderConfig,
+  animationTime,
 }: StaticSceneRenderConfig) => {
   if (canvas === null) {
     return;
@@ -492,6 +495,29 @@ const _renderStaticScene = ({
             appState,
             renderState,
           );
+
+          if (
+            animationTime !== undefined &&
+            !isExporting &&
+            isLinearElement(element) &&
+            element.animation
+          ) {
+            const animatedElement = getRenderElementWithPositionOverride(
+              element,
+              renderState.offset,
+            );
+            if (isLinearElement(animatedElement)) {
+              drawAnimatedLinearElement({
+                context,
+                element: animatedElement,
+                elementsMap: allElementsMap,
+                scrollX: appState.scrollX,
+                scrollY: appState.scrollY,
+                zoom: appState.zoom.value,
+                animationTime,
+              });
+            }
+          }
 
           if (boundTextElement) {
             renderElement(

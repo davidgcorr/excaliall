@@ -366,6 +366,12 @@ export type Arrowhead =
 
 export type AnyArrowhead = Arrowhead | ArrowheadLegacy;
 
+export type LinearElementAnimation = Readonly<{
+  type: "dots" | "pulse" | "dashes";
+  speed: number;
+  direction: "forward" | "reverse";
+}>;
+
 export type ExcalidrawLinearElement = _ExcalidrawElementBase &
   Readonly<{
     type: "line" | "arrow";
@@ -374,6 +380,7 @@ export type ExcalidrawLinearElement = _ExcalidrawElementBase &
     endBinding: FixedPointBinding | null;
     startArrowhead: Arrowhead | null;
     endArrowhead: Arrowhead | null;
+    animation?: LinearElementAnimation | null;
   }>;
 
 export type ExcalidrawLineElement = ExcalidrawLinearElement &

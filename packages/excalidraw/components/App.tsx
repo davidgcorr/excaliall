@@ -399,7 +399,11 @@ import {
 import { AppSelectionTool } from "./App.selectionTool";
 import { AppWrap } from "./App.wrap";
 import BraveMeasureTextError from "./BraveMeasureTextError";
-import { ContextMenu, CONTEXT_MENU_SEPARATOR } from "./ContextMenu";
+import {
+  ContextMenu,
+  CONTEXT_MENU_ANIMATION,
+  CONTEXT_MENU_SEPARATOR,
+} from "./ContextMenu";
 import { activeEyeDropperAtom } from "./EyeDropper";
 import { FileDropOverlay } from "./FileDropOverlay";
 import { ViewportStatusBorder } from "./ViewportStatusFrame/ViewportStatusFrame";
@@ -11314,7 +11318,11 @@ class App extends React.Component<AppProps, AppState> {
       CONTEXT_MENU_SEPARATOR,
       actionLink,
       actionCopyElementLink,
-      CONTEXT_MENU_SEPARATOR,
+      ...(this.scene
+        .getSelectedElements(this.state)
+        .some((element) => isLinearElement(element) && !element.locked)
+        ? [CONTEXT_MENU_ANIMATION, CONTEXT_MENU_SEPARATOR]
+        : []),
       actionDuplicateSelection,
       actionToggleElementLock,
       CONTEXT_MENU_SEPARATOR,

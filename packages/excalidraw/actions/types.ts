@@ -74,6 +74,7 @@ export type ActionName =
   | "changeArrowhead"
   | "changeArrowType"
   | "changeArrowProperties"
+  | "changeLinearAnimation"
   | "changeOpacity"
   | "changeFontSize"
   | "undo"
