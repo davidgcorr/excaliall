@@ -1,6 +1,6 @@
 # Data-driven roughViz charts
 
-Choose the **chart icon in the central toolbar** or search **Insert data chart / roughViz** in the command palette (Cmd+/). **☰ → Data chart (roughViz)…** / **Gráfico de datos (roughViz)…** is also available. The toolbar and Insert command always create a new chart.
+Choose the **chart icon in the central toolbar** or search **Insert data chart / roughViz** in the command palette (Cmd+/). The toolbar and Insert command always create a new chart.
 
 1. Paste CSV with a header row or JSON, import a `.csv`/`.json` file, or enter an HTTP(S) data URL and choose **Load / refresh data URL**.
 2. Choose **Bar**, **Horizontal bar**, **Line**, **Scatter**, **Pie**, **Donut**, or **Stacked bar**.

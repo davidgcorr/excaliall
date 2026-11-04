@@ -110,7 +110,7 @@ GIF supports a maximum of 256 colors per frame and binary transparency. Scene da
 
 ## Data-driven charts and embedding
 
-Use **☰ → Data chart (roughViz)…** to import CSV/JSON or fetch a data URL. Select a chart to use the standard color palettes, fill styles, stroke widths and styles, and edit data-column mappings, title, X/Y axis titles, and roughness in the properties side panel. Double-click to open the CSV/JSON data-import dialog or refresh its source. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
+Use the **chart icon in the central toolbar** or **Insert data chart** in the command palette to import CSV/JSON or fetch a data URL. Select a chart to use the standard color palettes, fill styles, stroke widths and styles, and edit data-column mappings, title, X/Y axis titles, and roughness in the properties side panel. Double-click to open the CSV/JSON data-import dialog or refresh its source. See the [roughViz guide](ROUGHVIZ.md) for chart types, supported data, saving, and exports.
 
 Use **Export image → HTML** or **Copy iframe** for standalone embedding; see the [HTML export guide](HTML-EXPORT.md).
 

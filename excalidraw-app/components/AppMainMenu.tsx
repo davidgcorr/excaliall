@@ -13,8 +13,6 @@ import {
 } from "@excalidraw/excalidraw/components/App";
 import { isDevEnv } from "@excalidraw/common";
 
-import { dataChartIcon } from "@excalidraw/excalidraw/components/icons";
-
 import type { Theme } from "@excalidraw/element/types";
 
 import { LanguageList } from "../app-language/LanguageList";
@@ -45,12 +43,6 @@ export const AppMainMenu: React.FC<{
   return (
     <>
       <MainMenu>
-        <MainMenu.Item
-          icon={dataChartIcon}
-          onSelect={() => setChartRequest({})}
-        >
-          {t("labels.roughVizChart")}
-        </MainMenu.Item>
         <MainMenu.DefaultItems.LoadScene />
         <MainMenu.DefaultItems.SaveToActiveFile />
         <MainMenu.DefaultItems.Export />
