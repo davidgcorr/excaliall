@@ -11,7 +11,12 @@ import { useApp, useExcalidrawAppState, useExcalidrawContainer } from "../App";
 import { t } from "../../i18n";
 import { DataElementStyleControls } from "../DataElementStyleControls";
 import { IconButton } from "../IconButton";
+import { RadioSelection } from "../RadioSelection";
 import {
+  tableBorderFullIcon,
+  tableBorderOuterIcon,
+  tableBorderInnerIcon,
+  tableBorderRowsIcon,
   tableAddRowIcon,
   tableAddColumnIcon,
   tableDeleteRowIcon,
@@ -41,6 +46,8 @@ import {
 } from "./data";
 
 import "./DataTableEditor.scss";
+
+import type { TableBorderStyle } from "./data";
 
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -388,6 +395,44 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
         data-testid="data-table-properties"
       >
         <legend>{t("labels.editDataTable")}</legend>
+        <fieldset>
+          <legend>{t("labels.tableBorders")}</legend>
+          <div className="buttonList">
+            <RadioSelection<TableBorderStyle>
+              type="button"
+              value={data.borderStyle ?? "full"}
+              options={[
+                {
+                  value: "full",
+                  text: t("labels.tableBorderFull"),
+                  icon: tableBorderFullIcon,
+                  testId: "table-border-full",
+                },
+                {
+                  value: "outer",
+                  text: t("labels.tableBorderOuter"),
+                  icon: tableBorderOuterIcon,
+                  testId: "table-border-outer",
+                },
+                {
+                  value: "inner",
+                  text: t("labels.tableBorderInner"),
+                  icon: tableBorderInnerIcon,
+                  testId: "table-border-inner",
+                },
+                {
+                  value: "rows",
+                  text: t("labels.tableBorderRows"),
+                  icon: tableBorderRowsIcon,
+                  testId: "table-border-rows",
+                },
+              ]}
+              onClick={(borderStyle) =>
+                setData((previous) => ({ ...previous, borderStyle }))
+              }
+            />
+          </div>
+        </fieldset>
         <DataElementStyleControls
           corners
           style={{

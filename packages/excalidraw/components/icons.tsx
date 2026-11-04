@@ -2634,3 +2634,20 @@ export const tableDeleteColumnIcon = createIcon(
   <path d="M3 4h12v16H3zM9 4v16M3 10h12M17 12h6" />,
   tablerIconProps,
 );
+
+export const tableBorderFullIcon = createIcon(
+  <path d="M4 4h16v16H4zM4 10h16M4 15h16M12 4v16" />,
+  tablerIconProps,
+);
+export const tableBorderOuterIcon = createIcon(
+  <path d="M4 4h16v16H4z" />,
+  tablerIconProps,
+);
+export const tableBorderInnerIcon = createIcon(
+  <path d="M4 10h16M4 15h16M12 4v16" />,
+  tablerIconProps,
+);
+export const tableBorderRowsIcon = createIcon(
+  <path d="M4 4h16M4 10h16M4 15h16M4 20h16" />,
+  tablerIconProps,
+);

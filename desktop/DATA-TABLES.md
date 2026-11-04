@@ -20,3 +20,5 @@ Tables use the [shadcn DataTable composition pattern](https://ui.shadcn.com/docs
 The current table is saved as an SVG image, with editable headers, rows, and styling in `customData.dataTable`. `.excalidraw` files retain both the data and rendered image for offline reopening. PNG, SVG, GIF, and standalone HTML/iframe exports contain the rendered table; those display exports do not contain editable HTML inputs. Save a separate `.excalidraw` file to keep editing it.
 
 This first version edits plain text values. Spreadsheet formulas, merged cells, live data URLs, sorting, filtering, and pagination are not implemented. Pasted formula results are treated as text.
+
+Choose **Borders** in the table properties to select **Full** (default), **Outer**, **Inner**, or **Rows** using the icon buttons. Rows draws horizontal separators plus top and bottom lines; Inner omits the outside border. Border choices are saved with the table and included in exports.

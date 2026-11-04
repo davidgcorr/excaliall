@@ -16,6 +16,8 @@ import { generateIdFromFile, getDataURL } from "../../data/blob";
 
 import type { AppClassProperties } from "../../types";
 
+export type TableBorderStyle = "inner" | "outer" | "rows" | "full";
+
 export type TableData = {
   version: 1;
   columns: string[];
@@ -27,6 +29,7 @@ export type TableData = {
   fillStyle?: ExcalidrawElement["fillStyle"];
   strokeStyle?: ExcalidrawElement["strokeStyle"];
   rounded?: boolean;
+  borderStyle?: TableBorderStyle;
 };
 export const CELL_WIDTH = 180;
 export const CELL_HEIGHT = 44;
@@ -48,6 +51,7 @@ export const sampleTable = (): TableData => ({
   fillStyle: "hachure",
   strokeStyle: "solid",
   rounded: false,
+  borderStyle: "full",
 });
 
 export const validateTable = (value: unknown): TableData => {
@@ -81,6 +85,8 @@ export const validateTable = (value: unknown): TableData => {
     (data.strokeStyle !== undefined &&
       !["solid", "dashed", "dotted"].includes(data.strokeStyle)) ||
     (data.rounded !== undefined && typeof data.rounded !== "boolean") ||
+    (data.borderStyle !== undefined &&
+      !["inner", "outer", "rows", "full"].includes(data.borderStyle)) ||
     !Number.isFinite(data.roughness) ||
     data.roughness < 0 ||
     data.roughness > 3 ||
@@ -192,15 +198,43 @@ export const renderTableSvg = (
       }),
     );
   }
-  for (let col = 1; col < data.columns.length; col++) {
-    content.append(
-      rc.line(x + col * CELL_WIDTH, y, x + col * CELL_WIDTH, y + h, options),
-    );
+  const borderStyle = data.borderStyle ?? "full";
+  const addGridLine = (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    kind: string,
+  ) => {
+    const line = rc.line(x1, y1, x2, y2, options);
+    line.setAttribute("data-table-grid", kind);
+    content.append(line);
+  };
+  if (borderStyle === "full" || borderStyle === "inner") {
+    for (let col = 1; col < data.columns.length; col++) {
+      addGridLine(
+        x + col * CELL_WIDTH,
+        y,
+        x + col * CELL_WIDTH,
+        y + h,
+        "column",
+      );
+    }
   }
-  for (let row = 1; row <= data.rows.length; row++) {
-    content.append(
-      rc.line(x, y + row * CELL_HEIGHT, x + w, y + row * CELL_HEIGHT, options),
-    );
+  if (borderStyle !== "outer") {
+    for (let row = 1; row <= data.rows.length; row++) {
+      addGridLine(
+        x,
+        y + row * CELL_HEIGHT,
+        x + w,
+        y + row * CELL_HEIGHT,
+        "row",
+      );
+    }
+  }
+  if (borderStyle === "rows") {
+    addGridLine(x, y, x + w, y, "row-edge");
+    addGridLine(x, y + h, x + w, y + h, "row-edge");
   }
   if (includeText) {
     [data.columns, ...data.rows].forEach((row, rowIndex) =>
@@ -225,9 +259,11 @@ export const renderTableSvg = (
       }),
     );
   }
-  const border = rc.path(outline, options);
-  border.setAttribute("data-table-border", data.rounded ? "round" : "sharp");
-  svg.append(border);
+  if (borderStyle === "full" || borderStyle === "outer") {
+    const border = rc.path(outline, options);
+    border.setAttribute("data-table-border", data.rounded ? "round" : "sharp");
+    svg.append(border);
+  }
   if (data.strokeStyle === "dotted") {
     svg
       .querySelectorAll("path")

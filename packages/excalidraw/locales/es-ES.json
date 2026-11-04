@@ -1,5 +1,10 @@
 {
   "labels": {
+    "tableBorders": "Bordes",
+    "tableBorderFull": "Todos los bordes",
+    "tableBorderOuter": "Bordes exteriores",
+    "tableBorderInner": "Bordes interiores",
+    "tableBorderRows": "Bordes de filas",
     "hideUpstreamPromotions": "Ocultar promociones de Excalidraw",
     "showUpstreamPromotions": "Mostrar promociones de Excalidraw",
     "projectReleases": "Versiones del proyecto",

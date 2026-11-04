@@ -181,6 +181,71 @@ describe("sketch data tables", () => {
       }),
     ).not.toThrow();
   });
+  it.each([
+    ["full", true, 2, 3, 0],
+    ["outer", true, 0, 0, 0],
+    ["inner", false, 2, 3, 0],
+    ["rows", false, 0, 3, 2],
+  ] as const)(
+    "renders %s borders in saved/exported SVGs",
+    (borderStyle, outline, columns, rows, edges) => {
+      const data = { ...sampleTable(), borderStyle };
+      const svg = renderTableSvg(data, document);
+      expect(!!svg.querySelector("[data-table-border]")).toBe(outline);
+      for (const [kind, count] of [
+        ["column", columns],
+        ["row", rows],
+        ["row-edge", edges],
+      ] as const) {
+        const lines = svg.querySelectorAll(`[data-table-grid="${kind}"]`);
+        expect(lines).toHaveLength(count);
+        lines.forEach((line) =>
+          expect(
+            line.querySelector(`path[stroke="${data.color}"]`),
+          ).not.toBeNull(),
+        );
+      }
+      expect(svg.querySelectorAll("text")).toHaveLength(12);
+    },
+  );
+
+  it("defaults older tables to full borders and rejects unknown border modes", () => {
+    const legacy = sampleTable();
+    delete legacy.borderStyle;
+    const svg = renderTableSvg(legacy, document);
+    expect(svg.querySelector("[data-table-border]")).not.toBeNull();
+    expect(svg.querySelectorAll('[data-table-grid="column"]')).toHaveLength(2);
+    expect(svg.querySelectorAll('[data-table-grid="row"]')).toHaveLength(3);
+    expect(() =>
+      validateTable({ ...legacy, borderStyle: "unknown" }),
+    ).toThrow();
+  });
+
+  it("selects borders with icons and saves the choice on deselection", async () => {
+    await render(<Excalidraw />);
+    fireEvent.click(screen.getByTestId("toolbar-data-table"));
+    await screen.findByTestId("table-cell--1-0");
+    expect(screen.getByTestId("table-border-full")).toHaveClass("active");
+    fireEvent.click(screen.getByTestId("table-border-inner"));
+    expect(screen.getByTestId("table-border-inner")).toHaveClass("active");
+    fireEvent.change(screen.getByTestId("table-cell-0-0"), {
+      target: { value: "Keep this cell" },
+    });
+    API.setSelectedElements([]);
+    await waitFor(() =>
+      expect(getTableData(h.elements[0])?.borderStyle).toBe("inner"),
+    );
+    expect(getTableData(h.elements[0])?.rows[0][0]).toBe("Keep this cell");
+    API.setSelectedElements([...h.app.scene.getNonDeletedElements()]);
+    await screen.findByTestId("table-cell--1-0");
+    expect(screen.getByTestId("table-border-inner")).toHaveClass("active");
+    fireEvent.click(screen.getByTestId("table-border-rows"));
+    API.setSelectedElements([]);
+    await waitFor(() =>
+      expect(getTableData(h.elements[0])?.borderStyle).toBe("rows"),
+    );
+  });
+
   it("rejects invalid row shapes and oversized cells before rendering or saving", () => {
     expect(() =>
       validateTable({ ...sampleTable(), rows: [["mismatched"]] }),

@@ -1,5 +1,10 @@
 {
   "labels": {
+    "tableBorders": "Borders",
+    "tableBorderFull": "Full borders",
+    "tableBorderOuter": "Outer borders",
+    "tableBorderInner": "Inner borders",
+    "tableBorderRows": "Row borders",
     "hideUpstreamPromotions": "Hide upstream promotions",
     "showUpstreamPromotions": "Show upstream promotions",
     "projectReleases": "Project releases",
