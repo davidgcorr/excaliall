@@ -188,10 +188,6 @@ export const MobileToolbar = ({
       {/* Selection Tool */}
       <SelectionToolPopover {...toolProps} setAppState={setAppState} />
 
-      {actionManager.renderAction("insertDataTable")}
-      {app.props.onOpenDataChart &&
-        actionManager.renderAction("insertDataChart")}
-
       {/* Free Draw */}
       <FreedrawToolPopover {...toolProps} />
 
@@ -417,6 +413,9 @@ export const MobileToolbar = ({
           )}
         </DropdownMenu.Content>
       </DropdownMenu>
+      {actionManager.renderAction("insertDataTable")}
+      {app.props.onOpenDataChart &&
+        actionManager.renderAction("insertDataChart")}
     </div>
   );
 };
