@@ -15,7 +15,7 @@ export { DEFAULT_STICKY_NOTE_BG } from "./colors";
 export const supportsResizeObserver =
   typeof window !== "undefined" && "ResizeObserver" in window;
 
-export const APP_NAME = "Excalidraw";
+export const APP_NAME = "Excaliall";
 
 // distance when creating text before it's considered `autoResize: false`
 // we're using higher threshold so that clicks that end up being drags
@@ -628,8 +628,8 @@ export const MOBILE_ACTION_BUTTON_BG = {
 export const DEFAULT_STROKE_STREAMLINE = 0.5;
 export const DEFAULT_STROKE_STREAMLINE_PRECISE = 0.2;
 
-export const PROJECT_REPOSITORY_URL =
-  "https://github.com/davidgcorr/excalidraw";
+export const PROJECT_REPOSITORY_URL = "https://github.com/davidgcorr/excaliall";
 export const PROJECT_ISSUES_URL = `${PROJECT_REPOSITORY_URL}/issues`;
+export const PROJECT_WEBSITE_URL = "https://excaliall.davidgc.com";
 export const PROJECT_DOCUMENTATION_URL = `${PROJECT_REPOSITORY_URL}#readme`;
 export const PROJECT_RELEASES_URL = `${PROJECT_REPOSITORY_URL}/releases`;

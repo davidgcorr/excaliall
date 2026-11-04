@@ -77,8 +77,8 @@ export default function Page() {
 
 See the local examples for complete setups:
 
-- [examples/with-nextjs](https://github.com/davidgcorr/excalidraw/tree/master/examples/with-nextjs)
-- [examples/with-script-in-browser](https://github.com/davidgcorr/excalidraw/tree/master/examples/with-script-in-browser)
+- [examples/with-nextjs](https://github.com/davidgcorr/excaliall/tree/master/examples/with-nextjs)
+- [examples/with-script-in-browser](https://github.com/davidgcorr/excaliall/tree/master/examples/with-script-in-browser)
 
 ## LLM / agent tips
 

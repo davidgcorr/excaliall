@@ -20,8 +20,8 @@
     "order"
   ],
   "homepage": "https://github.com/rocicorp/fractional-indexing#readme",
-  "bugs": "https://github.com/davidgcorr/excalidraw/issues",
-  "repository": "https://github.com/davidgcorr/excalidraw",
+  "bugs": "https://github.com/davidgcorr/excaliall/issues",
+  "repository": "https://github.com/davidgcorr/excaliall",
   "author": "arv@rocicorp.dev",
   "license": "CC0-1.0",
   "devDependencies": {

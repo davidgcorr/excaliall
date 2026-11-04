@@ -23,4 +23,4 @@ git push origin 'refs/tags/milestone-*:refs/tags/milestone-*'
 
 Milestone tags do not trigger installer releases. To create a draft installer release, follow [the release guide](README.md) and use a `desktop-v<version>` tag matching `desktop/package.json`.
 
-`origin` points to <https://github.com/davidgcorr/excalidraw>; `upstream` retains the original project for future merges. See published [tags](https://github.com/davidgcorr/excalidraw/tags) and [releases](https://github.com/davidgcorr/excalidraw/releases).
+`origin` points to <https://github.com/davidgcorr/excaliall>; `upstream` retains the original project for future merges. See published [tags](https://github.com/davidgcorr/excaliall/tags) and [releases](https://github.com/davidgcorr/excaliall/releases).

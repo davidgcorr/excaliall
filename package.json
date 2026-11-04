@@ -51,6 +51,8 @@
   "prettier": "@excalidraw/prettier-config",
   "scripts": {
     "desktop:install": "npm --prefix desktop ci",
+    "cloudflare:build": "node scripts/build-cloudflare.cjs",
+    "cloudflare:deploy": "yarn cloudflare:build && npx --yes wrangler@4.157.0 pages deploy --project-name=excaliall --branch=master",
     "desktop:build": "node desktop/scripts/build-web.cjs && npm --prefix desktop run pack",
     "desktop:dist": "node desktop/scripts/build-web.cjs && npm --prefix desktop run dist",
     "desktop:start": "npm --prefix desktop start",

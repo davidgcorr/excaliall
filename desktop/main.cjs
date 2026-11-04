@@ -16,7 +16,7 @@ const { resolveAsset } = require("./paths.cjs");
 const metadata = require("./package.json");
 
 const APP_URL = "excalidraw://app/";
-const RELEASES_URL = "https://github.com/davidgcorr/excalidraw/releases";
+const RELEASES_URL = "https://github.com/davidgcorr/excaliall/releases";
 let mainWindow;
 let checking = false;
 let quitting = false;

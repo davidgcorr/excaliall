@@ -8,7 +8,7 @@ No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 
 ![Excaliall main screen](public/screenshots/main-screen.png)
 
-[Download](https://github.com/davidgcorr/excalidraw/releases) · [Report an issue](https://github.com/davidgcorr/excalidraw/issues) · [Source code](https://github.com/davidgcorr/excalidraw)
+[Open Excaliall](https://excaliall.davidgc.com) · [Download](https://github.com/davidgcorr/excaliall/releases) · [Report an issue](https://github.com/davidgcorr/excaliall/issues) · [Source code](https://github.com/davidgcorr/excaliall)
 
 ## One canvas for ideas and data
 
@@ -24,7 +24,7 @@ Graphs and tables use the same color palettes, fill patterns, stroke controls an
 
 ## Install
 
-Choose an installer from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases):
+Choose an installer from [GitHub Releases](https://github.com/davidgcorr/excaliall/releases):
 
 | Platform | Download | Install |
 | --- | --- | --- |
@@ -67,8 +67,19 @@ corepack yarn desktop:dist
 
 Installers are written to `desktop/dist`. The [desktop guide](desktop/README.md) covers platform-specific builds and GitHub releases. The reusable editor package is documented [here](packages/excalidraw/README.md).
 
+## Deploy the website
+
+The web app lives at [excaliall.davidgc.com](https://excaliall.davidgc.com), hosted on Cloudflare Pages. After installing dependencies, authenticate and deploy:
+
+```sh
+npx --yes wrangler@4.157.0 login
+corepack yarn cloudflare:deploy
+```
+
+See the [Cloudflare deployment guide](desktop/CLOUDFLARE.md) for first-time setup, the custom subdomain and GitHub deployments.
+
 ## Open source
 
-Excaliall is maintained at [davidgcorr/excalidraw](https://github.com/davidgcorr/excalidraw). Contributions and [feature requests](https://github.com/davidgcorr/excalidraw/issues) are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
+Excaliall is maintained at [davidgcorr/excaliall](https://github.com/davidgcorr/excaliall). Contributions and [feature requests](https://github.com/davidgcorr/excaliall/issues) are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
 
-Licensed under [MIT](LICENSE). Based on [Excalidraw](https://github.com/excalidraw/excalidraw), with graphs powered by [roughViz](https://github.com/davidgcorr/roughViz). Original copyright and dependency license notices are retained.
+Licensed under [MIT](LICENSE). Graphs powered by [roughViz](https://github.com/davidgcorr/roughViz). Original copyright and dependency license notices are retained.

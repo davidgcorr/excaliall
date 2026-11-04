@@ -141,6 +141,7 @@ export default defineConfig(({ mode }) => {
   // To load .env variables
   const envVars = loadEnv(mode, `../`);
   const isDesktop = mode === "desktop";
+  const appBase = "/";
   let buildRevision = "unknown";
   try {
     const options = {
@@ -167,6 +168,7 @@ export default defineConfig(({ mode }) => {
   const mermaidChunkFileNames = new Set<string>();
   // https://vitejs.dev/config/
   return {
+    base: appBase,
     define: {
       "import.meta.env.VITE_APP_VERSION": JSON.stringify(
         desktopPackage.version,
@@ -301,13 +303,13 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       Sitemap({
-        hostname: "https://excalidraw.com",
+        hostname: "https://excaliall.davidgc.com",
         outDir: "build",
         changefreq: "monthly",
         // its static in public folder
         generateRobotsTxt: false,
       }),
-      woff2BrowserPlugin({ local: isDesktop }),
+      woff2BrowserPlugin({ local: true, base: appBase }),
       lazyChunksPlugin(
         /[\\/]node_modules[\\/]@excalidraw[\\/]mermaid-to-excalidraw[\\/]/,
         mermaidChunkFileNames,
@@ -424,10 +426,10 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Excalidraw",
-          name: "Excalidraw",
+          short_name: "Excaliall",
+          name: "Excaliall",
           description:
-            "Excalidraw is a whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+            "Excaliall is a sketch-style whiteboard with animations, data graphs and editable tables.",
           icons: [
             {
               src: "android-chrome-192x192.png",
@@ -450,21 +452,22 @@ export default defineConfig(({ mode }) => {
               type: "image/png",
             },
           ],
-          start_url: "/",
-          id: "excalidraw",
+          start_url: appBase,
+          scope: appBase,
+          id: "excaliall",
           display: "standalone",
           theme_color: "#121212",
           background_color: "#ffffff",
           file_handlers: [
             {
-              action: "/",
+              action: appBase,
               accept: {
                 "application/vnd.excalidraw+json": [".excalidraw"],
               },
             },
           ],
           share_target: {
-            action: "/web-share-target",
+            action: `${appBase}web-share-target`,
             method: "POST",
             enctype: "multipart/form-data",
             params: {
@@ -482,32 +485,32 @@ export default defineConfig(({ mode }) => {
           },
           screenshots: [
             {
-              src: "/screenshots/virtual-whiteboard.png",
+              src: `${appBase}screenshots/virtual-whiteboard.png`,
               type: "image/png",
               sizes: "462x945",
             },
             {
-              src: "/screenshots/wireframe.png",
+              src: `${appBase}screenshots/wireframe.png`,
               type: "image/png",
               sizes: "462x945",
             },
             {
-              src: "/screenshots/illustration.png",
+              src: `${appBase}screenshots/illustration.png`,
               type: "image/png",
               sizes: "462x945",
             },
             {
-              src: "/screenshots/shapes.png",
+              src: `${appBase}screenshots/shapes.png`,
               type: "image/png",
               sizes: "462x945",
             },
             {
-              src: "/screenshots/collaboration.png",
+              src: `${appBase}screenshots/collaboration.png`,
               type: "image/png",
               sizes: "462x945",
             },
             {
-              src: "/screenshots/export.png",
+              src: `${appBase}screenshots/export.png`,
               type: "image/png",
               sizes: "462x945",
             },

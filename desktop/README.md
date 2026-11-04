@@ -4,17 +4,17 @@ The desktop app bundles this checkout's editor and fonts. Drawing, animated conn
 
 ## Install or upgrade on macOS
 
-Download a DMG from [GitHub Releases](https://github.com/davidgcorr/excalidraw/releases), or build one using the commands below. Open it and drag **Excaliall.app** to **Applications**. Quit any running copy before replacing the app, then launch it from Applications or Spotlight.
+Download a DMG from [GitHub Releases](https://github.com/davidgcorr/excaliall/releases), or build one using the commands below. Open it and drag **Excaliall.app** to **Applications**. Quit any running copy before replacing the app, then launch it from Applications or Spotlight.
 
 Use **☰ → Preferences / Preferencias** to read the installed version and build revision. **Excaliall → About** shows the native app version. Both use the version in `desktop/package.json`. Local builds with uncommitted changes show `-modified` after the Git revision; source archives without Git metadata show `unknown`.
 
 ## Install or upgrade on Windows
 
-Download `Excaliall-<version>-windows-x64-setup.exe` from [Releases](https://github.com/davidgcorr/excalidraw/releases), quit the existing app, and run the wizard. The default installation is per-user; the wizard lets you choose a directory and creates a desktop shortcut. Uninstalling does not delete your drawing data.
+Download `Excaliall-<version>-windows-x64-setup.exe` from [Releases](https://github.com/davidgcorr/excaliall/releases), quit the existing app, and run the wizard. The default installation is per-user; the wizard lets you choose a directory and creates a desktop shortcut. Uninstalling does not delete your drawing data.
 
 ## Install or upgrade on Linux
 
-Download the x64 `.AppImage` or `.deb` from [Releases](https://github.com/davidgcorr/excalidraw/releases). For the AppImage:
+Download the x64 `.AppImage` or `.deb` from [Releases](https://github.com/davidgcorr/excaliall/releases). For the AppImage:
 
 ```sh
 chmod +x Excaliall-*-linux-x86_64.AppImage
@@ -60,7 +60,7 @@ Windows and Linux builds currently use manual upgrades from Releases. The existi
 
 ## Release a new version
 
-Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push this project to that repository. The workflow does not push code or publish releases on your behalf.
+Releases and update checks use <https://github.com/davidgcorr/excaliall>. Push this project to that repository. The workflow does not push code or publish releases on your behalf.
 
 1. Bump `desktop/package.json` and its lockfile together:
 
@@ -72,8 +72,8 @@ Releases and update checks use <https://github.com/davidgcorr/excalidraw>. Push 
 
    ```sh
    git tag desktop-v0.1.12
-   git push https://github.com/davidgcorr/excalidraw.git HEAD
-   git push https://github.com/davidgcorr/excalidraw.git desktop-v0.1.12
+   git push https://github.com/davidgcorr/excaliall.git HEAD
+   git push https://github.com/davidgcorr/excaliall.git desktop-v0.1.12
    ```
 
 3. GitHub Actions builds a universal macOS DMG/ZIP, Windows x64 NSIS installer, and Linux x64 AppImage/Debian package, then creates a **draft** release. Test the installer and publish the draft in GitHub Releases when ready. Drafts are invisible to the updater. Keep the ZIP, blockmaps, and `latest-mac.yml` attached to the release.

@@ -21,8 +21,8 @@
     "excalidraw",
     "laserpointer"
   ],
-  "bugs": "https://github.com/davidgcorr/excalidraw/issues",
-  "repository": "https://github.com/davidgcorr/excalidraw",
+  "bugs": "https://github.com/davidgcorr/excaliall/issues",
+  "repository": "https://github.com/davidgcorr/excaliall",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

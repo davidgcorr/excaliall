@@ -1,0 +1,3 @@
+name = "excaliall"
+pages_build_output_dir = "./excalidraw-app/build"
+compatibility_date = "2026-11-04"

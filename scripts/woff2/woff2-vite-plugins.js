@@ -7,7 +7,7 @@ const OSS_FONTS_FALLBACK = "/";
  *
  * @returns {import("vite").PluginOption}
  */
-module.exports.woff2BrowserPlugin = ({ local = false } = {}) => {
+module.exports.woff2BrowserPlugin = ({ local = false, base = "/" } = {}) => {
   let isDev;
 
   return {
@@ -70,7 +70,9 @@ module.exports.woff2BrowserPlugin = ({ local = false } = {}) => {
         if (local) {
           return code.replace(
             "<!-- PLACEHOLDER:EXCALIDRAW_APP_FONTS -->",
-            '<script>window.EXCALIDRAW_ASSET_PATH = "/";</script>',
+            `<script>window.EXCALIDRAW_ASSET_PATH = ${JSON.stringify(
+              base,
+            )};</script>`,
           );
         }
         return code.replace(

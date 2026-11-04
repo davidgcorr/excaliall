@@ -8,7 +8,7 @@ export const EncryptedIcon = () => {
   return (
     <a
       className="encrypted-icon tooltip"
-      href="https://github.com/davidgcorr/excalidraw#readme"
+      href="https://github.com/davidgcorr/excaliall#readme"
       target="_blank"
       rel="noopener"
       aria-label={t("encrypted.link")}

@@ -19,7 +19,7 @@ const BraveMeasureTextError = () => {
         <Trans
           i18nKey="errors.brave_measure_text_error.line3"
           link={(el) => (
-            <a href="https://github.com/davidgcorr/excalidraw#readme">{el}</a>
+            <a href="https://github.com/davidgcorr/excaliall#readme">{el}</a>
           )}
         />
       </p>
@@ -27,12 +27,12 @@ const BraveMeasureTextError = () => {
         <Trans
           i18nKey="errors.brave_measure_text_error.line4"
           issueLink={(el) => (
-            <a href="https://github.com/davidgcorr/excalidraw/issues/new">
+            <a href="https://github.com/davidgcorr/excaliall/issues/new">
               {el}
             </a>
           )}
           discordLink={(el) => (
-            <a href="https://github.com/davidgcorr/excalidraw/issues">{el}.</a>
+            <a href="https://github.com/davidgcorr/excaliall/issues">{el}.</a>
           )}
         />
       </p>

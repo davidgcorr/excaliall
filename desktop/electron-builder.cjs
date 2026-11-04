@@ -22,7 +22,7 @@ module.exports = {
     {
       provider: "github",
       owner: "davidgcorr",
-      repo: "excalidraw",
+      repo: "excaliall",
       releaseType: "draft",
     },
   ],

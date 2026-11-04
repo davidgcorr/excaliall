@@ -51,7 +51,7 @@ describe("upstream promotion preference", () => {
     const github = screen.getByRole("menuitem", { name: "GitHub" });
     expect(github).toHaveAttribute(
       "href",
-      "https://github.com/davidgcorr/excalidraw",
+      "https://github.com/davidgcorr/excaliall",
     );
     fireEvent.click(screen.getByText("Preferences"));
     expect(screen.getByTestId("toggle-upstream-promotions")).toHaveTextContent(
