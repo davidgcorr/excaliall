@@ -69,7 +69,9 @@ Installers are written to `desktop/dist`. The [desktop guide](desktop/README.md)
 
 ## Deploy the website
 
-The web app lives at [excaliall.davidgc.com](https://excaliall.davidgc.com), hosted on Cloudflare Pages. After installing dependencies, authenticate and deploy:
+The web app lives at [excaliall.davidgc.com](https://excaliall.davidgc.com), hosted on Cloudflare Pages. Every push to `master` runs the [deployment workflow](https://github.com/davidgcorr/excaliall/actions/workflows/cloudflare-deploy.yml), which tests, builds and publishes the website. See the [one-time credential setup](desktop/CLOUDFLARE.md#deploy-automatically-from-github).
+
+To deploy manually from your Mac:
 
 ```sh
 npx --yes wrangler@4.157.0 login

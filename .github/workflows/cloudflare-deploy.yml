@@ -1,0 +1,65 @@
+name: Deploy Excaliall website
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: excaliall-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'davidgcorr/excaliall' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: https://excaliall.davidgc.com
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      PUPPETEER_SKIP_DOWNLOAD: "true"
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Check deployment credential
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::error::Add the CLOUDFLARE_API_TOKEN repository secret with Account > Cloudflare Pages > Edit permission for the Excaliall account."
+            exit 1
+          fi
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: yarn
+      - name: Install dependencies
+        run: corepack yarn install --frozen-lockfile
+      - name: Check types
+        run: corepack yarn test:typecheck
+      - name: Test editor
+        run: corepack yarn test:app --run --minWorkers=1 --maxWorkers=2
+      - name: Build production website
+        run: corepack yarn cloudflare:build
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ab006639687bbee95168d5daa00dde67
+          CI: "true"
+        run: |
+          npx --yes wrangler@4.157.0 pages deploy excalidraw-app/build \
+            --project-name=excaliall --branch=master --commit-hash="$GITHUB_SHA"
+      - name: Verify production website
+        run: |
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 5 \
+            --max-time 30 https://excaliall.davidgc.com/ -o /tmp/excaliall.html
+          node -e 'const html = require("node:fs").readFileSync("/tmp/excaliall.html", "utf8"); if (!html.includes("<title>Excaliall</title>")) throw new Error("Production did not return the Excaliall editor");'
+      - name: Deployment summary
+        run: |
+          echo "### Excaliall deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "Website: https://excaliall.davidgc.com" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"

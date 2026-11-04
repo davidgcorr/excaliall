@@ -31,8 +31,14 @@ This rebuilds the editor and uploads it as a production deployment on the `maste
 
 ## Deploy automatically from GitHub
 
-For a Git-connected Pages project, select `davidgcorr/excaliall`, use production branch `master`, repository root `/`, build command `corepack yarn install --frozen-lockfile && node scripts/build-cloudflare.cjs`, and output directory `excalidraw-app/build`. Set `NODE_VERSION` to `22.16.0` or newer.
+[Deploy Excaliall website](https://github.com/davidgcorr/excaliall/actions/workflows/cloudflare-deploy.yml) runs on every push to `master`. You can also choose **Run workflow** on `master` to redeploy. The workflow checks types, runs the editor tests, builds the website, deploys to the existing `excaliall` Pages project, and verifies the production URL. A failed check stops deployment. Deployments run one at a time.
 
-Cloudflare treats Direct Upload and Git integration as different project creation choices. To automate an existing Direct Upload project, use a GitHub Actions workflow with a scoped Cloudflare API token and account ID stored as GitHub secrets, or create a separate Git-connected project and move the custom domain when ready.
+One-time authentication setup:
+
+1. In [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens), create a custom token named `Excaliall GitHub deployment` with **Account → Cloudflare Pages → Edit**, restricted to the account containing the `excaliall` project. DNS permissions are unnecessary because the custom domain is already configured.
+2. In [GitHub Actions repository secrets](https://github.com/davidgcorr/excaliall/settings/secrets/actions), add `CLOUDFLARE_API_TOKEN` with that token as its value. Keep it out of source files, logs and chat.
+3. Push to `master` or manually run the workflow. Watch the workflow for the deployed commit and production link.
+
+The workflow already identifies the existing Cloudflare account. It uses the GitHub `production` environment and does not deploy pull requests or feature branches. Desktop installers keep their separate release workflow. No Cloudflare/GitHub Git integration is needed for this Direct Upload project.
 
 The web build uses the root of its subdomain. Metadata, social previews, sitemap and installed PWA links point to `https://excaliall.davidgc.com`. Online collaboration and other remote services retain their configured backend endpoints; hosting this static editor does not provision those services.
