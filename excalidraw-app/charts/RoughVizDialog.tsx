@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useApp } from "@excalidraw/excalidraw/components/App";
 import { Dialog } from "@excalidraw/excalidraw/components/Dialog";
 import { DataElementRoughnessControls } from "@excalidraw/excalidraw/components/DataElementStyleControls";
@@ -83,6 +83,8 @@ export const RoughVizDialog = ({
   const [roughness, setRoughness] = useState(initial?.roughness ?? 1);
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
+  const [previewError, setPreviewError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const controller = useRef<AbortController | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -100,7 +102,7 @@ export const RoughVizDialog = ({
     columns = Object.keys(rows[0]);
     rowCount = rows.length;
   } catch {
-    /* Validation is reported on Preview/Insert. */
+    /* Validation is reported by the live preview. */
   }
   const multiple = type === "Line" || type === "StackedBar";
 
@@ -131,25 +133,88 @@ export const RoughVizDialog = ({
     setError(null);
     setPreview(null);
   };
-  const config = (): RoughVizChart =>
-    validateChart({
-      version: 1,
+  const config = useCallback(
+    (): RoughVizChart =>
+      validateChart({
+        version: 1,
+        type,
+        title,
+        xAxisTitle,
+        yAxisTitle,
+        rows: parseChartData(text),
+        labelColumn,
+        valueColumns: multiple ? valueColumns : valueColumns.slice(0, 1),
+        sourceUrl,
+        color,
+        roughness,
+        strokeWidth,
+        strokeColor: initial?.strokeColor,
+        fillStyle: initial?.fillStyle,
+        strokeStyle: initial?.strokeStyle,
+      }),
+    [
       type,
       title,
       xAxisTitle,
       yAxisTitle,
-      rows: parseChartData(text),
+      text,
       labelColumn,
-      valueColumns: multiple ? valueColumns : valueColumns.slice(0, 1),
+      multiple,
+      valueColumns,
       sourceUrl,
       color,
       roughness,
       strokeWidth,
-      strokeColor: initial?.strokeColor,
-      fillStyle: initial?.fillStyle,
-      strokeStyle: initial?.strokeStyle,
-    });
-  const run = async (insert: boolean) => {
+      initial,
+    ],
+  );
+
+  useEffect(() => {
+    if (busy || (elementId && !target)) {
+      setPreviewing(false);
+      return;
+    }
+    const request = new app.ownerWindow.AbortController();
+    setPreviewing(true);
+    setPreviewError(null);
+    const timer = app.ownerWindow.setTimeout(async () => {
+      try {
+        const chart = config();
+        const svg = await renderChart(
+          chart,
+          app.ownerDocument,
+          app.ownerWindow,
+          request.signal,
+        );
+        const file = new app.ownerWindow.File([svg], "chart-preview.svg", {
+          type: "image/svg+xml",
+        });
+        const dataURL = await getDataURL(file);
+        if (!request.signal.aborted) {
+          setPreview(dataURL);
+        }
+      } catch (failure) {
+        if (!request.signal.aborted) {
+          setPreview(null);
+          setPreviewError(
+            failure instanceof Error
+              ? failure.message
+              : "Could not render chart.",
+          );
+        }
+      } finally {
+        if (!request.signal.aborted) {
+          setPreviewing(false);
+        }
+      }
+    }, 250);
+    return () => {
+      app.ownerWindow.clearTimeout(timer);
+      request.abort();
+    };
+  }, [app, config, busy, elementId, target]);
+
+  const run = async () => {
     if (busy) {
       return;
     }
@@ -173,9 +238,6 @@ export const RoughVizDialog = ({
         return;
       }
       setPreview(dataURL);
-      if (!insert) {
-        return;
-      }
       await saveChartSvg(app, chart, svg, {
         elementId: target?.id,
         signal: request.signal,
@@ -274,7 +336,7 @@ export const RoughVizDialog = ({
 
   if (elementId && !target) {
     return (
-      <Dialog title="Edit roughViz chart" onCloseRequest={onClose}>
+      <Dialog title="Insert chart" onCloseRequest={onClose}>
         <p>This chart is unavailable or locked.</p>
       </Dialog>
     );
@@ -282,7 +344,7 @@ export const RoughVizDialog = ({
 
   return (
     <Dialog
-      title={target ? "Edit roughViz chart" : "Insert roughViz chart"}
+      title="Insert chart"
       size="wide"
       onCloseRequest={onClose}
       closeOnClickOutside={!busy}
@@ -484,30 +546,27 @@ export const RoughVizDialog = ({
             />
             <output>{strokeWidth}px</output>
           </label>
-          <div className="RoughVizDialog__preview">
+          <div className="RoughVizDialog__preview" aria-busy={previewing}>
             {preview ? (
               <img src={preview} alt={title || "Chart preview"} />
             ) : (
-              <span>Choose Preview to render your data</span>
+              <span role="status">
+                {previewing
+                  ? "Updating preview…"
+                  : "Enter valid data to preview your chart"}
+              </span>
             )}
           </div>
-          {error && (
+          {(error || previewError) && (
             <p role="alert" className="RoughVizDialog__error">
-              {error}
+              {error || previewError}
             </p>
           )}
           <div className="RoughVizDialog__actions">
             <FilledButton
-              variant="outlined"
-              disabled={busy}
-              onClick={() => run(false)}
-            >
-              Preview
-            </FilledButton>
-            <FilledButton
               data-testid="roughviz-insert"
               disabled={busy}
-              onClick={() => run(true)}
+              onClick={run}
             >
               {target ? "Update chart" : "Insert chart"}
             </FilledButton>

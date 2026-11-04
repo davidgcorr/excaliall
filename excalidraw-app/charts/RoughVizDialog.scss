@@ -80,3 +80,69 @@
     }
   }
 }
+
+.excalidraw .RoughVizDialog [data-testid="data-element-roughness"] {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+
+  legend {
+    padding: 0;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .buttonList {
+    display: flex;
+    gap: 0.5rem;
+
+    label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      box-sizing: border-box;
+      border: 1px solid var(--default-border-color);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      color: var(--text-primary-color);
+      background: var(--island-bg-color);
+
+      &:hover,
+      &.active {
+        background: var(--button-hover-bg);
+      }
+
+      &.active {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+      }
+
+      &:focus-within {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+    }
+
+    input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &:disabled .buttonList label {
+    cursor: default;
+    opacity: 0.5;
+  }
+}

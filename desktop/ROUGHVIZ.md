@@ -5,7 +5,7 @@ Choose the **chart icon in the central toolbar** or search **Insert data chart /
 1. Paste CSV with a header row or JSON, import a `.csv`/`.json` file, or enter an HTTP(S) data URL and choose **Load / refresh data URL**.
 2. Choose **Bar**, **Horizontal bar**, **Line**, **Scatter**, **Pie**, **Donut**, or **Stacked bar**.
 3. Pick the label/X column and value/Y columns. Line and stacked bar support multiple value series; use Cmd-click to select them. Scatter requires numeric X and Y values.
-4. Set a title, X/Y axis titles, color, roughness, and stroke width. Choose **Preview**, then **Insert chart**.
+4. Set a title, X/Y axis titles, color, roughness, and stroke width. The preview updates automatically as you edit. Choose **Insert chart** when ready.
 
 Example CSV:
 
