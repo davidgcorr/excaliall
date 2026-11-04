@@ -248,6 +248,10 @@ export const MobileToolbar = ({
       {/* Frame Tool */}
       {showFrameToolOutside && <FrameToolButton {...toolProps} hideShortcut />}
 
+      {actionManager.renderAction("insertDataTable")}
+      {app.props.onOpenDataChart &&
+        actionManager.renderAction("insertDataChart")}
+
       {/* Other Shapes */}
       <DropdownMenu open={isOtherShapesMenuOpen}>
         <DropdownMenu.Trigger
@@ -413,9 +417,6 @@ export const MobileToolbar = ({
           )}
         </DropdownMenu.Content>
       </DropdownMenu>
-      {actionManager.renderAction("insertDataTable")}
-      {app.props.onOpenDataChart &&
-        actionManager.renderAction("insertDataChart")}
     </div>
   );
 };
