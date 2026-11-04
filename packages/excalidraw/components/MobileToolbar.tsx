@@ -24,6 +24,8 @@ import {
 
 import {
   TextIcon,
+  handIcon,
+  EraserIcon,
   ImageIcon,
   DotsIcon,
   frameToolIcon,
@@ -39,14 +41,21 @@ import {
 import "./ToolIcon.scss";
 import "./MobileToolbar.scss";
 
+import type { ActionManager } from "../actions/manager";
+
 import type { AppClassProperties, UIAppState } from "../types";
 
 type MobileToolbarProps = {
   app: AppClassProperties;
+  actionManager: ActionManager;
   setAppState: React.Component<any, UIAppState>["setState"];
 };
 
-export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
+export const MobileToolbar = ({
+  app,
+  actionManager,
+  setAppState,
+}: MobileToolbarProps) => {
   const activeTool = app.state.activeTool;
   const [isOtherShapesMenuOpen, setIsOtherShapesMenuOpen] = useState(false);
   const [lastActiveGenericShape, setLastActiveGenericShape] = useState<
@@ -104,10 +113,13 @@ export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
   const WIDTH = 36;
   const GAP = 4;
 
-  // hand, selection, freedraw, eraser, rectangle, arrow, others
-  const MIN_TOOLS = 7;
+  // Hand, selection, table, optional chart, freedraw, eraser, shape, arrow, more.
+  const MIN_TOOLS = 8 + Number(!!app.props.onOpenDataChart);
   const MIN_WIDTH = MIN_TOOLS * WIDTH + (MIN_TOOLS - 1) * GAP;
   const ADDITIONAL_WIDTH = WIDTH + GAP;
+
+  const showHandToolOutside = toolbarWidth >= MIN_WIDTH;
+  const showEraserToolOutside = toolbarWidth >= MIN_WIDTH - ADDITIONAL_WIDTH;
 
   const showTextToolOutside = toolbarWidth >= MIN_WIDTH + 1 * ADDITIONAL_WIDTH;
   const showImageToolOutside = toolbarWidth >= MIN_WIDTH + 2 * ADDITIONAL_WIDTH;
@@ -122,6 +134,8 @@ export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
       "laser",
       "bucketfill",
       "magicframe",
+      ...(!showHandToolOutside ? ["hand" as const] : []),
+      ...(!showEraserToolOutside ? ["eraser" as const] : []),
     ] as const
   ).filter((tool) => {
     if (showTextToolOutside && tool === "text") {
@@ -134,7 +148,11 @@ export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
   });
   const extraToolSelected = extraTools.includes(activeTool.type);
   const extraIcon = extraToolSelected
-    ? activeTool.type === "text"
+    ? activeTool.type === "hand"
+      ? handIcon
+      : activeTool.type === "eraser"
+      ? EraserIcon
+      : activeTool.type === "text"
       ? TextIcon
       : activeTool.type === "image"
       ? ImageIcon
@@ -165,16 +183,22 @@ export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
       }}
     >
       {/* Hand Tool */}
-      <HandToolButton {...toolProps} hideKeyBinding />
+      {showHandToolOutside && <HandToolButton {...toolProps} hideKeyBinding />}
 
       {/* Selection Tool */}
       <SelectionToolPopover {...toolProps} setAppState={setAppState} />
+
+      {actionManager.renderAction("insertDataTable")}
+      {app.props.onOpenDataChart &&
+        actionManager.renderAction("insertDataChart")}
 
       {/* Free Draw */}
       <FreedrawToolPopover {...toolProps} />
 
       {/* Eraser */}
-      <EraserToolButton {...toolProps} hideShortcut />
+      {showEraserToolOutside && (
+        <EraserToolButton {...toolProps} hideShortcut />
+      )}
 
       {/* Rectangle/Diamond/Ellipse */}
       <ToolPopover
@@ -259,6 +283,28 @@ export const MobileToolbar = ({ app, setAppState }: MobileToolbarProps) => {
           className="App-toolbar__extra-tools-dropdown"
           align="start"
         >
+          {!showHandToolOutside && (
+            <DropdownMenu.Item
+              onSelect={() => app.setActiveTool({ type: "hand" })}
+              icon={handIcon}
+              data-testid="toolbar-hand"
+              selected={activeTool.type === "hand"}
+              disabled={isToolButtonDisabled(app, "hand")}
+            >
+              {t("toolBar.hand")}
+            </DropdownMenu.Item>
+          )}
+          {!showEraserToolOutside && (
+            <DropdownMenu.Item
+              onSelect={() => app.setActiveTool({ type: "eraser" })}
+              icon={EraserIcon}
+              data-testid="toolbar-eraser"
+              selected={activeTool.type === "eraser"}
+              disabled={isToolButtonDisabled(app, "eraser")}
+            >
+              {t("toolBar.eraser")}
+            </DropdownMenu.Item>
+          )}
           {!showTextToolOutside && (
             <DropdownMenu.Item
               onSelect={() => app.setActiveTool({ type: "text" })}

@@ -1,6 +1,6 @@
 # Sketch data tables
 
-Click the **table icon** in the central toolbar, or search **Insert data table** in the command palette (Cmd+/). The table is inserted and selected. Its editing controls appear in the normal properties side panel, and cells are editable directly on the canvas.
+Click the **table icon** in the central toolbar, or search **Insert data table** in the command palette (Cmd+/). The table is inserted and selected. On phones, the icon is in the bottom toolbar. Its editing controls appear in the normal properties side panel, and cells are editable directly on the canvas.
 
 - Type in any header or cell. Tab moves between cells.
 - Paste a rectangular range copied from Excel, Google Sheets, or a TSV file into a cell. Rows and columns expand to fit, up to 100 rows and 12 columns. Each cell supports 500 characters.
