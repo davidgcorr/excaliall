@@ -26,6 +26,8 @@ import {
   StrokeWidthExtraBoldIcon,
 } from "./icons";
 
+import type { ReactNode } from "react";
+
 export type DataElementStyle = Pick<
   ExcalidrawElement,
   | "strokeColor"
@@ -41,10 +43,14 @@ export const DataElementStyleControls = ({
   style,
   onChange,
   corners = false,
+  afterFill,
+  afterStrokeWidth,
 }: {
   style: DataElementStyle;
   onChange: (patch: Partial<DataElementStyle>) => void;
   corners?: boolean;
+  afterFill?: ReactNode;
+  afterStrokeWidth?: ReactNode;
 }) => {
   // ColorPicker memoizes its callbacks; palette picks must use the latest data.
   const changeRef = useRef(onChange);
@@ -134,6 +140,7 @@ export const DataElementStyleControls = ({
           </div>
         </fieldset>
       )}
+      {afterFill}
       <fieldset>
         <legend>{t("labels.strokeWidth")}</legend>
         <div className="buttonList">
@@ -164,6 +171,7 @@ export const DataElementStyleControls = ({
           />
         </div>
       </fieldset>
+      {afterStrokeWidth}
       <fieldset>
         <legend>{t("labels.strokeStyle")}</legend>
         <div className="buttonList">

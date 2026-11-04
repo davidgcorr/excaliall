@@ -2651,3 +2651,52 @@ export const tableBorderRowsIcon = createIcon(
   <path d="M4 4h16M4 10h16M4 15h16M4 20h16" />,
   tablerIconProps,
 );
+
+export const tableFillHeaderIcon = createIcon(
+  <>
+    <path
+      d="M4 4h16v5H4z"
+      fill="currentColor"
+      fillOpacity="0.25"
+      stroke="none"
+    />
+    <path d="M4 4h16v16H4zM4 9h16M4 15h16M9 4v16M15 4v16" />
+  </>,
+  tablerIconProps,
+);
+export const tableFillAllIcon = createIcon(
+  <>
+    <path
+      d="M4 4h16v16H4z"
+      fill="currentColor"
+      fillOpacity="0.25"
+      stroke="none"
+    />
+    <path d="M4 4h16v16H4zM4 9h16M4 15h16M9 4v16M15 4v16" />
+  </>,
+  tablerIconProps,
+);
+export const tableFillHeaderColumnsIcon = createIcon(
+  <>
+    <path
+      d="M4 4h16v5H4zM4 9h5v11H4zM15 9h5v11h-5z"
+      fill="currentColor"
+      fillOpacity="0.25"
+      stroke="none"
+    />
+    <path d="M4 4h16v16H4zM4 9h16M4 15h16M9 4v16M15 4v16" />
+  </>,
+  tablerIconProps,
+);
+export const tableFillColumnsIcon = createIcon(
+  <>
+    <path
+      d="M4 4h5v16H4zM15 4h5v16h-5z"
+      fill="currentColor"
+      fillOpacity="0.25"
+      stroke="none"
+    />
+    <path d="M4 4h16v16H4zM4 9h16M4 15h16M9 4v16M15 4v16" />
+  </>,
+  tablerIconProps,
+);

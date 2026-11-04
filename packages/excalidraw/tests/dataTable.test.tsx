@@ -246,6 +246,76 @@ describe("sketch data tables", () => {
     );
   });
 
+  it.each([
+    ["header", ["header"], []],
+    ["all", ["all"], []],
+    ["header-alternating-columns", ["header", "column", "column"], ["0", "2"]],
+    ["alternating-columns", ["column", "column"], ["0", "2"]],
+  ] as const)(
+    "fills the intended regions for %s",
+    (fillScope, regions, columns) => {
+      const data = {
+        ...sampleTable(),
+        fillScope,
+        backgroundColor: "#ff0000",
+        fillStyle: "solid" as const,
+        rounded: true,
+      };
+      const svg = renderTableSvg(data, document);
+      const fills = [...svg.querySelectorAll("[data-table-fill-region]")];
+      expect(
+        fills.map((fill) => fill.getAttribute("data-table-fill-region")),
+      ).toEqual(regions);
+      expect(
+        [...svg.querySelectorAll("[data-table-fill-column]")].map((fill) =>
+          fill.getAttribute("data-table-fill-column"),
+        ),
+      ).toEqual(columns);
+      fills.forEach((fill) =>
+        expect(fill.querySelector('path[fill="#ff0000"]')).not.toBeNull(),
+      );
+      expect(svg.querySelector('path[fill="#ffffff"]')).toBeNull();
+      expect(svg.querySelectorAll("text")).toHaveLength(12);
+      expect(svg.querySelector("clipPath rect")?.getAttribute("rx")).toBe("16");
+      expect(svg.querySelector("[data-table-border]")).not.toBeNull();
+    },
+  );
+
+  it("keeps legacy fills compatible and validates fill-area choices", () => {
+    const legacy = sampleTable();
+    delete legacy.fillScope;
+    delete legacy.backgroundColor;
+    const svg = renderTableSvg(legacy, document);
+    expect(svg.querySelector('path[fill="#ffffff"]')).not.toBeNull();
+    expect(() => validateTable({ ...legacy, fillScope: "unknown" })).toThrow();
+    expect(sampleTable().fillScope).toBe("all");
+  });
+
+  it("places border icons below stroke width and persists the fill-area selection", async () => {
+    await render(<Excalidraw />);
+    fireEvent.click(screen.getByTestId("toolbar-data-table"));
+    await screen.findByTestId("table-cell--1-0");
+    const width = screen.getByTestId("strokeWidth-thin").closest("fieldset")!;
+    const borders = screen.getByTestId("table-border-full").closest("fieldset");
+    expect(width.nextElementSibling).toBe(borders);
+    expect(screen.getByTestId("table-fill-all")).toHaveClass("active");
+    fireEvent.click(screen.getByTestId("table-fill-header-columns"));
+    expect(screen.getByTestId("table-fill-header-columns")).toHaveClass(
+      "active",
+    );
+    API.setSelectedElements([]);
+    await waitFor(() =>
+      expect(getTableData(h.elements[0])?.fillScope).toBe(
+        "header-alternating-columns",
+      ),
+    );
+    API.setSelectedElements([...h.app.scene.getNonDeletedElements()]);
+    await screen.findByTestId("table-cell--1-0");
+    expect(screen.getByTestId("table-fill-header-columns")).toHaveClass(
+      "active",
+    );
+  });
+
   it("rejects invalid row shapes and oversized cells before rendering or saving", () => {
     expect(() =>
       validateTable({ ...sampleTable(), rows: [["mismatched"]] }),

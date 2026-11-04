@@ -1,5 +1,10 @@
 {
   "labels": {
+    "tableFillScope": "Área de relleno",
+    "tableFillHeader": "Rellenar solo la cabecera",
+    "tableFillAll": "Rellenar toda la tabla",
+    "tableFillHeaderColumns": "Rellenar cabecera y columnas alternas del cuerpo",
+    "tableFillColumns": "Rellenar columnas alternas incluida la cabecera",
     "tableBorders": "Bordes",
     "tableBorderFull": "Todos los bordes",
     "tableBorderOuter": "Bordes exteriores",

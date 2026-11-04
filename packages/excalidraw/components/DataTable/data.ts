@@ -18,6 +18,12 @@ import type { AppClassProperties } from "../../types";
 
 export type TableBorderStyle = "inner" | "outer" | "rows" | "full";
 
+export type TableFillScope =
+  | "header"
+  | "all"
+  | "header-alternating-columns"
+  | "alternating-columns";
+
 export type TableData = {
   version: 1;
   columns: string[];
@@ -30,6 +36,7 @@ export type TableData = {
   strokeStyle?: ExcalidrawElement["strokeStyle"];
   rounded?: boolean;
   borderStyle?: TableBorderStyle;
+  fillScope?: TableFillScope;
 };
 export const CELL_WIDTH = 180;
 export const CELL_HEIGHT = 44;
@@ -52,6 +59,7 @@ export const sampleTable = (): TableData => ({
   strokeStyle: "solid",
   rounded: false,
   borderStyle: "full",
+  fillScope: "all",
 });
 
 export const validateTable = (value: unknown): TableData => {
@@ -87,6 +95,13 @@ export const validateTable = (value: unknown): TableData => {
     (data.rounded !== undefined && typeof data.rounded !== "boolean") ||
     (data.borderStyle !== undefined &&
       !["inner", "outer", "rows", "full"].includes(data.borderStyle)) ||
+    (data.fillScope !== undefined &&
+      ![
+        "header",
+        "all",
+        "header-alternating-columns",
+        "alternating-columns",
+      ].includes(data.fillScope)) ||
     !Number.isFinite(data.roughness) ||
     data.roughness < 0 ||
     data.roughness > 3 ||
@@ -175,28 +190,74 @@ export const renderTableSvg = (
         ? [1, 5]
         : undefined,
   };
-  // Legacy tables retain their white body and tinted header until a fill is chosen.
-  content.append(
-    rc.path(outline, {
-      ...options,
-      stroke: "none",
-      fill: data.backgroundColor ?? "#ffffff",
-      fillStyle:
-        data.backgroundColor === undefined
-          ? "solid"
-          : data.fillStyle ?? "hachure",
-    }),
-  );
-  if (data.backgroundColor === undefined) {
+  const fillScope = data.fillScope ?? "all";
+  const fillOptions = {
+    ...options,
+    stroke: "none",
+    fill: data.backgroundColor ?? "#e8edff",
+    fillStyle: data.fillStyle ?? "hachure",
+  };
+  const fillRegion = (
+    left: number,
+    top: number,
+    regionWidth: number,
+    regionHeight: number,
+    region: string,
+    column?: number,
+  ) => {
+    if (regionHeight <= 0) {
+      return;
+    }
+    const fill = rc.rectangle(
+      left,
+      top,
+      regionWidth,
+      regionHeight,
+      fillOptions,
+    );
+    fill.setAttribute("data-table-fill-region", region);
+    if (column !== undefined) {
+      fill.setAttribute("data-table-fill-column", String(column));
+    }
+    content.append(fill);
+  };
+  // Older tables without a chosen background retain their original two-tone fill.
+  if (data.fillScope === undefined && data.backgroundColor === undefined) {
+    content.append(
+      rc.path(outline, { ...fillOptions, fill: "#ffffff", fillStyle: "solid" }),
+    );
     content.append(
       rc.rectangle(x, y, w, CELL_HEIGHT, {
-        ...options,
-        stroke: "none",
+        ...fillOptions,
         fill: "#e8edff",
         fillStyle: "hachure",
         fillWeight: 0.4,
       }),
     );
+  } else if (fillScope === "all") {
+    const fill = rc.path(outline, fillOptions);
+    fill.setAttribute("data-table-fill-region", "all");
+    content.append(fill);
+  } else {
+    if (fillScope === "header" || fillScope === "header-alternating-columns") {
+      fillRegion(x, y, w, CELL_HEIGHT, "header");
+    }
+    if (
+      fillScope === "header-alternating-columns" ||
+      fillScope === "alternating-columns"
+    ) {
+      const skipHeader = fillScope === "header-alternating-columns";
+      for (let column = 0; column < data.columns.length; column += 2) {
+        fillRegion(
+          x + column * CELL_WIDTH,
+          y + (skipHeader ? CELL_HEIGHT : 0),
+          CELL_WIDTH,
+          h - (skipHeader ? CELL_HEIGHT : 0),
+          "column",
+          column,
+        );
+      }
+    }
   }
   const borderStyle = data.borderStyle ?? "full";
   const addGridLine = (

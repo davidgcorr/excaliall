@@ -13,6 +13,10 @@ import { DataElementStyleControls } from "../DataElementStyleControls";
 import { IconButton } from "../IconButton";
 import { RadioSelection } from "../RadioSelection";
 import {
+  tableFillHeaderIcon,
+  tableFillAllIcon,
+  tableFillHeaderColumnsIcon,
+  tableFillColumnsIcon,
   tableBorderFullIcon,
   tableBorderOuterIcon,
   tableBorderInnerIcon,
@@ -47,7 +51,7 @@ import {
 
 import "./DataTableEditor.scss";
 
-import type { TableBorderStyle } from "./data";
+import type { TableBorderStyle, TableFillScope } from "./data";
 
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -395,46 +399,88 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
         data-testid="data-table-properties"
       >
         <legend>{t("labels.editDataTable")}</legend>
-        <fieldset>
-          <legend>{t("labels.tableBorders")}</legend>
-          <div className="buttonList">
-            <RadioSelection<TableBorderStyle>
-              type="button"
-              value={data.borderStyle ?? "full"}
-              options={[
-                {
-                  value: "full",
-                  text: t("labels.tableBorderFull"),
-                  icon: tableBorderFullIcon,
-                  testId: "table-border-full",
-                },
-                {
-                  value: "outer",
-                  text: t("labels.tableBorderOuter"),
-                  icon: tableBorderOuterIcon,
-                  testId: "table-border-outer",
-                },
-                {
-                  value: "inner",
-                  text: t("labels.tableBorderInner"),
-                  icon: tableBorderInnerIcon,
-                  testId: "table-border-inner",
-                },
-                {
-                  value: "rows",
-                  text: t("labels.tableBorderRows"),
-                  icon: tableBorderRowsIcon,
-                  testId: "table-border-rows",
-                },
-              ]}
-              onClick={(borderStyle) =>
-                setData((previous) => ({ ...previous, borderStyle }))
-              }
-            />
-          </div>
-        </fieldset>
         <DataElementStyleControls
           corners
+          afterFill={
+            <fieldset>
+              <legend>{t("labels.tableFillScope")}</legend>
+              <div className="buttonList">
+                <RadioSelection<TableFillScope>
+                  type="button"
+                  value={data.fillScope ?? "all"}
+                  options={[
+                    {
+                      value: "header",
+                      text: t("labels.tableFillHeader"),
+                      icon: tableFillHeaderIcon,
+                      testId: "table-fill-header",
+                    },
+                    {
+                      value: "all",
+                      text: t("labels.tableFillAll"),
+                      icon: tableFillAllIcon,
+                      testId: "table-fill-all",
+                    },
+                    {
+                      value: "header-alternating-columns",
+                      text: t("labels.tableFillHeaderColumns"),
+                      icon: tableFillHeaderColumnsIcon,
+                      testId: "table-fill-header-columns",
+                    },
+                    {
+                      value: "alternating-columns",
+                      text: t("labels.tableFillColumns"),
+                      icon: tableFillColumnsIcon,
+                      testId: "table-fill-columns",
+                    },
+                  ]}
+                  onClick={(fillScope) =>
+                    setData((previous) => ({ ...previous, fillScope }))
+                  }
+                />
+              </div>
+            </fieldset>
+          }
+          afterStrokeWidth={
+            <fieldset>
+              <legend>{t("labels.tableBorders")}</legend>
+              <div className="buttonList">
+                <RadioSelection<TableBorderStyle>
+                  type="button"
+                  value={data.borderStyle ?? "full"}
+                  options={[
+                    {
+                      value: "full",
+                      text: t("labels.tableBorderFull"),
+                      icon: tableBorderFullIcon,
+                      testId: "table-border-full",
+                    },
+                    {
+                      value: "outer",
+                      text: t("labels.tableBorderOuter"),
+                      icon: tableBorderOuterIcon,
+                      testId: "table-border-outer",
+                    },
+                    {
+                      value: "inner",
+                      text: t("labels.tableBorderInner"),
+                      icon: tableBorderInnerIcon,
+                      testId: "table-border-inner",
+                    },
+                    {
+                      value: "rows",
+                      text: t("labels.tableBorderRows"),
+                      icon: tableBorderRowsIcon,
+                      testId: "table-border-rows",
+                    },
+                  ]}
+                  onClick={(borderStyle) =>
+                    setData((previous) => ({ ...previous, borderStyle }))
+                  }
+                />
+              </div>
+            </fieldset>
+          }
           style={{
             strokeColor: data.color,
             roughness: data.roughness,

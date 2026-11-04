@@ -22,3 +22,5 @@ The current table is saved as an SVG image, with editable headers, rows, and sty
 This first version edits plain text values. Spreadsheet formulas, merged cells, live data URLs, sorting, filtering, and pagination are not implemented. Pasted formula results are treated as text.
 
 Choose **Borders** in the table properties to select **Full** (default), **Outer**, **Inner**, or **Rows** using the icon buttons. Rows draws horizontal separators plus top and bottom lines; Inner omits the outside border. Border choices are saved with the table and included in exports.
+
+**Borders** sits immediately below **Stroke width**. **Fill area** chooses the header only, the entire table (default), a full header with alternating body columns, or alternating entire columns including their headers. The selected background color and fill pattern apply to those areas; the other cells stay transparent.

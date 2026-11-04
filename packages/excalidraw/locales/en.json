@@ -1,5 +1,10 @@
 {
   "labels": {
+    "tableFillScope": "Fill area",
+    "tableFillHeader": "Fill header only",
+    "tableFillAll": "Fill entire table",
+    "tableFillHeaderColumns": "Fill header and alternating body columns",
+    "tableFillColumns": "Fill alternating columns including header",
     "tableBorders": "Borders",
     "tableBorderFull": "Full borders",
     "tableBorderOuter": "Outer borders",
