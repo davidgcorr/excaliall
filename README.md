@@ -17,7 +17,7 @@ No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 | **Draw** | Sketch diagrams with shapes, arrows, text and the familiar Excalidraw tools. |
 | **Animate** | Add moving dots, pulses or flowing dashes to arrows and lines. Set speed and direction in the side panel. |
 | **Graph** | Import CSV or JSON into roughViz charts. Edit colors, titles, axes, data columns and sketch styles. |
-| **Tabulate** | Edit table cells directly on the canvas. Add or remove rows and columns with the table's icon controls; deselect to save. |
+| **Tabulate** | Edit cells on the canvas, import CSV/Excel/JSON, and page through rows or columns. Use the table's icons to manage data; deselect to save. |
 | **Share** | Export PNG, SVG, animated GIF or standalone HTML. Copy an iframe to embed a diagram in your page. |
 
 Graphs and tables use the same color palettes, fill patterns, stroke controls and roughness presets as the rest of your drawing. Save a `.excalidraw` file to keep everything editable, including data and animation settings.

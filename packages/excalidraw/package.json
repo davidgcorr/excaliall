@@ -95,6 +95,7 @@
     "canvas-roundrect-polyfill": "0.0.1",
     "clsx": "1.1.1",
     "cross-env": "7.0.3",
+    "d3-dsv": "2.0.0",
     "es6-promise-pool": "2.5.0",
     "fuzzy": "0.1.3",
     "gifenc": "1.0.3",
@@ -113,6 +114,7 @@
     "points-on-curve": "1.0.1",
     "pwacompat": "2.0.17",
     "radix-ui": "1.4.3",
+    "read-excel-file": "9.3.14",
     "roughjs": "4.6.4",
     "sass": "1.51.0",
     "tunnel-rat": "0.1.2"
@@ -122,6 +124,7 @@
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.2.0",
+    "@types/d3-dsv": "3.0.7",
     "@types/lodash.debounce": "4.0.8",
     "@types/pako": "2.0.3",
     "@types/pica": "5.1.3",

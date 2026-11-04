@@ -37,6 +37,10 @@ export type TableData = {
   rounded?: boolean;
   borderStyle?: TableBorderStyle;
   fillScope?: TableFillScope;
+  rowsPerPage?: number;
+  columnsPerPage?: number;
+  rowPage?: number;
+  columnPage?: number;
 };
 export const CELL_WIDTH = 180;
 export const CELL_HEIGHT = 44;
@@ -102,6 +106,19 @@ export const validateTable = (value: unknown): TableData => {
         "header-alternating-columns",
         "alternating-columns",
       ].includes(data.fillScope)) ||
+    (
+      [
+        [data.rowsPerPage, MAX_ROWS],
+        [data.columnsPerPage, MAX_COLUMNS],
+      ] as const
+    ).some(
+      ([size, max]) =>
+        size !== undefined &&
+        (!Number.isInteger(size) || size < 1 || size > max),
+    ) ||
+    [data.rowPage, data.columnPage].some(
+      (page) => page !== undefined && (!Number.isSafeInteger(page) || page < 0),
+    ) ||
     !Number.isFinite(data.roughness) ||
     data.roughness < 0 ||
     data.roughness > 3 ||
@@ -128,21 +145,53 @@ export const getTableData = (
     return null;
   }
 };
-export const tableSize = (data: TableData) => ({
-  width: data.columns.length * CELL_WIDTH + TABLE_PADDING * 2,
-  height: (data.rows.length + 1) * CELL_HEIGHT + TABLE_PADDING * 2,
-});
+export const getTablePage = (data: TableData) => {
+  const rowSize = data.rowsPerPage ?? Math.max(1, data.rows.length);
+  const columnSize = data.columnsPerPage ?? data.columns.length;
+  const rowPages = Math.max(1, Math.ceil(data.rows.length / rowSize));
+  const columnPages = Math.max(1, Math.ceil(data.columns.length / columnSize));
+  const rowPage = Math.min(data.rowPage ?? 0, rowPages - 1);
+  const columnPage = Math.min(data.columnPage ?? 0, columnPages - 1);
+  const rowStart = rowPage * rowSize;
+  const columnStart = columnPage * columnSize;
+  const columns = data.columns.slice(columnStart, columnStart + columnSize);
+  const rows = data.rows
+    .slice(rowStart, rowStart + rowSize)
+    .map((row) => row.slice(columnStart, columnStart + columnSize));
+  return {
+    columns,
+    rows,
+    rowStart,
+    columnStart,
+    rowPage,
+    columnPage,
+    rowPages,
+    columnPages,
+    rowSize,
+    columnSize,
+  };
+};
+
+export const tableSize = (data: TableData) => {
+  const page = getTablePage(data);
+  return {
+    width: page.columns.length * CELL_WIDTH + TABLE_PADDING * 2,
+    height: (page.rows.length + 1) * CELL_HEIGHT + TABLE_PADDING * 2,
+  };
+};
 
 // Draw all grid strokes with rough.js. Text nodes keep untrusted cell contents inert.
 export const renderTableSvg = (
-  data: TableData,
+  source: TableData,
   ownerDocument: Document,
   includeText = true,
 ): SVGSVGElement => {
-  validateTable(data);
+  validateTable(source);
+  const page = getTablePage(source);
+  const data = { ...source, columns: page.columns, rows: page.rows };
   const ns = "http://www.w3.org/2000/svg";
   const svg = ownerDocument.createElementNS(ns, "svg");
-  const { width, height } = tableSize(data);
+  const { width, height } = tableSize(source);
   svg.setAttribute("width", String(width));
   svg.setAttribute("height", String(height));
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -247,7 +296,11 @@ export const renderTableSvg = (
       fillScope === "alternating-columns"
     ) {
       const skipHeader = fillScope === "header-alternating-columns";
-      for (let column = 0; column < data.columns.length; column += 2) {
+      for (
+        let column = page.columnStart % 2;
+        column < data.columns.length;
+        column += 2
+      ) {
         fillRegion(
           x + column * CELL_WIDTH,
           y + (skipHeader ? CELL_HEIGHT : 0),

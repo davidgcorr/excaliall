@@ -24,3 +24,15 @@ This first version edits plain text values. Spreadsheet formulas, merged cells, 
 Choose **Borders** in the table properties to select **Full** (default), **Outer**, **Inner**, or **Rows** using the icon buttons. Rows draws horizontal separators plus top and bottom lines; Inner omits the outside border. Border choices are saved with the table and included in exports.
 
 **Borders** sits immediately below **Stroke width**. **Fill area** chooses the header only, the entire table (default), a full header with alternating body columns, or alternating entire columns including their headers. The selected background color and fill pattern apply to those areas; the other cells stay transparent.
+
+## Import table data
+
+Select a table and click its **Import table data** icon beside the on-table row and column controls. Choose a CSV, JSON or Excel `.xlsx` file, or paste CSV/JSON. For Excel, choose the worksheet to import. Review the preview, then choose **Replace table data** to replace all headers and rows while keeping the table's colors, fill, borders and other styling. Canceling or an invalid file leaves the current table unchanged. Older `.xls` files must first be saved as `.xlsx` in Excel.
+
+CSV and Excel use the first row as column names. JSON accepts an array of objects, an array of arrays with a header row, or `{ "columns": ["Name"], "rows": [["Value"]] }`. Blank cells are preserved. Existing table limits apply: 100 data rows, 12 columns and 500 characters per cell; files must be smaller than 5 MB.
+
+## Row and column pagination
+
+Use **Pagination → Rows per page / Columns per page** in the selected table's properties panel. Each axis can show all data or a chosen page size. Use the arrow icons below the table to move through row pages and column pages independently. Headers repeat on every page; edits and row/column operations use the original dataset positions.
+
+The full dataset, page sizes and selected page are saved when you deselect the table. The canvas and visual exports show the current page; pagination never deletes off-page data. Importing replacement data resets both page positions while retaining the chosen page sizes.

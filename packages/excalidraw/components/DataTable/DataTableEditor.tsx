@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   flexRender,
@@ -13,6 +13,9 @@ import { DataElementStyleControls } from "../DataElementStyleControls";
 import { IconButton } from "../IconButton";
 import { RadioSelection } from "../RadioSelection";
 import {
+  tableImportIcon,
+  chevronLeftIcon,
+  chevronRight,
   tableFillHeaderIcon,
   tableFillAllIcon,
   tableFillHeaderColumnsIcon,
@@ -42,6 +45,7 @@ import {
   MAX_COLUMNS,
   MAX_ROWS,
   getTableData,
+  getTablePage,
   renderTableSvg,
   sampleTable,
   saveTable,
@@ -55,6 +59,12 @@ import type { TableBorderStyle, TableFillScope } from "./data";
 
 import type { ColumnDef } from "@tanstack/react-table";
 
+const TableImportDialog = lazy(() =>
+  import("./TableImportDialog").then((module) => ({
+    default: module.TableImportDialog,
+  })),
+);
+
 export const DataTableEditor = ({ elementId }: { elementId: string }) => {
   const app = useApp();
   const state = useExcalidrawAppState();
@@ -67,7 +77,12 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
     ? { ...metadata, rounded: metadata.rounded ?? !!target?.roundness }
     : metadata;
   const [data, setData] = useState(() => initial ?? sampleTable());
-  const [active, setActive] = useState({ row: 0, column: 0 });
+  const page = getTablePage(data);
+  const [importOpen, setImportOpen] = useState(false);
+  const [active, setActive] = useState(() => ({
+    row: page.rowStart,
+    column: page.columnStart,
+  }));
   const [error, setError] = useState<string | null>(null);
   const latest = useRef(data);
   latest.current = data;
@@ -181,15 +196,21 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
   // shadcn's headless DataTable pattern; source row indices remain stable while editing.
   const columns = useMemo<ColumnDef<string[]>[]>(
     () =>
-      data.columns.map((name, index) => ({
-        id: String(index),
-        accessorFn: (row) => row[index],
-        header: name,
-      })),
-    [data.columns],
+      data.columns
+        .slice(page.columnStart, page.columnStart + page.columns.length)
+        .map((name, index) => ({
+          id: String(index + page.columnStart),
+          accessorFn: (row) => row[index + page.columnStart],
+          header: name,
+        })),
+    [data.columns, page.columnStart, page.columns.length],
+  );
+  const visibleRows = useMemo(
+    () => data.rows.slice(page.rowStart, page.rowStart + page.rows.length),
+    [data.rows, page.rowStart, page.rows.length],
   );
   const table = useReactTable({
-    data: data.rows,
+    data: visibleRows,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -245,6 +266,26 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
       }}
     >
       <div
+        className="DataTableEditor__mask"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          pointerEvents: "none",
+          left:
+            point.x -
+            state.offsetLeft +
+            (originalSize.width * scaleX - originalSize.width) / 2,
+          top:
+            point.y -
+            state.offsetTop +
+            (originalSize.height * scaleY - originalSize.height) / 2,
+          width: originalSize.width,
+          height: originalSize.height,
+          transform: `rotate(${target.angle}rad) scale(${scaleX}, ${scaleY})`,
+          backgroundColor: state.viewBackgroundColor,
+        }}
+      />
+      <div
         className="DataTableEditor__sheet"
         style={{
           left:
@@ -276,6 +317,15 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
           <IconButton
             type="button"
             size="small"
+            icon={tableImportIcon}
+            aria-label="Import table data"
+            title="Import table data"
+            data-testid="table-import"
+            onClick={() => setImportOpen(true)}
+          />
+          <IconButton
+            type="button"
+            size="small"
             icon={tableAddRowIcon}
             aria-label={t("labels.tableAddRow")}
             title={t("labels.tableAddRow")}
@@ -285,6 +335,9 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
               setData((previous) => ({
                 ...previous,
                 rows: [...previous.rows, previous.columns.map(() => "")],
+                rowPage: previous.rowsPerPage
+                  ? Math.floor(previous.rows.length / previous.rowsPerPage)
+                  : 0,
               }))
             }
           />
@@ -299,6 +352,11 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
             onClick={() =>
               setData((previous) => ({
                 ...previous,
+                columnPage: previous.columnsPerPage
+                  ? Math.floor(
+                      previous.columns.length / previous.columnsPerPage,
+                    )
+                  : 0,
                 columns: [
                   ...previous.columns,
                   `Column ${previous.columns.length + 1}`,
@@ -320,7 +378,10 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
                 ...previous,
                 rows: previous.rows.filter((_, index) => index !== active.row),
               }));
-              setActive((previous) => ({ ...previous, row: 0 }));
+              setActive((previous) => ({
+                ...previous,
+                row: Math.max(0, Math.min(previous.row, data.rows.length - 2)),
+              }));
             }}
           />
           <IconButton
@@ -341,7 +402,13 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
                   row.filter((_, index) => index !== active.column),
                 ),
               }));
-              setActive((previous) => ({ ...previous, column: 0 }));
+              setActive((previous) => ({
+                ...previous,
+                column: Math.max(
+                  0,
+                  Math.min(previous.column, data.columns.length - 2),
+                ),
+              }));
             }}
           />
         </div>
@@ -354,14 +421,14 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
           <TableHeader>
             {table.getHeaderGroups().map((group) => (
               <TableRow key={group.id}>
-                {group.headers.map((header, index) => (
+                {group.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     style={{ width: CELL_WIDTH, height: CELL_HEIGHT }}
                   >
                     {input(
                       -1,
-                      index,
+                      Number(header.column.id),
                       String(
                         flexRender(
                           header.column.columnDef.header,
@@ -377,18 +444,115 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
           <TableBody>
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell, index) => (
+                {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
                     style={{ width: CELL_WIDTH, height: CELL_HEIGHT }}
                   >
-                    {input(row.index, index, String(cell.getValue() ?? ""))}
+                    {input(
+                      row.index + page.rowStart,
+                      Number(cell.column.id),
+                      String(cell.getValue() ?? ""),
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        {(page.rowPages > 1 || page.columnPages > 1) && (
+          <div
+            className="DataTableEditor__pagination"
+            role="toolbar"
+            aria-label="Table pages"
+          >
+            {page.rowPages > 1 && (
+              <div>
+                <IconButton
+                  type="button"
+                  size="small"
+                  icon={chevronLeftIcon}
+                  aria-label="Previous row page"
+                  disabled={page.rowPage === 0}
+                  onClick={() => {
+                    setData((previous) => ({
+                      ...previous,
+                      rowPage: page.rowPage - 1,
+                    }));
+                    setActive((previous) => ({
+                      ...previous,
+                      row: (page.rowPage - 1) * page.rowSize,
+                    }));
+                  }}
+                />
+                <span aria-live="polite">
+                  Rows {page.rowStart + 1}–{page.rowStart + page.rows.length} /{" "}
+                  {data.rows.length}
+                </span>
+                <IconButton
+                  type="button"
+                  size="small"
+                  icon={chevronRight}
+                  aria-label="Next row page"
+                  disabled={page.rowPage === page.rowPages - 1}
+                  onClick={() => {
+                    setData((previous) => ({
+                      ...previous,
+                      rowPage: page.rowPage + 1,
+                    }));
+                    setActive((previous) => ({
+                      ...previous,
+                      row: (page.rowPage + 1) * page.rowSize,
+                    }));
+                  }}
+                />
+              </div>
+            )}
+            {page.columnPages > 1 && (
+              <div>
+                <IconButton
+                  type="button"
+                  size="small"
+                  icon={chevronLeftIcon}
+                  aria-label="Previous column page"
+                  disabled={page.columnPage === 0}
+                  onClick={() => {
+                    setData((previous) => ({
+                      ...previous,
+                      columnPage: page.columnPage - 1,
+                    }));
+                    setActive((previous) => ({
+                      ...previous,
+                      column: (page.columnPage - 1) * page.columnSize,
+                    }));
+                  }}
+                />
+                <span aria-live="polite">
+                  Columns {page.columnStart + 1}–
+                  {page.columnStart + page.columns.length} /{" "}
+                  {data.columns.length}
+                </span>
+                <IconButton
+                  type="button"
+                  size="small"
+                  icon={chevronRight}
+                  aria-label="Next column page"
+                  disabled={page.columnPage === page.columnPages - 1}
+                  onClick={() => {
+                    setData((previous) => ({
+                      ...previous,
+                      columnPage: page.columnPage + 1,
+                    }));
+                    setActive((previous) => ({
+                      ...previous,
+                      column: (page.columnPage + 1) * page.columnSize,
+                    }));
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -500,10 +664,102 @@ export const DataTableEditor = ({ elementId }: { elementId: string }) => {
           }}
         />
 
+        <fieldset className="DataTableProperties__pagination">
+          <legend>Pagination</legend>
+          <label>
+            Rows per page
+            <select
+              aria-label="Rows per page"
+              value={data.rowsPerPage ?? 0}
+              onChange={(event) => {
+                const size = Number(event.currentTarget.value) || undefined;
+                setData((previous) => ({
+                  ...previous,
+                  rowsPerPage: size,
+                  rowPage: 0,
+                }));
+                setActive((previous) => ({ ...previous, row: 0 }));
+              }}
+            >
+              <option value={0}>All rows</option>
+              {[
+                ...new Set([
+                  1,
+                  5,
+                  10,
+                  20,
+                  50,
+                  MAX_ROWS,
+                  ...(data.rowsPerPage ? [data.rowsPerPage] : []),
+                ]),
+              ].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Columns per page
+            <select
+              aria-label="Columns per page"
+              value={data.columnsPerPage ?? 0}
+              onChange={(event) => {
+                const size = Number(event.currentTarget.value) || undefined;
+                setData((previous) => ({
+                  ...previous,
+                  columnsPerPage: size,
+                  columnPage: 0,
+                }));
+                setActive((previous) => ({ ...previous, column: 0 }));
+              }}
+            >
+              <option value={0}>All columns</option>
+              {[
+                ...new Set([
+                  1,
+                  2,
+                  3,
+                  4,
+                  6,
+                  MAX_COLUMNS,
+                  ...(data.columnsPerPage ? [data.columnsPerPage] : []),
+                ]),
+              ].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+          <span>
+            All data stays saved. The canvas and exports show the current page.
+          </span>
+        </fieldset>
         <span>{t("labels.tableAutoSaveHint")}</span>
         {error && <span role="alert">{error}</span>}
       </fieldset>
       {container && createPortal(sheet, container)}
+      {importOpen && (
+        <Suspense fallback={null}>
+          <TableImportDialog
+            onClose={() => setImportOpen(false)}
+            onImport={(contents) => {
+              setData((previous) =>
+                validateTable({
+                  ...previous,
+                  ...contents,
+                  rowPage: 0,
+                  columnPage: 0,
+                }),
+              );
+              setActive({ row: 0, column: 0 });
+              setError(null);
+              setImportOpen(false);
+            }}
+          />
+        </Suspense>
+      )}
     </>
   );
 };

@@ -2700,3 +2700,8 @@ export const tableFillColumnsIcon = createIcon(
   </>,
   tablerIconProps,
 );
+
+export const tableImportIcon = createIcon(
+  <path d="M4 12v8h16v-8M12 3v12M8 11l4 4 4-4" />,
+  tablerIconProps,
+);

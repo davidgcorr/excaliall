@@ -5,6 +5,11 @@ module.exports = {
   directories: { output: "dist", buildResources: "resources" },
   files: ["main.cjs", "paths.cjs", "package.json"],
   extraResources: [
+    {
+      from: "resources/read-excel-file-LICENSE.txt",
+      to: "licenses/read-excel-file.txt",
+    },
+    { from: "resources/d3-dsv-LICENSE.txt", to: "licenses/d3-dsv.txt" },
     { from: "web", to: "web" },
     { from: "../LICENSE", to: "LICENSE.excalidraw.txt" },
     { from: "resources/roughviz-LICENSE.txt", to: "licenses/roughviz.txt" },
