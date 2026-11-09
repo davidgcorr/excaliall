@@ -16,6 +16,9 @@ export type LatexData = {
   source: string;
   fontSize: number;
   color: string;
+  style?: "normal" | "handdrawn";
+  handFont?: "Caveat" | "Patrick Hand";
+  variation?: number;
   naturalWidth?: number;
   naturalHeight?: number;
 };
@@ -38,6 +41,16 @@ export const validateLatex = (value: unknown): LatexData => {
     data.fontSize > 128 ||
     typeof data.color !== "string" ||
     !normalizeInputColor(data.color) ||
+    (data.style !== undefined &&
+      data.style !== "normal" &&
+      data.style !== "handdrawn") ||
+    (data.handFont !== undefined &&
+      data.handFont !== "Caveat" &&
+      data.handFont !== "Patrick Hand") ||
+    (data.variation !== undefined &&
+      (!Number.isFinite(data.variation) ||
+        data.variation < 0 ||
+        data.variation > 2)) ||
     [data.naturalWidth, data.naturalHeight].some(
       (size) =>
         size !== undefined &&
@@ -127,8 +140,21 @@ export const renderLatex = async (
   const viewBox = svg.getAttribute("viewBox")!.split(/\s+/).map(Number);
   const width = Math.max(1, (viewBox[2] * data.fontSize) / 1000);
   const height = Math.max(1, (viewBox[3] * data.fontSize) / 1000);
+  if (data.style === "handdrawn") {
+    const { applyHandwriting } = await import("./handwriting");
+    applyHandwriting(
+      svg,
+      data.source,
+      data.handFont ?? "Patrick Hand",
+      data.variation ?? 1,
+    );
+  } else {
+    svg.setAttribute("data-latex-style", "normal");
+  }
   // Padding keeps ascenders, subscripts, and strokes away from the image boundary.
-  const padding = (4 * 1000) / data.fontSize;
+  const paddingPixels =
+    data.style === "handdrawn" ? Math.max(6, data.fontSize * 0.06) : 4;
+  const padding = (paddingPixels * 1000) / data.fontSize;
   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   svg.setAttribute(
     "viewBox",
@@ -136,13 +162,17 @@ export const renderLatex = async (
       viewBox[2] + padding * 2
     } ${viewBox[3] + padding * 2}`,
   );
-  svg.setAttribute("width", String(width + 8));
-  svg.setAttribute("height", String(height + 8));
+  svg.setAttribute("width", String(width + paddingPixels * 2));
+  svg.setAttribute("height", String(height + paddingPixels * 2));
   svg.setAttribute("color", data.color);
   svg.removeAttribute("style");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", data.source);
-  return { svg, width: width + 8, height: height + 8 };
+  return {
+    svg,
+    width: width + paddingPixels * 2,
+    height: height + paddingPixels * 2,
+  };
 };
 
 export const saveLatex = async (

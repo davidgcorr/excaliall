@@ -151,6 +151,8 @@ export const FONT_FAMILY = {
   "Comic Shanns": 8,
   "Liberation Sans": 9,
   Assistant: 10,
+  Caveat: 11,
+  "Patrick Hand": 12,
 };
 
 // Segoe UI Emoji fails to properly fallback for some glyphs: ∞, ∫, ≠
@@ -189,6 +191,8 @@ export const getFontFamilyFallbacks = (
 
   switch (fontFamily) {
     case FONT_FAMILY.Excalifont:
+    case FONT_FAMILY.Caveat:
+    case FONT_FAMILY["Patrick Hand"]:
       return [
         CJK_HAND_DRAWN_FALLBACK_FONT,
         genericFallbackFont,

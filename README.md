@@ -17,10 +17,12 @@ No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 | **Draw** | Sketch diagrams with shapes, arrows, text and the familiar Excalidraw tools. |
 | **Animate** | Animate shapes, arrows, lines and pencil strokes. Set effects, speed, color, amount and size in the side panel. |
 | **Map ideas** | Build a two-sided mind map with colored, curved branches. Add children and siblings, rename topics, and arrange the tree from the side panel. |
-| **Write math** | Insert LaTeX formulas with a live preview, size and color controls. Double-click a formula to edit its source. |
+| **Write math** | Insert normal or handwritten LaTeX formulas with a live preview, font, size and color controls. Double-click a formula to edit its source. |
 | **Graph** | Import CSV or JSON into roughViz charts. Edit colors, titles, axes, data columns and sketch styles. |
 | **Tabulate** | Edit cells on the canvas, import CSV/Excel/JSON, and page through rows or columns. Use the table's icons to manage data; deselect to save. |
 | **Share** | Export PNG, SVG, animated GIF or standalone HTML. Copy an iframe to embed a diagram in your page. |
+
+Caveat and Patrick Hand are available in the normal text font selector.
 
 Graphs and tables use the same color palettes, fill patterns, stroke controls and roughness presets as the rest of your drawing. Save a `.excalidraw` file to keep everything editable, including data and animation settings.
 
@@ -43,7 +45,7 @@ Find the running version and Git revision under **☰ → Preferences / Preferen
 ## Get started
 
 - **Animate:** select a shape, arrow, line or pencil stroke, then use **Animate** in the properties side panel.
-- **Add a formula:** use the Σ icon, enter LaTeX, and choose **Insert formula**. Double-click the result or use **Edit formula** to change it.
+- **Add a formula:** use the Σ icon, enter LaTeX, choose **Normal** or **Hand drawn**, and choose **Insert formula**. Double-click the result or use **Edit formula** to change it.
 - **Make a mind map:** use the branching icon. Select a topic to add children or siblings, change branch colors, switch a main branch’s side, or arrange the map. Double-click a topic to edit its text.
 - **Add a graph:** use the chart icon in the central toolbar, import CSV/JSON, then select the graph to edit its properties. Double-click to reopen the data editor.
 - **Add a table:** use the table icon in the central toolbar, then edit headers and cells on the canvas. Changes save when you deselect it.

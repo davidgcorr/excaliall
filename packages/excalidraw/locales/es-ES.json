@@ -1,5 +1,11 @@
 {
   "labels": {
+    "latexStyle": "Estilo de fórmula",
+    "latexNormal": "Normal",
+    "latexHanddrawn": "A mano",
+    "latexHandFont": "Fuente manuscrita",
+    "latexVariation": "Variación manuscrita",
+
     "insertLatex": "Insertar fórmula LaTeX",
     "editLatex": "Editar fórmula",
     "latexSource": "Código LaTeX",

@@ -33,6 +33,22 @@ export interface FontMetadata {
 }
 
 export const FONT_METADATA: Record<number, FontMetadata> = {
+  [FONT_FAMILY.Caveat]: {
+    metrics: {
+      unitsPerEm: 1000,
+      ascender: 960,
+      descender: -300,
+      lineHeight: 1.3,
+    },
+  },
+  [FONT_FAMILY["Patrick Hand"]]: {
+    metrics: {
+      unitsPerEm: 1000,
+      ascender: 1042,
+      descender: -312,
+      lineHeight: 1.4,
+    },
+  },
   [FONT_FAMILY.Excalifont]: {
     metrics: {
       unitsPerEm: 1000,

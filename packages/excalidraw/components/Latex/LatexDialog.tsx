@@ -77,6 +77,61 @@ export const LatexDialog = ({ elementId }: { elementId?: string }) => {
           ))}
         </div>
         <label>
+          {t("labels.latexStyle")}
+          <select
+            aria-label={t("labels.latexStyle")}
+            value={data.style ?? "normal"}
+            onChange={(event) =>
+              setData({
+                ...data,
+                style: event.currentTarget.value as "normal" | "handdrawn",
+              })
+            }
+          >
+            <option value="normal">{t("labels.latexNormal")}</option>
+            <option value="handdrawn">{t("labels.latexHanddrawn")}</option>
+          </select>
+        </label>
+        {data.style === "handdrawn" && (
+          <>
+            <label>
+              {t("labels.latexHandFont")}
+              <select
+                aria-label={t("labels.latexHandFont")}
+                value={data.handFont ?? "Patrick Hand"}
+                onChange={(event) =>
+                  setData({
+                    ...data,
+                    handFont: event.currentTarget.value as
+                      | "Caveat"
+                      | "Patrick Hand",
+                  })
+                }
+              >
+                <option value="Patrick Hand">Patrick Hand</option>
+                <option value="Caveat">Caveat</option>
+              </select>
+            </label>
+            <label>
+              {t("labels.latexVariation")}
+              <input
+                type="range"
+                aria-label={t("labels.latexVariation")}
+                min="0"
+                max="2"
+                step="0.25"
+                value={data.variation ?? 1}
+                onChange={(event) =>
+                  setData({
+                    ...data,
+                    variation: Number(event.currentTarget.value),
+                  })
+                }
+              />
+            </label>
+          </>
+        )}
+        <label>
           {t("labels.fontSize")}
           <input
             type="number"
