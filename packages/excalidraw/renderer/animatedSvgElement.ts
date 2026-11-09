@@ -1,10 +1,14 @@
 import { SVG_NS, applyDarkModeFilter } from "@excalidraw/common";
-import { LinearElementEditor } from "@excalidraw/element";
 
 import type {
   ElementsMap,
   ExcalidrawLinearElement,
 } from "@excalidraw/element/types";
+
+import {
+  getAnimatedLinearPath,
+  animatedLinearPathToSvg,
+} from "./animatedLinearPath";
 
 /** Declarative animations keep exported HTML independent of JavaScript. */
 export const createAnimatedSvgElement = (
@@ -20,30 +24,15 @@ export const createAnimatedSvgElement = (
   if (!animation || element.points.length < 2) {
     return null;
   }
-  const points = LinearElementEditor.getPointsGlobalCoordinates(
-    element,
-    elementsMap,
-  );
-  const length = points
-    .slice(1)
-    .reduce(
-      (total, point, index) =>
-        total +
-        Math.hypot(point[0] - points[index][0], point[1] - points[index][1]),
-      0,
-    );
-  if (!length) {
+  const geometry = getAnimatedLinearPath(element, elementsMap);
+  if (!geometry.length) {
     return null;
   }
   const group = ownerDocument.createElementNS(SVG_NS, "g");
   group.setAttribute("class", "html-animation");
   group.setAttribute("pointer-events", "none");
   group.setAttribute("opacity", String(opacity));
-  const d = points
-    .map(
-      ([x, y], index) => `${index ? "L" : "M"} ${x + offsetX} ${y + offsetY}`,
-    )
-    .join(" ");
+  const d = animatedLinearPathToSvg(geometry, offsetX, offsetY);
   const color = applyDarkModeFilter(element.strokeColor, darkMode);
   const speed = animation.speed;
   const path = (stroke: string, width: number) => {
