@@ -1,5 +1,5 @@
 import type {
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
   LinearElementAnimation,
 } from "@excalidraw/element/types";
 
@@ -21,7 +21,7 @@ export const LinearElementAnimationControls = ({
   onChange,
   idPrefix = "animation",
 }: {
-  elements: readonly ExcalidrawLinearElement[];
+  elements: readonly AnimatedPathElement[];
   onChange: (data: ChangeLinearAnimationData) => void;
   idPrefix?: string;
 }) => {

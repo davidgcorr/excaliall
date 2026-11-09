@@ -116,9 +116,11 @@ Use **Export image → HTML** or **Copy iframe** for standalone embedding; see t
 
 ## Animate arrows and lines
 
-Select an arrow or line to show **Animate / Animar** in the properties side panel. Choose **Moving dots**, **Pulse**, or **Flowing dashes**, set speed (1×–5×), and choose forward or reverse direction. Choose **None** to stop the animation. The controls are also available in compact properties popovers and the right-click Animate submenu.
+Select an arrow, line, or pencil stroke to show **Animate / Animar** in the properties side panel. Choose **Moving dots**, **Pulse**, **Flowing dashes**, or **Flowing arrows**, set speed (1×–5×), and choose forward or reverse direction. Choose **None** to stop the animation. The controls are also available in compact properties popovers and the right-click Animate submenu.
 
 Multiple selected lines/arrows can be changed together. Speed and direction changes preserve each element's other animation settings; locked elements are left unchanged. Changes support undo/redo and are saved in `.excalidraw` files. GIF and standalone HTML exports preserve animations. Moving dots, pulses and dashes follow the connector’s curves and rounded elbow corners. Animation controls include the standard Excalidraw color swatches and palette, marker amount (1–50), and marker size (0.5–4×). Flowing arrows adds directional markers that rotate with the path. Leaving amount on Auto preserves the original spacing; setting an amount on Pulse creates moving glow segments.
+
+Rectangles, circles/ellipses, and diamonds also support Pulse, Glow, Disappear / reappear, Bounce, Shake, and Spin. Select a shape and use **Animate** in the side panel to choose the effect, speed, palette color, and strength (where applicable). Bound labels move/fade with their shape; the document geometry stays unchanged. Pencil strokes support all four path animations with the same color, speed, direction, amount, and marker size controls as arrows. These animations are saved in drawings and preserved in GIF and standalone HTML/iframe exports.
 
 ## Editable sketch tables
 

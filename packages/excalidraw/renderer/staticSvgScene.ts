@@ -52,6 +52,12 @@ import type {
   NonDeletedExcalidrawElement,
 } from "@excalidraw/element/types";
 
+import {
+  isAnimatedShapeElement,
+  getAnimationColoredShape,
+  createShapeAnimationSvg,
+} from "./shapeAnimation";
+
 import { createAnimatedSvgElement } from "./animatedSvgElement";
 
 import type { RenderableElementsMap, SVGRenderConfig } from "../scene/types";
@@ -148,6 +154,31 @@ const renderElementToSvg = (
       node.setAttribute("data-id", element.id);
     }
     root.appendChild(node);
+  };
+
+  const animateShapeNode = (node: SVGElement) => {
+    const target = isAnimatedShapeElement(element)
+      ? element
+      : isTextElement(element)
+      ? getContainerElement(element, elementsMap)
+      : null;
+    if (
+      !renderConfig.animate ||
+      !target ||
+      !isAnimatedShapeElement(target) ||
+      !target.shapeAnimation
+    ) {
+      return node;
+    }
+    const animated = createShapeAnimationSvg(
+      target,
+      svgRoot.ownerDocument,
+      target.x + target.width / 2 + renderConfig.offsetX,
+      target.y + target.height / 2 + renderConfig.offsetY,
+      element.id,
+    );
+    animated.content.appendChild(node);
+    return animated.root;
   };
 
   const opacity =
@@ -277,7 +308,10 @@ const renderElementToSvg = (
     case "rectangle":
     case "diamond":
     case "ellipse": {
-      const shape = ShapeCache.generateElementShape(element, renderConfig);
+      const shape = ShapeCache.generateElementShape(
+        renderConfig.animate ? getAnimationColoredShape(element) : element,
+        renderConfig,
+      );
       const node = roughSVGDrawWithPrecision(
         rsvg,
         shape,
@@ -295,15 +329,16 @@ const renderElementToSvg = (
         }) rotate(${degree} ${cx} ${cy})`,
       );
 
+      const animatedNode = animateShapeNode(node);
       const g = maybeWrapNodesInFrameClipPath(
         element,
         root,
-        [node],
+        [animatedNode],
         renderConfig.frameRendering,
         elementsMap,
       );
 
-      addToRoot(g || node, element);
+      addToRoot(g || animatedNode, element);
       break;
     }
     case "iframe":
@@ -587,15 +622,33 @@ const renderElementToSvg = (
       );
       wrapper.setAttribute("stroke", "none");
 
+      const animation = renderConfig.animate
+        ? createAnimatedSvgElement(
+            element,
+            elementsMap,
+            svgRoot.ownerDocument,
+            renderConfig.offsetX,
+            renderConfig.offsetY,
+            renderConfig.exportWithDarkMode,
+            opacity,
+          )
+        : null;
+      const animatedWrapper = animation
+        ? svgRoot.ownerDocument.createElementNS(SVG_NS, "g")
+        : wrapper;
+      if (animation) {
+        animatedWrapper.append(wrapper, animation);
+      }
+
       const g = maybeWrapNodesInFrameClipPath(
         element,
         root,
-        [wrapper],
+        [animatedWrapper],
         renderConfig.frameRendering,
         elementsMap,
       );
 
-      addToRoot(g || wrapper, element);
+      addToRoot(g || animatedWrapper, element);
       break;
     }
     case "image": {
@@ -854,15 +907,16 @@ const renderElementToSvg = (
           node.appendChild(text);
         }
 
+        const animatedNode = animateShapeNode(node);
         const g = maybeWrapNodesInFrameClipPath(
           element,
           root,
-          [node],
+          [animatedNode],
           renderConfig.frameRendering,
           elementsMap,
         );
 
-        addToRoot(g || node, element);
+        addToRoot(g || animatedNode, element);
       } else {
         // @ts-ignore
         throw new Error(`Unimplemented type ${element.type}`);

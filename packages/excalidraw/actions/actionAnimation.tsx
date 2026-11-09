@@ -1,7 +1,15 @@
 import { CaptureUpdateAction, newElementWith } from "@excalidraw/element";
-import { isLinearElement } from "@excalidraw/element";
 
-import type { LinearElementAnimation } from "@excalidraw/element/types";
+import type {
+  LinearElementAnimation,
+  ShapeElementAnimation,
+} from "@excalidraw/element/types";
+
+import {
+  isAnimatedPathElement,
+  isAnimatedShapeElement,
+} from "../renderer/shapeAnimation";
+import { ShapeAnimationControls } from "../components/ShapeAnimationControls";
 
 import { getSelectedElements } from "../scene";
 
@@ -12,7 +20,9 @@ import { register } from "./register";
 
 export type ChangeLinearAnimationData =
   | { animation: LinearElementAnimation | null }
-  | { patch: Partial<LinearElementAnimation> };
+  | { patch: Partial<LinearElementAnimation> }
+  | { shapeAnimation: ShapeElementAnimation | null }
+  | { shapePatch: Partial<ShapeElementAnimation> };
 
 export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
   name: "changeLinearAnimation",
@@ -21,23 +31,35 @@ export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
   predicate: (elements, appState) =>
     !appState.viewModeEnabled &&
     getSelectedElements(elements, appState).some(
-      (element) => isLinearElement(element) && !element.locked,
+      (element) =>
+        (isAnimatedPathElement(element) || isAnimatedShapeElement(element)) &&
+        !element.locked,
     ),
   PanelComponent: ({ elements, appState, updateData }) => {
-    const selected = getSelectedElements(elements, appState)
-      .filter(isLinearElement)
-      .filter((element) => !element.locked);
+    const selected = getSelectedElements(elements, appState).filter(
+      (element) =>
+        !element.locked &&
+        (isAnimatedPathElement(element) || isAnimatedShapeElement(element)),
+    );
     if (!selected.length || appState.viewModeEnabled) {
       return null;
     }
     return (
       <fieldset data-testid="selected-animation-controls">
         <legend>{t("labels.animate")}</legend>
-        <LinearElementAnimationControls
-          elements={selected}
-          idPrefix="selection-animation"
-          onChange={updateData}
-        />
+        {!!selected.filter(isAnimatedPathElement).length && (
+          <LinearElementAnimationControls
+            elements={selected.filter(isAnimatedPathElement)}
+            idPrefix="selection-animation"
+            onChange={updateData}
+          />
+        )}
+        {!!selected.filter(isAnimatedShapeElement).length && (
+          <ShapeAnimationControls
+            elements={selected.filter(isAnimatedShapeElement)}
+            onChange={updateData}
+          />
+        )}
       </fieldset>
     );
   },
@@ -48,13 +70,49 @@ export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
 
     const selectedIds = new Set(
       getSelectedElements(elements, appState)
-        .filter((element) => isLinearElement(element) && !element.locked)
+        .filter(
+          (element) =>
+            (isAnimatedPathElement(element) ||
+              isAnimatedShapeElement(element)) &&
+            !element.locked,
+        )
         .map((element) => element.id),
     );
 
     return {
       elements: elements.map((element) => {
-        if (!selectedIds.has(element.id) || !isLinearElement(element)) {
+        if (
+          !selectedIds.has(element.id) ||
+          !(isAnimatedPathElement(element) || isAnimatedShapeElement(element))
+        ) {
+          return element;
+        }
+        if (isAnimatedShapeElement(element)) {
+          if (!("shapeAnimation" in value) && !("shapePatch" in value)) {
+            return element;
+          }
+          if (
+            "shapePatch" in value &&
+            !element.shapeAnimation &&
+            !value.shapePatch.type
+          ) {
+            return element;
+          }
+          const shapeAnimation =
+            "shapeAnimation" in value
+              ? value.shapeAnimation
+              : {
+                  type: "pulse" as const,
+                  speed: 3,
+                  ...element.shapeAnimation,
+                  ...value.shapePatch,
+                };
+          return newElementWith(element, { shapeAnimation });
+        }
+        if (
+          !isAnimatedPathElement(element) ||
+          (!("animation" in value) && !("patch" in value))
+        ) {
           return element;
         }
         if ("patch" in value && !element.animation && !value.patch.type) {

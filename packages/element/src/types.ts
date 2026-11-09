@@ -92,6 +92,7 @@ export type ExcalidrawSelectionElement = _ExcalidrawElementBase & {
 
 export type ExcalidrawRectangleElement = _ExcalidrawElementBase & {
   type: "rectangle";
+  shapeAnimation?: ShapeElementAnimation | null;
 };
 
 export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
@@ -106,10 +107,12 @@ export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {
   type: "diamond";
+  shapeAnimation?: ShapeElementAnimation | null;
 };
 
 export type ExcalidrawEllipseElement = _ExcalidrawElementBase & {
   type: "ellipse";
+  shapeAnimation?: ShapeElementAnimation | null;
 };
 
 export type ExcalidrawEmbeddableElement = _ExcalidrawElementBase &
@@ -366,6 +369,21 @@ export type Arrowhead =
 
 export type AnyArrowhead = Arrowhead | ArrowheadLegacy;
 
+export type ShapeElementAnimation = Readonly<{
+  type: "pulse" | "glow" | "fade" | "bounce" | "shake" | "spin";
+  speed: number;
+  color?: string;
+  /** Strength of the effect (0.5–4). */
+  size?: number;
+}>;
+export type AnimatedShapeElement =
+  | ExcalidrawRectangleElement
+  | ExcalidrawEllipseElement
+  | ExcalidrawDiamondElement;
+export type AnimatedPathElement =
+  | ExcalidrawLinearElement
+  | ExcalidrawFreeDrawElement;
+
 export type LinearElementAnimation = Readonly<{
   type: "dots" | "pulse" | "dashes" | "arrows";
   speed: number;
@@ -442,6 +460,7 @@ export type StrokeOptions = Readonly<{
 export type ExcalidrawFreeDrawElement = _ExcalidrawElementBase &
   Readonly<{
     type: "freedraw";
+    animation?: LinearElementAnimation | null;
     points: readonly LocalPoint[];
     pressures: readonly number[];
     simulatePressure: boolean;

@@ -55,6 +55,11 @@ import type {
   Theme,
 } from "@excalidraw/element/types";
 
+import {
+  isAnimatedShapeElement,
+  getShapeAnimationPadding,
+} from "../renderer/shapeAnimation";
+
 import { cleanAppStateForExport } from "../appState";
 import { base64ToString, decode, encode, stringToBase64 } from "../data/encode";
 import { serializeAsJSON } from "../data/json";
@@ -1424,6 +1429,23 @@ export function exportScene(
 export function exportScene(
   opts: ExportSceneOptions,
 ): Promise<HTMLCanvasElement | Blob | SVGSVGElement> {
+  if (
+    (opts.type === "gif" || opts.type === "html") &&
+    !opts.config?.exportingFrame &&
+    opts.config?.x == null &&
+    opts.config?.y == null
+  ) {
+    // Explicit regions/frames keep their crop; ordinary animation exports need
+    // room for the most expanded, translated, or rotated frame of the cycle.
+    const padding = opts.data.elements.reduce(
+      (padding, element) =>
+        isAnimatedShapeElement(element) && !element.isDeleted
+          ? Math.max(padding, getShapeAnimationPadding(element))
+          : padding,
+      opts.config?.padding ?? DEFAULT_EXPORT_PADDING,
+    );
+    opts = { ...opts, config: { ...opts.config, padding } };
+  }
   switch (opts.type) {
     case "canvas":
       return exportToCanvas(opts);

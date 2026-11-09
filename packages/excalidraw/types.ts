@@ -484,6 +484,7 @@ export interface AppState {
     | "elementBackground"
     | "elementStroke"
     | "animationColor"
+    | "shapeAnimationColor"
     | "fontFamily"
     | "compactTextProperties"
     | "compactStrokeStyles"

@@ -54,12 +54,23 @@ export const isCustomColor = ({
 
 export const getMostUsedCustomColors = (
   elements: readonly ExcalidrawElement[],
-  type: "elementBackground" | "elementStroke" | "animationColor",
+  type:
+    | "elementBackground"
+    | "elementStroke"
+    | "animationColor"
+    | "shapeAnimationColor",
   palette: ColorPaletteCustom,
 ) => {
   const getColor = (element: ExcalidrawElement) =>
-    type === "animationColor"
-      ? (element.type === "arrow" || element.type === "line") &&
+    type === "shapeAnimationColor"
+      ? (element.type === "rectangle" ||
+          element.type === "ellipse" ||
+          element.type === "diamond") &&
+        element.shapeAnimation?.color
+      : type === "animationColor"
+      ? (element.type === "arrow" ||
+          element.type === "line" ||
+          element.type === "freedraw") &&
         element.animation?.color
       : type === "elementBackground"
       ? element.backgroundColor
@@ -97,4 +108,5 @@ export type ColorPickerType =
   | "canvasBackground"
   | "elementBackground"
   | "elementStroke"
-  | "animationColor";
+  | "animationColor"
+  | "shapeAnimationColor";

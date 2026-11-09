@@ -191,11 +191,11 @@ describe("selected arrow animation controls", () => {
     fireEvent.click(picker.getByRole("button", { name: "Animation color" }));
     expect(h.state.openPopup).toBeNull();
   });
-  it("hides animation controls for other shapes and locked arrows", async () => {
+  it("hides animation controls for text and locked arrows", async () => {
     await render(<Excalidraw handleKeyboardGlobally />);
-    const rectangle = API.createElement({ type: "rectangle" });
-    API.setElements([rectangle]);
-    API.setSelectedElements([rectangle]);
+    const text = API.createElement({ type: "text" });
+    API.setElements([text]);
+    API.setSelectedElements([text]);
     expect(screen.queryByTestId("selected-animation-controls")).toBeNull();
     const arrow = API.createElement({ type: "arrow", locked: true });
     API.setElements([arrow]);

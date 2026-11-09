@@ -1,12 +1,15 @@
 import {
   elementCenterPoint,
   generateLinearCollisionShape,
+  getFreedrawStrokeCenterPoints,
 } from "@excalidraw/element";
 
 import type {
   ElementsMap,
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
 } from "@excalidraw/element/types";
+
+import type { Op } from "roughjs/bin/core";
 
 type Point = readonly [number, number];
 type Command =
@@ -27,7 +30,7 @@ export type AnimatedLinearPath = {
   length: number;
 };
 const cache = new WeakMap<
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
   { version: number; path: AnimatedLinearPath }
 >();
 const distance = (a: Point, b: Point) => Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -81,7 +84,7 @@ const curveSamples = (start: Point, c1: Point, c2: Point, end: Point) => {
 
 /** Arrow shaft geometry, sharing the editor's rounded-elbow/spline generator. */
 export const getAnimatedLinearPath = (
-  element: ExcalidrawLinearElement,
+  element: AnimatedPathElement,
   elementsMap: ElementsMap,
 ): AnimatedLinearPath => {
   const cached = cache.get(element);
@@ -98,10 +101,13 @@ export const getAnimatedLinearPath = (
   };
   // Collision geometry has no sketch jitter and contains only the shaft, without
   // arrowheads. Apply rotation consistently to straight, curved and elbow paths.
-  const ops = generateLinearCollisionShape(
-    { ...element, angle: 0 as ExcalidrawLinearElement["angle"] },
-    elementsMap,
-  );
+  const ops =
+    element.type === "freedraw"
+      ? getPencilPathOps(element)
+      : generateLinearCollisionShape(
+          { ...element, angle: 0 as AnimatedPathElement["angle"] },
+          elementsMap,
+        );
   const commands: Command[] = [];
   const segments: Segment[] = [];
   let current: Point | null = null;
@@ -211,4 +217,26 @@ export const animatedLinearPathToSvg = (
         : `${command.type === "move" ? "M" : "L"} ${point(command.point)}`,
     )
     .join(" ");
+};
+
+/** Smooth the same streamlined samples used to draw the pencil's ink. */
+const getPencilPathOps = (
+  element: Extract<AnimatedPathElement, { type: "freedraw" }>,
+): Op[] => {
+  const points = getFreedrawStrokeCenterPoints(element);
+  if (!points.length) {
+    return [];
+  }
+  const ops: Op[] = [{ op: "move", data: [...points[0]] }];
+  let current = points[0];
+  for (let index = 1; index < points.length; index++) {
+    const control = points[index];
+    const next = points[index + 1];
+    const end = next ? midpoint(control, next) : control;
+    const c1 = interpolate(current, control, 2 / 3);
+    const c2 = interpolate(end, control, 2 / 3);
+    ops.push({ op: "bcurveTo", data: [...c1, ...c2, ...end] });
+    current = [end[0], end[1]];
+  }
+  return ops;
 };

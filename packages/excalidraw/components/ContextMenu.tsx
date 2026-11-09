@@ -1,11 +1,16 @@
 import clsx from "clsx";
 import React from "react";
 
-import { isLinearElement } from "@excalidraw/element";
+import {
+  isAnimatedPathElement,
+  isAnimatedShapeElement,
+} from "../renderer/shapeAnimation";
 
 import { actionChangeLinearAnimation } from "../actions/actionAnimation";
 import { getShortcutFromShortcutName } from "../actions/shortcuts";
 import { t } from "../i18n";
+
+import { ShapeAnimationControls } from "./ShapeAnimationControls";
 
 import { useExcalidrawAppState, useExcalidrawElements } from "./App";
 
@@ -103,7 +108,11 @@ export const ContextMenu = React.memo(
                     !element.isDeleted &&
                     !element.locked,
                 )
-                .filter(isLinearElement);
+                .filter(
+                  (element) =>
+                    isAnimatedPathElement(element) ||
+                    isAnimatedShapeElement(element),
+                );
 
               return (
                 <li
@@ -126,16 +135,36 @@ export const ContextMenu = React.memo(
                   </button>
                   {isAnimationMenuOpen && (
                     <div className="context-menu-animation">
-                      <LinearElementAnimationControls
-                        elements={selectedElements}
-                        onChange={(data) =>
-                          actionManager.executeAction(
-                            actionChangeLinearAnimation,
-                            "contextMenu",
-                            data,
-                          )
-                        }
-                      />
+                      {!!selectedElements.filter(isAnimatedPathElement)
+                        .length && (
+                        <LinearElementAnimationControls
+                          elements={selectedElements.filter(
+                            isAnimatedPathElement,
+                          )}
+                          onChange={(data) =>
+                            actionManager.executeAction(
+                              actionChangeLinearAnimation,
+                              "contextMenu",
+                              data,
+                            )
+                          }
+                        />
+                      )}
+                      {!!selectedElements.filter(isAnimatedShapeElement)
+                        .length && (
+                        <ShapeAnimationControls
+                          elements={selectedElements.filter(
+                            isAnimatedShapeElement,
+                          )}
+                          onChange={(data) =>
+                            actionManager.executeAction(
+                              actionChangeLinearAnimation,
+                              "contextMenu",
+                              data,
+                            )
+                          }
+                        />
+                      )}
                     </div>
                   )}
                 </li>

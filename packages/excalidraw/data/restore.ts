@@ -100,6 +100,7 @@ import type {
   FixedPointBinding,
   FontFamilyValues,
   LinearElementAnimation,
+  ShapeElementAnimation,
   NonDeleted,
   NonDeletedSceneElementsMap,
   OrderedExcalidrawElement,
@@ -216,6 +217,33 @@ const restoreFreedrawPoints = (
   return {
     points: restoredPoints,
     pressures: restoredPressures,
+  };
+};
+
+const restoreShapeAnimation = (
+  animation: unknown,
+): ShapeElementAnimation | null | undefined => {
+  if (animation === null) {
+    return null;
+  }
+  if (!animation || typeof animation !== "object") {
+    return undefined;
+  }
+  const { type, speed, color, size } = animation as Record<string, unknown>;
+  if (
+    typeof type !== "string" ||
+    !["pulse", "glow", "fade", "bounce", "shake", "spin"].includes(type) ||
+    !isFiniteNumber(speed)
+  ) {
+    return undefined;
+  }
+  const restoredColor =
+    typeof color === "string" ? normalizeInputColor(color) : null;
+  return {
+    type: type as ShapeElementAnimation["type"],
+    speed: clamp(Math.round(speed), 1, 5),
+    ...(restoredColor ? { color: restoredColor } : {}),
+    ...(isFiniteNumber(size) ? { size: clamp(size, 0.5, 4) } : {}),
   };
 };
 
@@ -655,6 +683,9 @@ export const restoreElement = (
         simulatePressure: element.simulatePressure,
         strokeOptions: restoreFreedrawStrokeOptions(element.strokeOptions),
         pressures,
+        ...("animation" in element
+          ? { animation: restoreLinearElementAnimation(element.animation) }
+          : {}),
       });
     }
     case "image":
@@ -695,7 +726,7 @@ export const restoreElement = (
         startArrowhead,
         endArrowhead,
         points,
-        ...(restoreLinearElementAnimation(element.animation) !== undefined
+        ...("animation" in element
           ? { animation: restoreLinearElementAnimation(element.animation) }
           : {}),
         x,
@@ -750,7 +781,7 @@ export const restoreElement = (
         startArrowhead,
         endArrowhead,
         points,
-        ...(restoreLinearElementAnimation(element.animation) !== undefined
+        ...("animation" in element
           ? { animation: restoreLinearElementAnimation(element.animation) }
           : {}),
         x: x ?? 0,
@@ -787,6 +818,11 @@ export const restoreElement = (
     case "ellipse":
     case "rectangle":
     case "diamond":
+      return restoreElementWithProperties(element, {
+        ...("shapeAnimation" in element
+          ? { shapeAnimation: restoreShapeAnimation(element.shapeAnimation) }
+          : {}),
+      });
     case "iframe":
     case "embeddable":
       return restoreElementWithProperties(element, {});

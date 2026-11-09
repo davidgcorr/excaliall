@@ -5,7 +5,7 @@ import {
   THEME,
   throttleRAF,
 } from "@excalidraw/common";
-import { isLinearElement } from "@excalidraw/element";
+
 import { isElementLink } from "@excalidraw/element";
 import { createPlaceholderEmbeddableLabel } from "@excalidraw/element";
 import { getBoundTextElement } from "@excalidraw/element";
@@ -48,6 +48,13 @@ import {
   getElementLinkImg,
   getLinkHandleFromCoords,
 } from "../components/hyperlink/helpers";
+
+import {
+  isAnimatedPathElement,
+  isAnimatedShapeElement,
+  applyShapeAnimationToCanvas,
+  getAnimationColoredShape,
+} from "./shapeAnimation";
 
 import { drawAnimatedLinearElement } from "./animatedLinearElement";
 
@@ -488,27 +495,48 @@ const _renderStaticScene = ({
         const renderState = getRenderState(element);
         withSavedContext(context, () => {
           clipElementToFrame(element, renderState);
+          const shapeOpacity =
+            animationTime !== undefined &&
+            isAnimatedShapeElement(element) &&
+            element.shapeAnimation
+              ? applyShapeAnimationToCanvas(
+                  context,
+                  {
+                    ...element,
+                    x: element.x + renderState.offset.x,
+                    y: element.y + renderState.offset.y,
+                  },
+                  animationTime,
+                  appState.scrollX,
+                  appState.scrollY,
+                  appState.zoom.value,
+                )
+              : 1;
+          const renderedElement =
+            animationTime !== undefined && isAnimatedShapeElement(element)
+              ? getAnimationColoredShape(element)
+              : element;
           renderElement(
-            element,
+            renderedElement,
             elementsMap,
             allElementsMap,
             rc,
             context,
             renderConfig,
             appState,
-            renderState,
+            { ...renderState, opacity: renderState.opacity * shapeOpacity },
           );
 
           if (
             animationTime !== undefined &&
-            isLinearElement(element) &&
+            isAnimatedPathElement(element) &&
             element.animation
           ) {
             const animatedElement = getRenderElementWithPositionOverride(
               element,
               renderState.offset,
             );
-            if (isLinearElement(animatedElement)) {
+            if (isAnimatedPathElement(animatedElement)) {
               drawAnimatedLinearElement({
                 context,
                 element: animatedElement,
@@ -530,6 +558,11 @@ const _renderStaticScene = ({
               context,
               renderConfig,
               appState,
+              {
+                ...getRenderState(boundTextElement),
+                opacity:
+                  getRenderState(boundTextElement).opacity * shapeOpacity,
+              },
             );
           }
         });

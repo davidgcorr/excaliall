@@ -7,7 +7,8 @@ import type {
   NonDeletedSceneElementsMap,
 } from "@excalidraw/element/types";
 
-import { isLinearElement } from "@excalidraw/element";
+import { hasElementAnimation } from "../../renderer/shapeAnimation";
+
 import { AnimationController } from "../../renderer/animation";
 import { isRenderThrottlingEnabled } from "../../reactUtils";
 import { renderStaticScene } from "../../renderer/staticScene";
@@ -81,11 +82,8 @@ const StaticCanvas = (props: StaticCanvasProps) => {
     renderConfigRef.current = renderConfig;
     renderStaticScene(renderConfig, isRenderThrottlingEnabled());
 
-    if (
-      props.visibleElements.some(
-        (element) => isLinearElement(element) && !!element.animation,
-      )
-    ) {
+    const ownerWindow = canvas.ownerDocument.defaultView;
+    if (ownerWindow && props.visibleElements.some(hasElementAnimation)) {
       if (!AnimationController.running(animationKey)) {
         AnimationController.start(
           animationKey,
@@ -95,11 +93,11 @@ const StaticCanvas = (props: StaticCanvasProps) => {
             }
             renderStaticScene({
               ...renderConfigRef.current,
-              animationTime: performance.now(),
+              animationTime: ownerWindow.performance.now(),
             });
             return { running: true };
           },
-          canvas.ownerDocument.defaultView ?? window,
+          ownerWindow,
         );
       }
     } else {

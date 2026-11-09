@@ -1,6 +1,6 @@
 import type {
   ElementsMap,
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
 } from "@excalidraw/element/types";
 
 import {
@@ -12,7 +12,7 @@ import type { AnimatedLinearPath } from "./animatedLinearPath";
 
 type AnimatedLinearElementConfig = {
   context: CanvasRenderingContext2D;
-  element: ExcalidrawLinearElement;
+  element: AnimatedPathElement;
   elementsMap: ElementsMap;
   scrollX: number;
   scrollY: number;

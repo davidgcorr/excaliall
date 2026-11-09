@@ -262,6 +262,7 @@ const isColorPickerPopup = (
 ): popup is ColorPickerType =>
   popup === "elementStroke" ||
   popup === "animationColor" ||
+  popup === "shapeAnimationColor" ||
   popup === "elementBackground" ||
   popup === "canvasBackground";
 
@@ -316,7 +317,9 @@ const ColorPickerTrigger = ({
       aria-label={label}
       style={displayColor ? { "--swatch-color": displayColor } : undefined}
       title={
-        type === "elementStroke" || type === "animationColor"
+        type === "elementStroke" ||
+        type === "animationColor" ||
+        type === "shapeAnimationColor"
           ? t("labels.showStroke")
           : t("labels.showBackground")
       }
@@ -381,7 +384,9 @@ const ColorPickerComponent = ({
   const effectiveTopPicks = customTopPicks?.length
     ? customTopPicks
     : topPicks ??
-      (type === "elementStroke" || type === "animationColor"
+      (type === "elementStroke" ||
+      type === "animationColor" ||
+      type === "shapeAnimationColor"
         ? DEFAULT_ELEMENT_STROKE_PICKS
         : DEFAULT_ELEMENT_BACKGROUND_PICKS);
 
@@ -464,7 +469,9 @@ const ColorPickerComponent = ({
             type={type}
             theme={appState.theme}
             mode={
-              type === "elementStroke" || type === "animationColor"
+              type === "elementStroke" ||
+              type === "animationColor" ||
+              type === "shapeAnimationColor"
                 ? "stroke"
                 : "background"
             }

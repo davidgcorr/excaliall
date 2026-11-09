@@ -251,6 +251,11 @@ import type {
 
 import type { Mutable, ValueOf } from "@excalidraw/common/utility-types";
 
+import {
+  isAnimatedPathElement,
+  isAnimatedShapeElement,
+} from "../renderer/shapeAnimation";
+
 import { actionEditDataChart } from "../actions/actionDataChart";
 import { actionEditDataTable } from "../actions/actionDataTable";
 
@@ -11366,7 +11371,12 @@ class App extends React.Component<AppProps, AppState> {
       CONTEXT_MENU_SEPARATOR,
       ...(this.scene
         .getSelectedElements(this.state)
-        .some((element) => isLinearElement(element) && !element.locked)
+        .some(
+          (element) =>
+            (isAnimatedPathElement(element) ||
+              isAnimatedShapeElement(element)) &&
+            !element.locked,
+        )
         ? ([CONTEXT_MENU_ANIMATION, CONTEXT_MENU_SEPARATOR] as ContextMenuItems)
         : []),
       actionDuplicateSelection,

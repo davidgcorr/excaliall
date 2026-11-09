@@ -2,7 +2,7 @@ import { SVG_NS, applyDarkModeFilter } from "@excalidraw/common";
 
 import type {
   ElementsMap,
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
 } from "@excalidraw/element/types";
 
 import {
@@ -12,7 +12,7 @@ import {
 
 /** Declarative animations keep exported HTML independent of JavaScript. */
 export const createAnimatedSvgElement = (
-  element: ExcalidrawLinearElement,
+  element: AnimatedPathElement,
   elementsMap: ElementsMap,
   ownerDocument: Document,
   offsetX: number,

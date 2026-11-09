@@ -8,9 +8,9 @@ import {
   cloneJSON,
 } from "@excalidraw/common";
 
-import { isLinearElement } from "@excalidraw/element";
-
 import type { NonDeletedExcalidrawElement } from "@excalidraw/element/types";
+
+import { hasElementAnimation } from "../renderer/shapeAnimation";
 
 import {
   actionExportWithDarkMode,
@@ -130,9 +130,7 @@ const ImageExportModal = ({
     [elementsSnapshot, appStateSnapshot, exportSelectionOnly],
   );
 
-  const hasAnimation = exportedElements.some(
-    (element) => isLinearElement(element) && !!element.animation,
-  );
+  const hasAnimation = exportedElements.some(hasElementAnimation);
 
   useEffect(() => {
     const previewNode = previewRef.current;
