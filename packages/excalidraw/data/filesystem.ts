@@ -46,7 +46,7 @@ export const fileOpen = async <M extends boolean | undefined = false>(opts: {
   return (await normalizeFile(files)) as RetType;
 };
 
-export const fileSave = (
+export const fileSave = async (
   blob: Blob | Promise<Blob>,
   opts: {
     /** supply without the extension */
@@ -57,19 +57,55 @@ export const fileSave = (
     description: string;
     /** existing FileSystemFileHandle */
     fileHandle?: FileSystemFileHandle | null;
+    /** Document of the mounted editor, used for download fallback. */
+    ownerDocument?: Document;
   },
 ) => {
-  return _fileSave(
-    blob,
-    {
-      fileName: `${opts.name}.${opts.extension}`,
-      description: opts.description,
-      extensions: [`.${opts.extension}`],
-      mimeTypes: opts.mimeTypes,
-    },
-    opts.fileHandle,
-    false,
-  );
+  try {
+    return await _fileSave(
+      blob,
+      {
+        fileName: `${opts.name}.${opts.extension}`,
+        description: opts.description,
+        extensions: [`.${opts.extension}`],
+        mimeTypes: opts.mimeTypes,
+      },
+      opts.fileHandle,
+      false,
+    );
+  } catch (error) {
+    // Some managed browsers expose the picker but deny its use. Keep the
+    // native path (including cancellation) intact and only retry restrictions.
+    if (
+      !opts.ownerDocument?.defaultView ||
+      !error ||
+      typeof error !== "object" ||
+      !("name" in error) ||
+      (error.name !== "SecurityError" && error.name !== "NotAllowedError")
+    ) {
+      throw error;
+    }
+
+    const ownerDocument = opts.ownerDocument;
+    const ownerWindow = ownerDocument.defaultView!;
+    const url = ownerWindow.URL.createObjectURL(await blob);
+    const anchor = ownerDocument.createElement("a");
+    anchor.href = url;
+    anchor.download = `${opts.name}.${opts.extension}`;
+    anchor.hidden = true;
+    ownerDocument.body.append(anchor);
+    try {
+      anchor.click();
+    } finally {
+      anchor.remove();
+      // Allow the browser to consume the URL before releasing the export.
+      ownerWindow.setTimeout(
+        () => ownerWindow.URL.revokeObjectURL(url),
+        30_000,
+      );
+    }
+    return null;
+  }
 };
 
 export { nativeFileSystemSupported };

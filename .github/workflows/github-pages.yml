@@ -1,8 +1,7 @@
 name: Deploy Excaliall to GitHub Pages
 
 on:
-  push:
-    branches: [master]
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -14,7 +13,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.repository == 'davidgcorr/excaliall'
+    if: github.repository == 'davidgcorr/excaliall' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:

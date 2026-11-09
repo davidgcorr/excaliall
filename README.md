@@ -77,6 +77,8 @@ Installers are written to `desktop/dist`. The [desktop guide](desktop/README.md)
 
 The web app lives at [excaliall.davidgc.com](https://excaliall.davidgc.com), hosted on Cloudflare Pages. Every push to `master` runs the [deployment workflow](https://github.com/davidgcorr/excaliall/actions/workflows/cloudflare-deploy.yml), which tests, builds and publishes the website. See the [one-time credential setup](desktop/CLOUDFLARE.md#deploy-automatically-from-github).
 
+The same CD workflow also publishes to [GitHub Pages](https://davidgcorr.github.io/excaliall/) through the reusable [GitHub Pages workflow](.github/workflows/github-pages.yml). Both deployments run independently, so a Cloudflare failure does not block GitHub Pages. In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source.
+
 To deploy manually from your Mac:
 
 ```sh

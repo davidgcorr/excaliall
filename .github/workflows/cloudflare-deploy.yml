@@ -1,4 +1,4 @@
-name: Deploy Excaliall website
+name: Deploy Excaliall website to Cloudflare and GitHub Pages
 
 on:
   push:
@@ -13,6 +13,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  github-pages:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/github-pages.yml
+
   deploy:
     if: github.repository == 'davidgcorr/excaliall' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04

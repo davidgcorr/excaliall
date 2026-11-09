@@ -150,6 +150,7 @@ export const exportCanvas = async (
       extension: "html",
       mimeTypes: [MIME_TYPES.html],
       fileHandle,
+      ownerDocument: renderEnvironment?.document,
     });
   }
 
@@ -168,6 +169,7 @@ export const exportCanvas = async (
       extension: "gif",
       mimeTypes: [MIME_TYPES.gif],
       fileHandle,
+      ownerDocument: renderEnvironment?.document,
     });
   }
 
@@ -201,6 +203,7 @@ export const exportCanvas = async (
           extension: appState.exportEmbedScene ? "excalidraw.svg" : "svg",
           mimeTypes: [IMAGE_MIME_TYPES.svg],
           fileHandle,
+          ownerDocument: renderEnvironment?.document,
         },
       );
     } else if (type === "clipboard-svg") {
@@ -244,6 +247,7 @@ export const exportCanvas = async (
       extension: appState.exportEmbedScene ? "excalidraw.png" : "png",
       mimeTypes: [IMAGE_MIME_TYPES.png],
       fileHandle,
+      ownerDocument: renderEnvironment?.document,
     });
   } else if (type === "clipboard") {
     try {
