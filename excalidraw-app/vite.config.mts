@@ -141,7 +141,7 @@ export default defineConfig(({ mode }) => {
   // To load .env variables
   const envVars = loadEnv(mode, `../`);
   const isDesktop = mode === "desktop";
-  const appBase = "/";
+  const appBase = process.env.VITE_APP_BASE_PATH || "/";
   let buildRevision = "unknown";
   try {
     const options = {
@@ -302,14 +302,16 @@ export default defineConfig(({ mode }) => {
       assetsInlineLimit: 0,
     },
     plugins: [
-      Sitemap({
-        hostname: "https://excaliall.davidgc.com",
-        outDir: "build",
-        changefreq: "monthly",
-        // its static in public folder
-        generateRobotsTxt: false,
-      }),
-      woff2BrowserPlugin({ local: true, base: appBase }),
+      appBase === "/" &&
+        Sitemap({
+          hostname: "https://excaliall.davidgc.com",
+          outDir: "build",
+          changefreq: "monthly",
+          // its static in public folder
+          generateRobotsTxt: false,
+        }),
+      // Vite's imported font URLs already include appBase.
+      woff2BrowserPlugin({ local: true }),
       lazyChunksPlugin(
         /[\\/]node_modules[\\/]@excalidraw[\\/]mermaid-to-excalidraw[\\/]/,
         mermaidChunkFileNames,
