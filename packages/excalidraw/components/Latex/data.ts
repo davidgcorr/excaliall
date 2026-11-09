@@ -179,6 +179,7 @@ export const saveLatex = async (
   app: AppClassProperties,
   draft: LatexData,
   elementId?: string,
+  options: { preserveSelection?: boolean; isCurrent?: () => boolean } = {},
 ) => {
   const data = validateLatex(draft);
   const { svg, width, height } = await renderLatex(data, app.ownerDocument);
@@ -191,7 +192,7 @@ export const saveLatex = async (
     generateIdFromFile(file),
     getDataURL(file),
   ]);
-  if (app.api.isDestroyed) {
+  if (app.api.isDestroyed || options.isCurrent?.() === false) {
     return;
   }
   const target = elementId ? app.scene.getElement(elementId) : null;
@@ -257,11 +258,13 @@ export const saveLatex = async (
           .getSceneElementsIncludingDeleted()
           .map((item) => (item.id === element.id ? element : item))
       : [...app.api.getSceneElementsIncludingDeleted(), element],
-    appState: {
-      selectedElementIds: { [element.id]: true },
-      selectedGroupIds: {},
-      editingGroupId: null,
-    },
+    appState: options.preserveSelection
+      ? undefined
+      : {
+          selectedElementIds: { [element.id]: true },
+          selectedGroupIds: {},
+          editingGroupId: null,
+        },
     captureUpdate: CaptureUpdateAction.IMMEDIATELY,
   });
   return element;

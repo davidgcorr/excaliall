@@ -1,0 +1,33 @@
+.excalidraw .latex-properties {
+  display: grid;
+  gap: 0.65rem;
+  label {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+  }
+  select,
+  input[type="number"],
+  > button {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.4rem;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    font: inherit;
+  }
+  input[type="range"] {
+    width: 100%;
+    margin: 0;
+  }
+  > button {
+    cursor: pointer;
+    font-size: 0.75rem;
+  }
+  [role="alert"] {
+    font-size: 0.75rem;
+    color: var(--color-danger);
+  }
+}

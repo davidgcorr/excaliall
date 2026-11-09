@@ -45,7 +45,7 @@ Find the running version and Git revision under **☰ → Preferences / Preferen
 ## Get started
 
 - **Animate:** select a shape, arrow, line or pencil stroke, then use **Animate** in the properties side panel.
-- **Add a formula:** use the Σ icon, enter LaTeX, choose **Normal** or **Hand drawn**, and choose **Insert formula**. Double-click the result or use **Edit formula** to change it.
+- **Add a formula:** use the Σ icon, enter LaTeX, and choose **Insert formula**. Select it to customize its style, font, variation, size, and color in the side panel. Double-click the result or use **Edit formula** to change its source.
 - **Make a mind map:** use the branching icon. Select a topic to add children or siblings, change branch colors, switch a main branch’s side, or arrange the map. Double-click a topic to edit its text.
 - **Add a graph:** use the chart icon in the central toolbar, import CSV/JSON, then select the graph to edit its properties. Double-click to reopen the data editor.
 - **Add a table:** use the table icon in the central toolbar, then edit headers and cells on the canvas. Changes save when you deselect it.

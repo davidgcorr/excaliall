@@ -4,7 +4,9 @@ Both tools are in the desktop and mobile toolbars, just before the final tools m
 
 ## LaTeX formulas
 
-Choose the **Σ icon**, enter a mathematical LaTeX expression, and use the live preview. Fractions, roots, sums, integrals, AMS environments, matrices, and local `\newcommand` definitions are supported. Enter the expression directly, without `$` delimiters or a full LaTeX document. Choose **Normal** for conventional math typography or **Hand drawn** for a handwritten formula. In Hand drawn mode, choose **Patrick Hand** or **Caveat** and adjust **Handwritten variation**. The live preview follows all changes. Choose a font size (12–128) and a color using the standard swatches and palette, then choose **Insert formula**.
+Choose the **Σ icon**, enter a mathematical LaTeX expression, and use the live preview, then choose **Insert formula**. Fractions, roots, sums, integrals, AMS environments, matrices, and local `\newcommand` definitions are supported. Enter the expression directly, without `$` delimiters or a full LaTeX document.
+
+Select the formula to show **Formula properties** in the selection side panel. Choose **Normal** for conventional math typography or **Hand drawn** for a handwritten formula. Hand drawn mode offers **Patrick Hand**, **Caveat**, and **Handwritten variation**. Font size (12–128) and the standard Excalidraw color swatches/full palette are also in this panel. Appearance changes update the canvas automatically, support undo/redo, and the last pending change is saved when you deselect.
 
 For example:
 
@@ -12,7 +14,7 @@ For example:
 \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
 ```
 
-Double-click the formula, choose **Edit formula** in the selection properties or context menu, or use the command palette to edit it. Applying changes updates the same element and preserves its position, rotation, grouping, and resize scale. Undo/redo restores the earlier formula.
+Double-click the formula, choose **Edit formula** in the selection properties or context menu, or use the command palette to edit its source. The dialog contains only the source editor, examples, and a live preview of the current appearance. Applying changes updates the same element and preserves its position, rotation, grouping, and resize scale. Undo/redo restores the earlier formula.
 
 Formulas are rendered with the bundled [MathJax SVG renderer](https://docs.mathjax.org/en/v3.2/output/svg.html). Glyphs are paths within the saved SVG image: displaying or exporting a saved formula needs no external fonts or math service. Desktop rendering works offline; on the website, open the formula editor once online to cache the renderer before offline use. Input is limited to 5,000 characters, and invalid expressions show an error before insertion.
 

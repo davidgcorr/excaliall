@@ -2,6 +2,7 @@ import { CaptureUpdateAction } from "@excalidraw/element";
 
 import { IconButton } from "../components/IconButton";
 import { latexIcon, mindMapIcon } from "../components/icons";
+import { LatexProperties } from "../components/Latex/LatexProperties";
 import { getLatexData } from "../components/Latex/data";
 import { MindMapProperties } from "../components/MindMap/MindMapProperties";
 import { insertMindMap, resolveMindMapNode } from "../components/MindMap/data";
@@ -69,14 +70,13 @@ export const actionEditLatex = register({
     return !appState.viewModeEnabled &&
       selected.length === 1 &&
       !selected[0].locked &&
+      selected[0].type === "image" &&
       getLatexData(selected[0]) ? (
-      <button
-        type="button"
-        className="excalidraw-button"
-        onClick={() => updateData(null)}
-      >
-        {t("labels.editLatex")}
-      </button>
+      <LatexProperties
+        key={selected[0].id}
+        element={selected[0]}
+        onEdit={() => updateData(null)}
+      />
     ) : null;
   },
 });

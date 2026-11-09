@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { t } from "../../i18n";
-import { useApp, useExcalidrawSetAppState } from "../App";
+import {
+  useApp,
+  useExcalidrawElements,
+  useExcalidrawSetAppState,
+} from "../App";
 import { Dialog } from "../Dialog";
-import { ColorPicker } from "../ColorPicker/ColorPicker";
-import { useUIAppState } from "../../context/ui-appState";
 
 import { getLatexData, renderLatex, sampleLatex, saveLatex } from "./data";
 
@@ -12,13 +14,15 @@ import "./LatexDialog.scss";
 
 export const LatexDialog = ({ elementId }: { elementId?: string }) => {
   const app = useApp();
-  const appState = useUIAppState();
-  const setAppState = useExcalidrawSetAppState();
-  const [data, setData] = useState(
-    () =>
-      getLatexData(elementId ? app.scene.getElement(elementId) : null) ??
-      sampleLatex(),
+  const elements = useExcalidrawElements();
+  const target = elements.find((element) => element.id === elementId);
+  const settings = useMemo(
+    () => getLatexData(target) ?? sampleLatex(),
+    [target],
   );
+  const setAppState = useExcalidrawSetAppState();
+  const [source, setSource] = useState(settings.source);
+  const data = useMemo(() => ({ ...settings, source }), [settings, source]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const preview = useRef<HTMLDivElement>(null);
@@ -53,11 +57,9 @@ export const LatexDialog = ({ elementId }: { elementId?: string }) => {
           <textarea
             autoFocus
             rows={5}
-            value={data.source}
+            value={source}
             spellCheck={false}
-            onChange={(event) =>
-              setData({ ...data, source: event.currentTarget.value })
-            }
+            onChange={(event) => setSource(event.currentTarget.value)}
           />
         </label>
         <div className="latex-editor__examples">
@@ -70,90 +72,11 @@ export const LatexDialog = ({ elementId }: { elementId?: string }) => {
             <button
               key={source}
               type="button"
-              onClick={() => setData({ ...data, source })}
+              onClick={() => setSource(source)}
             >
               {t("labels.latexExample")} {index + 1}
             </button>
           ))}
-        </div>
-        <label>
-          {t("labels.latexStyle")}
-          <select
-            aria-label={t("labels.latexStyle")}
-            value={data.style ?? "normal"}
-            onChange={(event) =>
-              setData({
-                ...data,
-                style: event.currentTarget.value as "normal" | "handdrawn",
-              })
-            }
-          >
-            <option value="normal">{t("labels.latexNormal")}</option>
-            <option value="handdrawn">{t("labels.latexHanddrawn")}</option>
-          </select>
-        </label>
-        {data.style === "handdrawn" && (
-          <>
-            <label>
-              {t("labels.latexHandFont")}
-              <select
-                aria-label={t("labels.latexHandFont")}
-                value={data.handFont ?? "Patrick Hand"}
-                onChange={(event) =>
-                  setData({
-                    ...data,
-                    handFont: event.currentTarget.value as
-                      | "Caveat"
-                      | "Patrick Hand",
-                  })
-                }
-              >
-                <option value="Patrick Hand">Patrick Hand</option>
-                <option value="Caveat">Caveat</option>
-              </select>
-            </label>
-            <label>
-              {t("labels.latexVariation")}
-              <input
-                type="range"
-                aria-label={t("labels.latexVariation")}
-                min="0"
-                max="2"
-                step="0.25"
-                value={data.variation ?? 1}
-                onChange={(event) =>
-                  setData({
-                    ...data,
-                    variation: Number(event.currentTarget.value),
-                  })
-                }
-              />
-            </label>
-          </>
-        )}
-        <label>
-          {t("labels.fontSize")}
-          <input
-            type="number"
-            min="12"
-            max="128"
-            value={data.fontSize}
-            onChange={(event) =>
-              setData({ ...data, fontSize: Number(event.currentTarget.value) })
-            }
-          />
-        </label>
-        <div>
-          <span>{t("labels.stroke")}</span>
-          <ColorPicker
-            type="latexColor"
-            color={data.color}
-            label={t("labels.latexColor")}
-            elements={app.scene.getNonDeletedElements()}
-            appState={appState}
-            updateData={setAppState}
-            onChange={(color) => setData((data) => ({ ...data, color }))}
-          />
         </div>
         <div
           className="latex-editor__preview"
@@ -168,7 +91,16 @@ export const LatexDialog = ({ elementId }: { elementId?: string }) => {
           onClick={async () => {
             setBusy(true);
             try {
-              await saveLatex(app, data, elementId);
+              await saveLatex(
+                app,
+                {
+                  ...(getLatexData(
+                    elementId ? app.scene.getElement(elementId) : null,
+                  ) ?? settings),
+                  source,
+                },
+                elementId,
+              );
               close();
             } catch (error) {
               setError((error as Error).message);

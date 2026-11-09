@@ -1,4 +1,5 @@
 import React from "react";
+import { within } from "@testing-library/react";
 
 import { FONT_FAMILY, FONT_METADATA } from "@excalidraw/common";
 
@@ -14,6 +15,7 @@ import {
 } from "../components/Latex/data";
 
 import { API } from "./helpers/api";
+import { Keyboard } from "./helpers/ui";
 import { act, render, screen, fireEvent, waitFor } from "./test-utils";
 
 const { h } = window;
@@ -87,33 +89,95 @@ describe("handwritten LaTeX", () => {
     expect(getLatexData(restoreElements(h.elements, null)[0])).toEqual(data);
   });
 
-  it("shows handwriting options and updates the live preview", async () => {
-    await render(<Excalidraw />);
-    fireEvent.click(screen.getByTestId("toolbar-latex"));
-    fireEvent.change(screen.getByLabelText("Formula style"), {
+  it("edits appearance in the side panel and keeps the formula dialog source-only", async () => {
+    await render(<Excalidraw handleKeyboardGlobally />);
+    await act(async () => {
+      await saveLatex(h.app, sampleLatex());
+    });
+    const id = h.elements[0].id;
+    const panel = within(screen.getByTestId("latex-properties"));
+    expect(panel.queryByLabelText("LaTeX source")).toBeNull();
+    fireEvent.change(panel.getByLabelText("Formula style"), {
       target: { value: "handdrawn" },
     });
-    fireEvent.change(screen.getByLabelText("Handwriting font"), {
+    fireEvent.change(panel.getByLabelText("Handwriting font"), {
       target: { value: "Caveat" },
     });
+    fireEvent.change(panel.getByLabelText("Handwritten variation"), {
+      target: { value: "1.5" },
+    });
+    fireEvent.change(panel.getByLabelText("Font size"), {
+      target: { value: "48" },
+    });
+    fireEvent.click(panel.getByTestId("color-top-pick-#e03131"));
+    await waitFor(() =>
+      expect(getLatexData(h.elements[0])).toMatchObject({
+        style: "handdrawn",
+        handFont: "Caveat",
+        variation: 1.5,
+        fontSize: 48,
+        color: "#e03131",
+      }),
+    );
+    expect(h.elements[0].id).toBe(id);
+    Keyboard.undo();
+    await waitFor(() =>
+      expect(getLatexData(h.elements[0])?.style).toBeUndefined(),
+    );
+    Keyboard.redo();
+    await waitFor(() =>
+      expect(panel.getByLabelText("Formula style")).toHaveValue("handdrawn"),
+    );
+    fireEvent.click(panel.getByRole("button", { name: "Edit formula" }));
+    await waitFor(() =>
+      expect(screen.getByLabelText("LaTeX source")).toHaveValue("E = mc^2"),
+    );
+    const dialog = screen
+      .getByLabelText("LaTeX source")
+      .closest(".latex-editor")!;
+    expect(
+      dialog.querySelector(
+        "select, input[type=number], .color-picker-container",
+      ),
+    ).toBeNull();
     await waitFor(() =>
       expect(
-        screen
+        within(dialog as HTMLElement)
           .getByLabelText("Formula preview")
           .querySelector('[data-handwriting-font="Caveat"]'),
       ).not.toBeNull(),
     );
-    fireEvent.change(screen.getByLabelText("Formula style"), {
-      target: { value: "normal" },
+    fireEvent.change(screen.getByLabelText("LaTeX source"), {
+      target: { value: String.raw`\frac{1}{2}` },
     });
-    expect(screen.queryByLabelText("Handwriting font")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Apply" }));
+    await waitFor(() =>
+      expect(getLatexData(h.elements[0])).toMatchObject({
+        source: String.raw`\frac{1}{2}`,
+        style: "handdrawn",
+        color: "#e03131",
+        fontSize: 48,
+      }),
+    );
+  });
+
+  it("flushes the last appearance changes on deselection without reselecting the formula", async () => {
+    await render(<Excalidraw />);
+    await act(async () => {
+      await saveLatex(h.app, sampleLatex());
+    });
+    const id = h.elements[0].id;
+    fireEvent.change(screen.getByLabelText("Font size"), {
+      target: { value: "64" },
+    });
+    API.setSelectedElements([]);
     await waitFor(() =>
       expect(
-        screen
-          .getByLabelText("Formula preview")
-          .querySelector('[data-latex-style="normal"]'),
-      ).not.toBeNull(),
+        getLatexData(h.elements.find((element) => element.id === id))?.fontSize,
+      ).toBe(64),
     );
+    expect(h.state.selectedElementIds[id]).not.toBe(true);
+    expect(screen.queryByTestId("latex-properties")).toBeNull();
   });
 
   it("keeps legacy formulas normal and rejects malformed style settings", () => {
