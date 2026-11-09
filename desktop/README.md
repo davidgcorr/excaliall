@@ -118,7 +118,7 @@ Use **Export image → HTML** or **Copy iframe** for standalone embedding; see t
 
 Select an arrow or line to show **Animate / Animar** in the properties side panel. Choose **Moving dots**, **Pulse**, or **Flowing dashes**, set speed (1×–5×), and choose forward or reverse direction. Choose **None** to stop the animation. The controls are also available in compact properties popovers and the right-click Animate submenu.
 
-Multiple selected lines/arrows can be changed together. Speed and direction changes preserve each element's other animation settings; locked elements are left unchanged. Changes support undo/redo and are saved in `.excalidraw` files. GIF and standalone HTML exports preserve animations. Moving dots, pulses and dashes follow the connector’s curves and rounded elbow corners.
+Multiple selected lines/arrows can be changed together. Speed and direction changes preserve each element's other animation settings; locked elements are left unchanged. Changes support undo/redo and are saved in `.excalidraw` files. GIF and standalone HTML exports preserve animations. Moving dots, pulses and dashes follow the connector’s curves and rounded elbow corners. Animation controls include a custom color, marker amount (1–50), and marker size (0.5–4×). Flowing arrows adds directional markers that rotate with the path. Leaving amount on Auto preserves the original spacing; setting an amount on Pulse creates moving glow segments.
 
 ## Editable sketch tables
 

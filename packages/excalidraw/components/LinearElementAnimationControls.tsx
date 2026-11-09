@@ -35,10 +35,31 @@ export const LinearElementAnimationControls = ({
     ? commonValue(animated.map((element) => element.animation!.direction))
     : "forward";
   const enabled = animated.length > 0;
+  const color = commonValue(
+    animated.map(
+      (element) =>
+        element.animation!.color ??
+        (element.animation!.type === "dashes"
+          ? "#3b82f6"
+          : element.strokeColor),
+    ),
+  );
+  const inheritColor = animated.every((element) => !element.animation!.color);
+  const amount = commonValue(
+    animated.map((element) => element.animation!.amount),
+  );
+  const size = commonValue(
+    animated.map((element) => element.animation!.size ?? 1),
+  );
   const changeType = (value: string) => {
     if (value === "none") {
       onChange({ animation: null });
-    } else if (value === "dots" || value === "pulse" || value === "dashes") {
+    } else if (
+      value === "dots" ||
+      value === "pulse" ||
+      value === "dashes" ||
+      value === "arrows"
+    ) {
       onChange({ patch: { type: value } });
     }
   };
@@ -61,6 +82,7 @@ export const LinearElementAnimationControls = ({
           <option value="dots">{t("labels.animationDots")}</option>
           <option value="pulse">{t("labels.animationPulse")}</option>
           <option value="dashes">{t("labels.animationDashes")}</option>
+          <option value="arrows">{t("labels.animationArrows")}</option>
         </select>
       </label>
       <label>
@@ -89,6 +111,79 @@ export const LinearElementAnimationControls = ({
           </output>
         </span>
       </label>
+      <label>
+        {t("labels.animationColor")}
+        <input
+          type="color"
+          aria-label={t("labels.animationColor")}
+          data-testid={`${idPrefix}-color`}
+          disabled={!enabled}
+          value={/^#[0-9a-f]{6}$/i.test(color) ? color : "#1971c2"}
+          onChange={(event) =>
+            onChange({ patch: { color: event.currentTarget.value } })
+          }
+        />
+      </label>
+      <label className="linear-element-animation-controls__inherit">
+        <input
+          type="checkbox"
+          disabled={!enabled}
+          checked={inheritColor}
+          onChange={(event) =>
+            onChange({
+              patch: {
+                color: event.currentTarget.checked
+                  ? undefined
+                  : /^#[0-9a-f]{6}$/i.test(color)
+                  ? color
+                  : "#1971c2",
+              },
+            })
+          }
+        />
+        {t("labels.animationInheritColor")}
+      </label>
+      {(
+        [
+          ["amount", amount, 1, 50, 1, "animationAmount"],
+          ["size", size, 0.5, 4, 0.25, "animationSize"],
+        ] as const
+      ).map(([parameter, value, min, max, step, label]) => (
+        <label key={parameter}>
+          {t(`labels.${label}`)}
+          <span className="linear-element-animation-controls__speed">
+            <input
+              type="range"
+              aria-label={t(`labels.${label}`)}
+              data-testid={`${idPrefix}-${parameter}`}
+              min={min}
+              max={max}
+              step={step}
+              disabled={!enabled}
+              value={value === "mixed" ? min : value ?? 6}
+              aria-valuetext={
+                value === "mixed"
+                  ? t("labels.animationMixed")
+                  : value === undefined
+                  ? t("labels.animationAuto")
+                  : `${value}${parameter === "size" ? "×" : ""}`
+              }
+              onChange={(event) =>
+                onChange({
+                  patch: { [parameter]: Number(event.currentTarget.value) },
+                })
+              }
+            />
+            <output>
+              {value === "mixed"
+                ? t("labels.animationMixed")
+                : value === undefined
+                ? t("labels.animationAuto")
+                : `${value}${parameter === "size" ? "×" : ""}`}
+            </output>
+          </span>
+        </label>
+      ))}
       <label>
         {t("labels.animationDirection")}
         <select

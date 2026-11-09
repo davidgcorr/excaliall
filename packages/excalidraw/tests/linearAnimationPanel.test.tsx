@@ -3,6 +3,7 @@ import React from "react";
 import { isLinearElement } from "@excalidraw/element";
 
 import { Excalidraw } from "../index";
+import { restoreElements } from "../data/restore";
 
 import { API } from "./helpers/api";
 import { Keyboard } from "./helpers/ui";
@@ -100,6 +101,60 @@ describe("selected arrow animation controls", () => {
       type: "dashes",
       speed: 3,
       direction: "forward",
+    });
+  });
+  it("configures marker color, amount, and size, and restores flowing arrows", async () => {
+    await render(<Excalidraw handleKeyboardGlobally />);
+    const arrow = API.createElement({ type: "arrow" });
+    API.setElements([arrow]);
+    API.setSelectedElements([arrow]);
+    fireEvent.change(screen.getByTestId("selection-animation-type"), {
+      target: { value: "arrows" },
+    });
+    for (const [parameter, value] of [
+      ["color", "#e03131"],
+      ["amount", "8"],
+      ["size", "2.5"],
+    ]) {
+      fireEvent.change(screen.getByTestId(`selection-animation-${parameter}`), {
+        target: { value },
+      });
+    }
+    const configured = getArrow(arrow.id);
+    expect(configured.animation).toEqual({
+      type: "arrows",
+      speed: 3,
+      direction: "forward",
+      color: "#e03131",
+      amount: 8,
+      size: 2.5,
+    });
+    expect(
+      restoreElements([configured], null).filter(isLinearElement)[0].animation,
+    ).toEqual(configured.animation);
+    Keyboard.undo();
+    expect(getArrow(arrow.id).animation?.size).toBeUndefined();
+    Keyboard.redo();
+    expect(getArrow(arrow.id).animation?.size).toBe(2.5);
+    fireEvent.click(screen.getByLabelText("Use default color"));
+    expect(getArrow(arrow.id).animation?.color).toBeUndefined();
+    const invalid = {
+      ...configured,
+      animation: {
+        ...configured.animation!,
+        amount: 1000,
+        size: -1,
+        color: "url(unsafe)",
+      },
+    };
+    expect(
+      restoreElements([invalid], null).filter(isLinearElement)[0].animation,
+    ).toEqual({
+      type: "arrows",
+      speed: 3,
+      direction: "forward",
+      amount: 50,
+      size: 0.5,
     });
   });
   it("hides animation controls for other shapes and locked arrows", async () => {

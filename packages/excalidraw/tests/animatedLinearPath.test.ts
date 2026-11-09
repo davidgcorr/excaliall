@@ -44,6 +44,7 @@ const mapFor = (element: ExcalidrawLinearElement) =>
 
 const context = () => ({
   beginPath: vi.fn(),
+  closePath: vi.fn(),
   moveTo: vi.fn(),
   lineTo: vi.fn(),
   bezierCurveTo: vi.fn(),
@@ -241,4 +242,73 @@ describe("animation shaft geometry", () => {
       });
     }
   });
+  it.each(["dots", "arrows", "dashes", "pulse"] as const)(
+    "applies custom marker settings to %s in canvas and SVG",
+    (type) => {
+      const element = {
+        ...elbow(),
+        animation: {
+          type,
+          speed: 2,
+          direction: "reverse" as const,
+          amount: 4,
+          size: 2,
+          color: "#e03131",
+        },
+      };
+      const ctx = context();
+      drawAnimatedLinearElement({
+        context: ctx as unknown as CanvasRenderingContext2D,
+        element,
+        elementsMap: mapFor(element),
+        scrollX: 0,
+        scrollY: 0,
+        zoom: 1,
+        animationTime: 100,
+      });
+      const svg = createAnimatedSvgElement(
+        element,
+        mapFor(element),
+        document,
+        10,
+        20,
+        false,
+        1,
+      )!;
+      if (type === "dots" || type === "arrows") {
+        expect(ctx.fill).toHaveBeenCalledTimes(4);
+        expect((ctx as unknown as CanvasRenderingContext2D).fillStyle).toBe(
+          "#e03131",
+        );
+      } else {
+        expect((ctx as unknown as CanvasRenderingContext2D).strokeStyle).toBe(
+          "#e03131",
+        );
+        const [dash, gap] = ctx.setLineDash.mock.calls[0][0];
+        expect(dash + gap).toBeCloseTo(
+          getAnimatedLinearPath(element, mapFor(element)).length / 4,
+        );
+      }
+      if (type === "arrows") {
+        expect(svg.querySelectorAll("animateMotion")).toHaveLength(4);
+        const motion = svg.querySelector("animateMotion")!;
+        expect(motion.getAttribute("rotate")).toBe("auto-reverse");
+        expect(motion.getAttribute("keyPoints")).toBe("1;0");
+        expect(svg.querySelector("path")!.getAttribute("fill")).toBe("#e03131");
+        expect(svg.querySelector("path")!.getAttribute("d")).toBe(
+          "M 12 0 L -6 6 L -6 -6 Z",
+        );
+      } else {
+        expect(svg.querySelectorAll("path")[1].getAttribute("stroke")).toBe(
+          "#e03131",
+        );
+      }
+      if (type === "dots") {
+        expect(ctx.arc.mock.calls[0][2]).toBe(6);
+        expect(
+          svg.querySelectorAll("path")[1].getAttribute("stroke-width"),
+        ).toBe("12");
+      }
+    },
+  );
 });

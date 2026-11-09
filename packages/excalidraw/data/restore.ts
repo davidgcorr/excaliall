@@ -228,9 +228,15 @@ const restoreLinearElementAnimation = (
     return undefined;
   }
 
-  const { type, speed, direction } = animation as Record<string, unknown>;
+  const { type, speed, direction, color, amount, size } = animation as Record<
+    string,
+    unknown
+  >;
   if (
-    (type !== "dots" && type !== "pulse" && type !== "dashes") ||
+    (type !== "dots" &&
+      type !== "pulse" &&
+      type !== "dashes" &&
+      type !== "arrows") ||
     !isFiniteNumber(speed) ||
     (direction !== "forward" && direction !== "reverse")
   ) {
@@ -241,6 +247,13 @@ const restoreLinearElementAnimation = (
     type,
     speed: clamp(Math.round(speed), 1, 5),
     direction,
+    ...(typeof color === "string" && /^#[0-9a-f]{6}$/i.test(color)
+      ? { color }
+      : {}),
+    ...(isFiniteNumber(amount)
+      ? { amount: clamp(Math.round(amount), 1, 50) }
+      : {}),
+    ...(isFiniteNumber(size) ? { size: clamp(size, 0.5, 4) } : {}),
   };
 };
 

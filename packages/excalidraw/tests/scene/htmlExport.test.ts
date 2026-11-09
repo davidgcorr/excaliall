@@ -9,7 +9,7 @@ const parse = (html: string) =>
   new DOMParser().parseFromString(html, "text/html");
 
 const arrow = (
-  type: "dots" | "dashes" | "pulse",
+  type: "dots" | "dashes" | "pulse" | "arrows",
   direction: "forward" | "reverse" = "forward",
 ) => ({
   ...API.createElement({ type: "arrow", x: 40, y: 20, width: 120, height: 40 }),
@@ -17,7 +17,7 @@ const arrow = (
 });
 
 describe("standalone HTML export", () => {
-  it.each(["dots", "dashes", "pulse"] as const)(
+  it.each(["dots", "dashes", "pulse", "arrows"] as const)(
     "embeds %s animation without scripts or external runtime",
     async (type) => {
       const blob = await exportScene({
@@ -30,11 +30,15 @@ describe("standalone HTML export", () => {
       expect(page.title).toBe("My animated diagram");
       expect(page.querySelector("svg")?.getAttribute("viewBox")).toBeTruthy();
       expect(
-        page.querySelectorAll(".html-animation animate").length,
+        page.querySelectorAll(
+          ".html-animation animate, .html-animation animateMotion",
+        ).length,
       ).toBeGreaterThan(0);
-      expect(page.querySelector("animate")?.getAttribute("repeatCount")).toBe(
-        "indefinite",
-      );
+      expect(
+        page
+          .querySelector("animate, animateMotion")
+          ?.getAttribute("repeatCount"),
+      ).toBe("indefinite");
       expect(page.querySelectorAll("script, iframe, link")).toHaveLength(0);
       expect(
         page
@@ -71,10 +75,14 @@ describe("standalone HTML export", () => {
       ),
     );
     expect(
-      page.querySelector(".html-animation animate")?.getAttribute("dur"),
+      page
+        .querySelector(".html-animation animate, .html-animation animateMotion")
+        ?.getAttribute("dur"),
     ).toBe("680ms");
     expect(
-      page.querySelector(".html-animation animate")?.getAttribute("values"),
+      page
+        .querySelector(".html-animation animate, .html-animation animateMotion")
+        ?.getAttribute("values"),
     ).toBe("0;34");
     expect(
       page.querySelector(".html-animation")?.closest("[clip-path]"),

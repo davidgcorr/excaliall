@@ -367,9 +367,14 @@ export type Arrowhead =
 export type AnyArrowhead = Arrowhead | ArrowheadLegacy;
 
 export type LinearElementAnimation = Readonly<{
-  type: "dots" | "pulse" | "dashes";
+  type: "dots" | "pulse" | "dashes" | "arrows";
   speed: number;
   direction: "forward" | "reverse";
+  color?: string;
+  /** Number of moving markers distributed along the path. */
+  amount?: number;
+  /** Marker size multiplier, independent of the underlying arrow. */
+  size?: number;
 }>;
 
 export type ExcalidrawLinearElement = _ExcalidrawElementBase &
