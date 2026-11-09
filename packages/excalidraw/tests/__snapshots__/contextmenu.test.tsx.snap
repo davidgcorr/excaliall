@@ -855,6 +855,11 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
       },
       "separator",
       {
+        "name": "animate",
+        "type": "animation",
+      },
+      "separator",
+      {
         "PanelComponent": [Function],
         "icon": <svg
           aria-hidden="true"
@@ -5747,6 +5752,11 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
       },
       "separator",
       {
+        "name": "animate",
+        "type": "animation",
+      },
+      "separator",
+      {
         "PanelComponent": [Function],
         "icon": <svg
           aria-hidden="true"
@@ -7012,6 +7022,11 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
         "trackEvent": {
           "category": "element",
         },
+      },
+      "separator",
+      {
+        "name": "animate",
+        "type": "animation",
       },
       "separator",
       {
@@ -9037,6 +9052,11 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
       },
       "separator",
       {
+        "name": "animate",
+        "type": "animation",
+      },
+      "separator",
+      {
         "PanelComponent": [Function],
         "icon": <svg
           aria-hidden="true"
@@ -10072,6 +10092,11 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
         "trackEvent": {
           "category": "element",
         },
+      },
+      "separator",
+      {
+        "name": "animate",
+        "type": "animation",
       },
       "separator",
       {

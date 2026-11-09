@@ -21,6 +21,8 @@ import {
 
 import { useColorPickerDnD } from "./colorTopPicksDnD";
 
+import { isStrokeColorPicker } from "./colorPickerUtils";
+
 import type { ColorPickerType } from "./colorPickerUtils";
 
 interface TopPicksProps {
@@ -49,11 +51,7 @@ export const TopPicks = ({
   const dragState = dnd?.dragState ?? null;
 
   let colors;
-  if (
-    type === "elementStroke" ||
-    type === "animationColor" ||
-    type === "shapeAnimationColor"
-  ) {
+  if (isStrokeColorPicker(type)) {
     colors = DEFAULT_ELEMENT_STROKE_PICKS;
   }
 

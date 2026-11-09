@@ -251,6 +251,8 @@ import type {
 
 import type { Mutable, ValueOf } from "@excalidraw/common/utility-types";
 
+import { actionEditLatex } from "../actions/actionKnowledge";
+
 import {
   isAnimatedPathElement,
   isAnimatedShapeElement,
@@ -384,6 +386,8 @@ import {
   getColorTargetAppStateUpdates,
   resolveColorTarget,
 } from "../actions/colorTargets";
+
+import { getLatexData } from "./Latex/data";
 
 import { getTableData } from "./DataTable/data";
 
@@ -6287,6 +6291,20 @@ class App extends React.Component<AppProps, AppState> {
       chartHit &&
       !this.state.viewModeEnabled &&
       !chartHit.locked &&
+      getLatexData(chartHit)
+    ) {
+      this.setState({
+        selectedElementIds: { [chartHit.id]: true },
+        selectedGroupIds: {},
+        editingGroupId: null,
+        openDialog: { name: "latex", elementId: chartHit.id },
+      });
+      return;
+    }
+    if (
+      chartHit &&
+      !this.state.viewModeEnabled &&
+      !chartHit.locked &&
       getTableData(chartHit)
     ) {
       this.setState({
@@ -11344,6 +11362,11 @@ class App extends React.Component<AppProps, AppState> {
       CONTEXT_MENU_SEPARATOR,
       ...(this.props.onOpenDataChart ? [actionEditDataChart] : []),
       actionEditDataTable,
+      ...(this.scene
+        .getSelectedElements(this.state)
+        .some((element) => !!getLatexData(element))
+        ? [actionEditLatex]
+        : []),
       actionToggleCropEditor,
       CONTEXT_MENU_SEPARATOR,
       ...options,

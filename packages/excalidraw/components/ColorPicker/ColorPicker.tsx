@@ -34,7 +34,10 @@ import { ColorInput } from "./ColorInput";
 import { Picker } from "./Picker";
 import PickerHeading from "./PickerHeading";
 import { TopPicks } from "./TopPicks";
-import { activeColorPickerSectionAtom } from "./colorPickerUtils";
+import {
+  activeColorPickerSectionAtom,
+  isStrokeColorPicker,
+} from "./colorPickerUtils";
 import {
   ColorPickerDnDContext,
   useColorPickerDnD,
@@ -263,6 +266,8 @@ const isColorPickerPopup = (
   popup === "elementStroke" ||
   popup === "animationColor" ||
   popup === "shapeAnimationColor" ||
+  popup === "latexColor" ||
+  popup === "mindMapColor" ||
   popup === "elementBackground" ||
   popup === "canvasBackground";
 
@@ -317,9 +322,7 @@ const ColorPickerTrigger = ({
       aria-label={label}
       style={displayColor ? { "--swatch-color": displayColor } : undefined}
       title={
-        type === "elementStroke" ||
-        type === "animationColor" ||
-        type === "shapeAnimationColor"
+        isStrokeColorPicker(type)
           ? t("labels.showStroke")
           : t("labels.showBackground")
       }
@@ -384,9 +387,7 @@ const ColorPickerComponent = ({
   const effectiveTopPicks = customTopPicks?.length
     ? customTopPicks
     : topPicks ??
-      (type === "elementStroke" ||
-      type === "animationColor" ||
-      type === "shapeAnimationColor"
+      (isStrokeColorPicker(type)
         ? DEFAULT_ELEMENT_STROKE_PICKS
         : DEFAULT_ELEMENT_BACKGROUND_PICKS);
 
@@ -468,13 +469,7 @@ const ColorPickerComponent = ({
             label={label}
             type={type}
             theme={appState.theme}
-            mode={
-              type === "elementStroke" ||
-              type === "animationColor" ||
-              type === "shapeAnimationColor"
-                ? "stroke"
-                : "background"
-            }
+            mode={isStrokeColorPicker(type) ? "stroke" : "background"}
             editingTextElement={!!appState.editingTextElement}
             onToggle={() => {
               // atomic switch: if another popup is open, close it first, then open this one next tick

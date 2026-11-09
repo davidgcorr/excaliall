@@ -166,6 +166,8 @@ export const SelectedShapeActions = ({
       {predicates.fill && renderAction("changeFillStyle")}
 
       {renderAction("editDataTable")}
+      {renderAction("editLatex")}
+      {renderAction("editMindMap")}
       {renderAction("editDataChart")}
       {predicates.strokeWidth && renderAction("changeStrokeWidth")}
 
@@ -300,6 +302,8 @@ const CombinedShapeProperties = ({
               {predicates.roundness && renderAction("changeRoundness")}
               {predicates.opacity && renderAction("changeOpacity")}
               {renderAction("editDataTable")}
+              {renderAction("editLatex")}
+              {renderAction("editMindMap")}
               {renderAction("editDataChart")}
               {renderAction("changeLinearAnimation")}
             </div>

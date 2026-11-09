@@ -1,0 +1,39 @@
+.excalidraw .mind-map-properties {
+  display: grid;
+  gap: 0.5rem;
+  label {
+    display: grid;
+    gap: 0.3rem;
+  }
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.4rem;
+    padding: 0.4rem;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    font: inherit;
+  }
+  &__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+  }
+  button {
+    cursor: pointer;
+  }
+  &__buttons button {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--default-border-color);
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+  }
+  &__hint {
+    font-size: 0.7rem;
+    color: var(--text-secondary-color);
+  }
+}

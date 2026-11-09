@@ -1,0 +1,51 @@
+.excalidraw .latex-editor {
+  display: grid;
+  gap: 1rem;
+  label {
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+  textarea,
+  input[type="number"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.4rem;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+  }
+  textarea {
+    font-family: monospace;
+    resize: vertical;
+  }
+  button {
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    background: var(--island-bg-color);
+    color: var(--text-primary-color);
+    cursor: pointer;
+  }
+  &__examples {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    font-size: 0.75rem;
+  }
+  &__preview {
+    min-height: 6rem;
+    display: grid;
+    place-items: center;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid var(--default-border-color);
+    border-radius: 0.4rem;
+    padding: 1rem;
+  }
+  &__apply {
+    background: var(--color-primary) !important;
+    color: white !important;
+  }
+}

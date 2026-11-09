@@ -114,7 +114,7 @@ export const MobileToolbar = ({
   const GAP = 4;
 
   // Hand, selection, table, optional chart, freedraw, eraser, shape, arrow, more.
-  const MIN_TOOLS = 8 + Number(!!app.props.onOpenDataChart);
+  const MIN_TOOLS = 10 + Number(!!app.props.onOpenDataChart);
   const MIN_WIDTH = MIN_TOOLS * WIDTH + (MIN_TOOLS - 1) * GAP;
   const ADDITIONAL_WIDTH = WIDTH + GAP;
 
@@ -251,6 +251,8 @@ export const MobileToolbar = ({
       {actionManager.renderAction("insertDataTable")}
       {app.props.onOpenDataChart &&
         actionManager.renderAction("insertDataChart")}
+      {actionManager.renderAction("insertLatex")}
+      {actionManager.renderAction("insertMindMap")}
 
       {/* Other Shapes */}
       <DropdownMenu open={isOtherShapesMenuOpen}>

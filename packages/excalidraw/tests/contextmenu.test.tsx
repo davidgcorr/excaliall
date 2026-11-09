@@ -87,7 +87,7 @@ describe("contextMenu element", () => {
       clientY: 1,
     });
     const contextMenu = UI.queryContextMenu();
-    const expectedShortcutNames: ShortcutName[] = [
+    const expectedShortcutNames: (ShortcutName | "animate")[] = [
       "paste",
       "selectAll",
       "gridMode",
@@ -118,7 +118,7 @@ describe("contextMenu element", () => {
     const contextMenu = UI.queryContextMenu();
     const contextMenuOptions =
       contextMenu?.querySelectorAll(".context-menu li");
-    const expectedContextMenuItems: ActionName[] = [
+    const expectedContextMenuItems: (ActionName | "animate")[] = [
       "cut",
       "copy",
       "paste",
@@ -137,6 +137,7 @@ describe("contextMenu element", () => {
       "hyperlink",
       "copyElementLink",
       "toggleElementLock",
+      "animate",
     ];
 
     expect(contextMenu).not.toBeNull();
@@ -212,7 +213,7 @@ describe("contextMenu element", () => {
     const contextMenu = UI.queryContextMenu();
     const contextMenuOptions =
       contextMenu?.querySelectorAll(".context-menu li");
-    const expectedShortcutNames: ShortcutName[] = [
+    const expectedShortcutNames: (ShortcutName | "animate")[] = [
       "cut",
       "copy",
       "paste",
@@ -230,6 +231,7 @@ describe("contextMenu element", () => {
       "bringToFront",
       "duplicateSelection",
       "toggleElementLock",
+      "animate",
     ];
 
     expect(contextMenu).not.toBeNull();
@@ -269,7 +271,7 @@ describe("contextMenu element", () => {
     const contextMenu = UI.queryContextMenu();
     const contextMenuOptions =
       contextMenu?.querySelectorAll(".context-menu li");
-    const expectedContextMenuItems: ActionName[] = [
+    const expectedContextMenuItems: (ActionName | "animate")[] = [
       "cut",
       "copy",
       "paste",
@@ -288,6 +290,7 @@ describe("contextMenu element", () => {
       "bringToFront",
       "duplicateSelection",
       "toggleElementLock",
+      "animate",
     ];
 
     expect(contextMenu).not.toBeNull();

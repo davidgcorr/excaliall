@@ -316,6 +316,8 @@ export const Toolbar = ({
         {actionManager.renderAction("insertDataTable")}
         {app.props.onOpenDataChart &&
           actionManager.renderAction("insertDataChart")}
+        {actionManager.renderAction("insertLatex")}
+        {actionManager.renderAction("insertMindMap")}
 
         <div
           className="App-toolbar__divider"

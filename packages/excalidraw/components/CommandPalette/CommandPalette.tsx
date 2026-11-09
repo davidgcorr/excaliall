@@ -338,6 +338,7 @@ function CommandPaletteInner({
         actionManager.actions.cropEditor,
         actionManager.actions.editDataChart,
         actionManager.actions.editDataTable,
+        actionManager.actions.editLatex,
         actionManager.actions.togglePolygon,
         actionLink,
         actionCopyElementLink,
@@ -379,6 +380,8 @@ function CommandPaletteInner({
         actionManager.actions.stats,
         actionManager.actions.insertDataChart,
         actionManager.actions.insertDataTable,
+        actionManager.actions.insertLatex,
+        actionManager.actions.insertMindMap,
       ].map((action) => actionToCommand(action, DEFAULT_CATEGORIES.editor));
 
       const exportCommands: CommandPaletteItem[] = [

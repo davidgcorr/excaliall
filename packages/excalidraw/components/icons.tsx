@@ -2592,6 +2592,21 @@ export const settingsIcon = createIcon(
   tablerIconProps,
 );
 
+export const latexIcon = createIcon(
+  <path d="M19 4H6l7 8-7 8h13M19 4v3M19 17v3" />,
+  tablerIconProps,
+);
+export const mindMapIcon = createIcon(
+  <g>
+    <rect x="3" y="9" width="6" height="6" rx="2" />
+    <path d="M9 12h4m0 0V5h4m-4 7v7h4m-4-7h4" />
+    <circle cx="19" cy="5" r="2" />
+    <circle cx="19" cy="12" r="2" />
+    <circle cx="19" cy="19" r="2" />
+  </g>,
+  tablerIconProps,
+);
+
 export const dataChartIcon = createIcon(
   <path d="M4 3v17h17M8 16v-5m5 5V6m5 10V9" />,
   {

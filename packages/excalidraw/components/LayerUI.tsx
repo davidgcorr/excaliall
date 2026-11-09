@@ -32,6 +32,8 @@ import {
   type ColorDefaultKey,
 } from "../actions/colorTargets";
 
+import { LatexDialog } from "./Latex/LatexDialog";
+
 import { SelectedShapeActions, CompactShapeActions } from "./Actions";
 import { LoadingMessage } from "./LoadingMessage";
 import { MobileMenu } from "./MobileMenu";
@@ -579,6 +581,12 @@ const LayerUI = ({
           onClose={() => {
             setAppState({ openDialog: null });
           }}
+        />
+      )}
+      {appState.openDialog?.name === "latex" && (
+        <LatexDialog
+          key={appState.openDialog.elementId ?? "new"}
+          elementId={appState.openDialog.elementId}
         />
       )}
       <ActiveConfirmDialog />

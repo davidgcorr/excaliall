@@ -1,3 +1,9 @@
+export {
+  actionInsertLatex,
+  actionEditLatex,
+  actionInsertMindMap,
+  actionEditMindMap,
+} from "./actionKnowledge";
 export { actionInsertDataTable, actionEditDataTable } from "./actionDataTable";
 export { actionInsertDataChart, actionEditDataChart } from "./actionDataChart";
 export { actionDeleteSelected } from "./actionDeleteSelected";

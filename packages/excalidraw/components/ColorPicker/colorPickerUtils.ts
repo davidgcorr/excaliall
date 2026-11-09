@@ -58,11 +58,17 @@ export const getMostUsedCustomColors = (
     | "elementBackground"
     | "elementStroke"
     | "animationColor"
-    | "shapeAnimationColor",
+    | "shapeAnimationColor"
+    | "latexColor"
+    | "mindMapColor",
   palette: ColorPaletteCustom,
 ) => {
   const getColor = (element: ExcalidrawElement) =>
-    type === "shapeAnimationColor"
+    type === "latexColor"
+      ? element.customData?.latex?.color
+      : type === "mindMapColor"
+      ? element.customData?.mindMap?.color
+      : type === "shapeAnimationColor"
       ? (element.type === "rectangle" ||
           element.type === "ellipse" ||
           element.type === "diamond") &&
@@ -81,7 +87,10 @@ export const getMostUsedCustomColors = (
     .map(getColor)
     .filter(
       (color): color is string =>
-        !!color && !isTransparent(color) && isCustomColor({ color, palette }),
+        typeof color === "string" &&
+        !!color &&
+        !isTransparent(color) &&
+        isCustomColor({ color, palette }),
     );
 
   const colorCountMap = new Map<string, number>();
@@ -109,4 +118,9 @@ export type ColorPickerType =
   | "elementBackground"
   | "elementStroke"
   | "animationColor"
-  | "shapeAnimationColor";
+  | "shapeAnimationColor"
+  | "latexColor"
+  | "mindMapColor";
+
+export const isStrokeColorPicker = (type: ColorPickerType) =>
+  type !== "canvasBackground" && type !== "elementBackground";

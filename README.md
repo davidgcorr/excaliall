@@ -2,7 +2,7 @@
 
 **Sketch ideas. Animate connections. Bring data onto the canvas.**
 
-Excaliall combines freehand diagrams, animated connectors, data-driven graphs and editable tables in one sketch-style whiteboard. Built on Excalidraw, with desktop apps for macOS, Windows and Linux.
+Excaliall combines freehand diagrams, animations, mind maps, LaTeX formulas, data-driven graphs and editable tables in one sketch-style whiteboard. Built on Excalidraw, with desktop apps for macOS, Windows and Linux.
 
 No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 
@@ -15,7 +15,9 @@ No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 | Feature | What you can do |
 | --- | --- |
 | **Draw** | Sketch diagrams with shapes, arrows, text and the familiar Excalidraw tools. |
-| **Animate** | Add moving dots, pulses or flowing dashes to arrows and lines. Set speed and direction in the side panel. |
+| **Animate** | Animate shapes, arrows, lines and pencil strokes. Set effects, speed, color, amount and size in the side panel. |
+| **Map ideas** | Build a two-sided mind map with colored, curved branches. Add children and siblings, rename topics, and arrange the tree from the side panel. |
+| **Write math** | Insert LaTeX formulas with a live preview, size and color controls. Double-click a formula to edit its source. |
 | **Graph** | Import CSV or JSON into roughViz charts. Edit colors, titles, axes, data columns and sketch styles. |
 | **Tabulate** | Edit cells on the canvas, import CSV/Excel/JSON, and page through rows or columns. Use the table's icons to manage data; deselect to save. |
 | **Share** | Export PNG, SVG, animated GIF or standalone HTML. Copy an iframe to embed a diagram in your page. |
@@ -40,12 +42,14 @@ Find the running version and Git revision under **☰ → Preferences / Preferen
 
 ## Get started
 
-- **Animate a connection:** select an arrow or line, then use **Animate** in the properties side panel.
+- **Animate:** select a shape, arrow, line or pencil stroke, then use **Animate** in the properties side panel.
+- **Add a formula:** use the Σ icon, enter LaTeX, and choose **Insert formula**. Double-click the result or use **Edit formula** to change it.
+- **Make a mind map:** use the branching icon. Select a topic to add children or siblings, change branch colors, switch a main branch’s side, or arrange the map. Double-click a topic to edit its text.
 - **Add a graph:** use the chart icon in the central toolbar, import CSV/JSON, then select the graph to edit its properties. Double-click to reopen the data editor.
 - **Add a table:** use the table icon in the central toolbar, then edit headers and cells on the canvas. Changes save when you deselect it.
 - **Embed a diagram:** open **Export image**, then choose **HTML** or **Copy iframe**. Animated connections keep moving in the exported HTML.
 
-Detailed guides: [Graphs](desktop/ROUGHVIZ.md) · [Tables](desktop/DATA-TABLES.md) · [HTML and iframe export](desktop/HTML-EXPORT.md).
+Detailed guides: [Graphs](desktop/ROUGHVIZ.md) · [Tables](desktop/DATA-TABLES.md) · [HTML and iframe export](desktop/HTML-EXPORT.md) · [LaTeX and mind maps](desktop/KNOWLEDGE-TOOLS.md).
 
 Promotional content is hidden on new installations. Existing installations retain their saved preference; use **☰ → Preferences → Hide upstream promotions** if needed.
 
