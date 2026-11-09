@@ -119,7 +119,6 @@
     "animationDashes": "Flowing dashes",
     "animationArrows": "Flowing arrows",
     "animationColor": "Animation color",
-    "animationInheritColor": "Use default color",
     "animationAmount": "Amount",
     "animationAuto": "Auto",
     "animationSize": "Marker size",

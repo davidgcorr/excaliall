@@ -153,8 +153,6 @@ describe("selected arrow animation controls", () => {
     expect(getArrow(arrow.id).animation?.size).toBeUndefined();
     Keyboard.redo();
     expect(getArrow(arrow.id).animation?.size).toBe(2.5);
-    fireEvent.click(screen.getByLabelText("Use default color"));
-    expect(getArrow(arrow.id).animation?.color).toBeUndefined();
     const invalid = {
       ...configured,
       animation: {

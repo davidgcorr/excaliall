@@ -51,7 +51,6 @@ export const LinearElementAnimationControls = ({
           : element.strokeColor),
     ),
   );
-  const inheritColor = animated.every((element) => !element.animation!.color);
   const amount = commonValue(
     animated.map((element) => element.animation!.amount),
   );
@@ -135,25 +134,6 @@ export const LinearElementAnimationControls = ({
           />
         </div>
       )}
-      <label className="linear-element-animation-controls__inherit">
-        <input
-          type="checkbox"
-          disabled={!enabled}
-          checked={inheritColor}
-          onChange={(event) =>
-            onChange({
-              patch: {
-                color: event.currentTarget.checked
-                  ? undefined
-                  : color && color !== "mixed"
-                  ? color
-                  : "#1971c2",
-              },
-            })
-          }
-        />
-        {t("labels.animationInheritColor")}
-      </label>
       {(
         [
           ["amount", amount, 1, 50, 1, "animationAmount"],
