@@ -483,6 +483,7 @@ export interface AppState {
     | "canvasBackground"
     | "elementBackground"
     | "elementStroke"
+    | "animationColor"
     | "fontFamily"
     | "compactTextProperties"
     | "compactStrokeStyles"

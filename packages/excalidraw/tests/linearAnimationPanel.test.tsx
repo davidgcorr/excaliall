@@ -1,4 +1,5 @@
 import React from "react";
+import { within } from "@testing-library/react";
 
 import { isLinearElement } from "@excalidraw/element";
 
@@ -19,6 +20,17 @@ const getArrow = (id: string) => {
 };
 
 describe("selected arrow animation controls", () => {
+  beforeEach(() => {
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+  });
+  afterEach(() => vi.unstubAllGlobals());
   it("enables, configures, undoes, and disables animation from the side panel", async () => {
     await render(<Excalidraw handleKeyboardGlobally />);
     const arrow = API.createElement({ type: "arrow" });
@@ -111,8 +123,13 @@ describe("selected arrow animation controls", () => {
     fireEvent.change(screen.getByTestId("selection-animation-type"), {
       target: { value: "arrows" },
     });
+    fireEvent.click(
+      within(screen.getByTestId("selection-animation-color")).getByTestId(
+        "color-top-pick-#e03131",
+      ),
+    );
+    expect(getArrow(arrow.id).strokeColor).toBe(arrow.strokeColor);
     for (const [parameter, value] of [
-      ["color", "#e03131"],
       ["amount", "8"],
       ["size", "2.5"],
     ]) {
@@ -156,6 +173,25 @@ describe("selected arrow animation controls", () => {
       amount: 50,
       size: 0.5,
     });
+  });
+  it("opens a separate standard palette and edits animation colors without changing stroke", async () => {
+    await render(<Excalidraw handleKeyboardGlobally />);
+    const arrow = API.createElement({ type: "arrow", strokeColor: "#1971c2" });
+    API.setElements([arrow]);
+    API.setSelectedElements([arrow]);
+    fireEvent.change(screen.getByTestId("selection-animation-type"), {
+      target: { value: "dots" },
+    });
+    const picker = within(screen.getByTestId("selection-animation-color"));
+    expect(picker.getAllByTestId(/^color-top-pick-/)).toHaveLength(5);
+    fireEvent.click(picker.getByRole("button", { name: "Animation color" }));
+    expect(h.state.openPopup).toBe("animationColor");
+    const hex = screen.getByRole("textbox", { name: "Animation color" });
+    fireEvent.change(hex, { target: { value: "aabbcc" } });
+    expect(getArrow(arrow.id).animation?.color).toBe("#aabbcc");
+    expect(getArrow(arrow.id).strokeColor).toBe("#1971c2");
+    fireEvent.click(picker.getByRole("button", { name: "Animation color" }));
+    expect(h.state.openPopup).toBeNull();
   });
   it("hides animation controls for other shapes and locked arrows", async () => {
     await render(<Excalidraw handleKeyboardGlobally />);

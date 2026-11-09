@@ -54,36 +54,28 @@ export const isCustomColor = ({
 
 export const getMostUsedCustomColors = (
   elements: readonly ExcalidrawElement[],
-  type: "elementBackground" | "elementStroke",
+  type: "elementBackground" | "elementStroke" | "animationColor",
   palette: ColorPaletteCustom,
 ) => {
-  const elementColorTypeMap = {
-    elementBackground: "backgroundColor",
-    elementStroke: "strokeColor",
-  };
+  const getColor = (element: ExcalidrawElement) =>
+    type === "animationColor"
+      ? (element.type === "arrow" || element.type === "line") &&
+        element.animation?.color
+      : type === "elementBackground"
+      ? element.backgroundColor
+      : element.strokeColor;
 
-  const colors = elements.filter((element) => {
-    if (element.isDeleted) {
-      return false;
-    }
-
-    const color =
-      element[elementColorTypeMap[type] as "backgroundColor" | "strokeColor"];
-
-    // fully-transparent colors are "no color", not a reusable custom color
-    // (matters for palettes that exclude `transparent`, e.g. bucket fill)
-    return !isTransparent(color) && isCustomColor({ color, palette });
-  });
+  const colors = elements
+    .filter((element) => !element.isDeleted)
+    .map(getColor)
+    .filter(
+      (color): color is string =>
+        !!color && !isTransparent(color) && isCustomColor({ color, palette }),
+    );
 
   const colorCountMap = new Map<string, number>();
-  colors.forEach((element) => {
-    const color =
-      element[elementColorTypeMap[type] as "backgroundColor" | "strokeColor"];
-    if (colorCountMap.has(color)) {
-      colorCountMap.set(color, colorCountMap.get(color)! + 1);
-    } else {
-      colorCountMap.set(color, 1);
-    }
+  colors.forEach((color) => {
+    colorCountMap.set(color, (colorCountMap.get(color) ?? 0) + 1);
   });
 
   return [...colorCountMap.entries()]
@@ -104,4 +96,5 @@ export const activeColorPickerSectionAtom =
 export type ColorPickerType =
   | "canvasBackground"
   | "elementBackground"
-  | "elementStroke";
+  | "elementStroke"
+  | "animationColor";

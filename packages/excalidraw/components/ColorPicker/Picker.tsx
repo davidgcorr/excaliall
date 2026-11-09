@@ -70,7 +70,9 @@ export const Picker = React.forwardRef(
     ref,
   ) => {
     const title = showTitle
-      ? type === "elementStroke"
+      ? type === "animationColor"
+        ? t("labels.animationColor")
+        : type === "elementStroke"
         ? t("labels.stroke")
         : type === "elementBackground"
         ? t("labels.background")

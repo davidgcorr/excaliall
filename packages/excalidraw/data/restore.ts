@@ -28,6 +28,7 @@ import {
   arrayToMap,
   getSizeFromPoints,
   normalizeLink,
+  normalizeInputColor,
   getLineHeight,
   STROKE_WIDTH,
   STROKE_WIDTH_KEYS,
@@ -243,13 +244,13 @@ const restoreLinearElementAnimation = (
     return undefined;
   }
 
+  const restoredColor =
+    typeof color === "string" ? normalizeInputColor(color) : null;
   return {
     type,
     speed: clamp(Math.round(speed), 1, 5),
     direction,
-    ...(typeof color === "string" && /^#[0-9a-f]{6}$/i.test(color)
-      ? { color }
-      : {}),
+    ...(restoredColor ? { color: restoredColor } : {}),
     ...(isFiniteNumber(amount)
       ? { amount: clamp(Math.round(amount), 1, 50) }
       : {}),

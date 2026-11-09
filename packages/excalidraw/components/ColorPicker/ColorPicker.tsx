@@ -261,6 +261,7 @@ const isColorPickerPopup = (
   popup: AppState["openPopup"],
 ): popup is ColorPickerType =>
   popup === "elementStroke" ||
+  popup === "animationColor" ||
   popup === "elementBackground" ||
   popup === "canvasBackground";
 
@@ -315,7 +316,7 @@ const ColorPickerTrigger = ({
       aria-label={label}
       style={displayColor ? { "--swatch-color": displayColor } : undefined}
       title={
-        type === "elementStroke"
+        type === "elementStroke" || type === "animationColor"
           ? t("labels.showStroke")
           : t("labels.showBackground")
       }
@@ -380,7 +381,7 @@ const ColorPickerComponent = ({
   const effectiveTopPicks = customTopPicks?.length
     ? customTopPicks
     : topPicks ??
-      (type === "elementStroke"
+      (type === "elementStroke" || type === "animationColor"
         ? DEFAULT_ELEMENT_STROKE_PICKS
         : DEFAULT_ELEMENT_BACKGROUND_PICKS);
 
@@ -462,7 +463,11 @@ const ColorPickerComponent = ({
             label={label}
             type={type}
             theme={appState.theme}
-            mode={type === "elementStroke" ? "stroke" : "background"}
+            mode={
+              type === "elementStroke" || type === "animationColor"
+                ? "stroke"
+                : "background"
+            }
             editingTextElement={!!appState.editingTextElement}
             onToggle={() => {
               // atomic switch: if another popup is open, close it first, then open this one next tick

@@ -4,6 +4,10 @@ import type {
 } from "@excalidraw/element/types";
 
 import { t } from "../i18n";
+import { useUIAppState } from "../context/ui-appState";
+
+import { useApp, useExcalidrawSetAppState } from "./App";
+import { ColorPicker } from "./ColorPicker/ColorPicker";
 
 import "./LinearElementAnimationControls.scss";
 
@@ -21,6 +25,9 @@ export const LinearElementAnimationControls = ({
   onChange: (data: ChangeLinearAnimationData) => void;
   idPrefix?: string;
 }) => {
+  const app = useApp();
+  const setAppState = useExcalidrawSetAppState();
+  const appState = useUIAppState();
   if (!elements.length) {
     return null;
   }
@@ -111,19 +118,23 @@ export const LinearElementAnimationControls = ({
           </output>
         </span>
       </label>
-      <label>
-        {t("labels.animationColor")}
-        <input
-          type="color"
-          aria-label={t("labels.animationColor")}
+      {enabled && (
+        <div
+          className="linear-element-animation-controls__color"
           data-testid={`${idPrefix}-color`}
-          disabled={!enabled}
-          value={/^#[0-9a-f]{6}$/i.test(color) ? color : "#1971c2"}
-          onChange={(event) =>
-            onChange({ patch: { color: event.currentTarget.value } })
-          }
-        />
-      </label>
+        >
+          <span>{t("labels.animationColor")}</span>
+          <ColorPicker
+            type="animationColor"
+            label={t("labels.animationColor")}
+            color={color === "mixed" ? null : color ?? null}
+            onChange={(color) => onChange({ patch: { color } })}
+            elements={app.scene.getNonDeletedElements()}
+            appState={appState}
+            updateData={setAppState}
+          />
+        </div>
+      )}
       <label className="linear-element-animation-controls__inherit">
         <input
           type="checkbox"
@@ -134,7 +145,7 @@ export const LinearElementAnimationControls = ({
               patch: {
                 color: event.currentTarget.checked
                   ? undefined
-                  : /^#[0-9a-f]{6}$/i.test(color)
+                  : color && color !== "mixed"
                   ? color
                   : "#1971c2",
               },

@@ -49,7 +49,7 @@ export const TopPicks = ({
   const dragState = dnd?.dragState ?? null;
 
   let colors;
-  if (type === "elementStroke") {
+  if (type === "elementStroke" || type === "animationColor") {
     colors = DEFAULT_ELEMENT_STROKE_PICKS;
   }
 
