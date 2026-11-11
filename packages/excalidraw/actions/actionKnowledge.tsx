@@ -10,9 +10,17 @@ import { t } from "../i18n";
 import { getSelectedElements } from "../scene";
 
 import { register } from "./register";
+import { getShortcutFromShortcutName } from "./shortcuts";
 
 export const actionInsertLatex = register({
   name: "insertLatex",
+  keyTest: (event) =>
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !event.repeat &&
+    event.key.toLowerCase() === "j",
   label: "labels.insertLatex",
   icon: latexIcon,
   keywords: ["latex", "tex", "math", "equation", "formula"],
@@ -30,7 +38,10 @@ export const actionInsertLatex = register({
       type="button"
       icon={latexIcon}
       aria-label={t("labels.insertLatex")}
-      title={t("labels.insertLatex")}
+      keyBindingLabel={getShortcutFromShortcutName("insertLatex")}
+      title={`${t("labels.insertLatex")} (${getShortcutFromShortcutName(
+        "insertLatex",
+      )})`}
       data-testid="toolbar-latex"
       onClick={() => updateData(null)}
     />
@@ -82,6 +93,13 @@ export const actionEditLatex = register({
 });
 export const actionInsertMindMap = register({
   name: "insertMindMap",
+  keyTest: (event) =>
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !event.repeat &&
+    event.key.toLowerCase() === "m",
   label: "labels.insertMindMap",
   icon: mindMapIcon,
   keywords: ["mindmap", "mind map", "tree", "topic", "branch", "brainstorm"],
@@ -99,7 +117,10 @@ export const actionInsertMindMap = register({
       type="button"
       icon={mindMapIcon}
       aria-label={t("labels.insertMindMap")}
-      title={t("labels.insertMindMap")}
+      keyBindingLabel={getShortcutFromShortcutName("insertMindMap")}
+      title={`${t("labels.insertMindMap")} (${getShortcutFromShortcutName(
+        "insertMindMap",
+      )})`}
       data-testid="toolbar-mind-map"
       onClick={() => updateData(null)}
     />

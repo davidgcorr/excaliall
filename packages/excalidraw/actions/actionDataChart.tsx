@@ -6,9 +6,17 @@ import { t } from "../i18n";
 import { getSelectedElements } from "../scene";
 
 import { register } from "./register";
+import { getShortcutFromShortcutName } from "./shortcuts";
 
 export const actionInsertDataChart = register({
   name: "insertDataChart",
+  keyTest: (event) =>
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !event.repeat &&
+    event.key.toLowerCase() === "c",
   label: "labels.insertDataChart",
   icon: dataChartIcon,
   keywords: [
@@ -38,7 +46,10 @@ export const actionInsertDataChart = register({
       type="button"
       icon={dataChartIcon}
       aria-label={t("labels.insertDataChart")}
-      title={t("labels.insertDataChart")}
+      keyBindingLabel={getShortcutFromShortcutName("insertDataChart")}
+      title={`${t("labels.insertDataChart")} (${getShortcutFromShortcutName(
+        "insertDataChart",
+      )})`}
       data-testid="toolbar-data-chart"
       onClick={() => updateData(null)}
     />

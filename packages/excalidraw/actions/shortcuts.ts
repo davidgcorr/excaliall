@@ -10,6 +10,10 @@ import type { ActionName } from "./types";
 export type ShortcutName =
   | SubtypeOf<
       ActionName,
+      | "insertDataTable"
+      | "insertDataChart"
+      | "insertLatex"
+      | "insertMindMap"
       | "toggleTheme"
       | "loadScene"
       | "clearCanvas"
@@ -57,6 +61,10 @@ export type ShortcutName =
   | "toolLock";
 
 const shortcutMap: Record<ShortcutName, string[]> = {
+  insertDataTable: [getShortcutKey("U")],
+  insertDataChart: [getShortcutKey("C")],
+  insertLatex: [getShortcutKey("J")],
+  insertMindMap: [getShortcutKey("M")],
   toggleTheme: [getShortcutKey("Shift+Alt+D")],
   saveScene: [getShortcutKey("CtrlOrCmd+S")],
   loadScene: [getShortcutKey("CtrlOrCmd+O")],

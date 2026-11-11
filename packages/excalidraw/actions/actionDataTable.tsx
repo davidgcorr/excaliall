@@ -10,9 +10,17 @@ import { t } from "../i18n";
 import { getSelectedElements } from "../scene";
 
 import { register } from "./register";
+import { getShortcutFromShortcutName } from "./shortcuts";
 
 export const actionInsertDataTable = register({
   name: "insertDataTable",
+  keyTest: (event) =>
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !event.repeat &&
+    event.key.toLowerCase() === "u",
   label: "labels.insertDataTable",
   icon: dataTableIcon,
   keywords: ["table", "data", "shadcn", "spreadsheet", "rows", "columns"],
@@ -35,7 +43,10 @@ export const actionInsertDataTable = register({
       type="button"
       icon={dataTableIcon}
       aria-label={t("labels.insertDataTable")}
-      title={t("labels.insertDataTable")}
+      keyBindingLabel={getShortcutFromShortcutName("insertDataTable")}
+      title={`${t("labels.insertDataTable")} (${getShortcutFromShortcutName(
+        "insertDataTable",
+      )})`}
       data-testid="toolbar-data-table"
       onClick={() => updateData(null)}
     />
