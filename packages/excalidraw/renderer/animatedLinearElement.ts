@@ -7,6 +7,10 @@ import {
   getAnimatedLinearPath,
   pointOnAnimatedLinearPath,
 } from "./animatedLinearPath";
+import {
+  drawAnimationMarker,
+  getAnimationMarkerGeometry,
+} from "./animationMarkers";
 
 import type { AnimatedLinearPath } from "./animatedLinearPath";
 
@@ -126,6 +130,10 @@ export const drawAnimatedLinearElement = ({
     const spacing = spacingFor(animation.type === "arrows" ? 56 : 36);
     const radius = Math.max(3 / zoom, element.strokeWidth * 1.5) * size;
     const phase = ((animationTime * speed * 0.06) / zoom) % spacing;
+    const marker = getAnimationMarkerGeometry(
+      animation.marker ?? "triangle",
+      radius,
+    );
     context.lineWidth = 2 / zoom;
     context.fillStyle = color;
     context.strokeStyle = "#ffffff";
@@ -147,24 +155,20 @@ export const drawAnimatedLinearElement = ({
         const angle =
           Math.atan2(after[1] - before[1], after[0] - before[0]) +
           (reverse ? Math.PI : 0);
-        const tip = radius * 2;
-        const vertex = (along: number, across: number) =>
-          [
-            x + scrollX + along * Math.cos(angle) - across * Math.sin(angle),
-            y + scrollY + along * Math.sin(angle) + across * Math.cos(angle),
-          ] as const;
-        const a = vertex(tip, 0);
-        const b = vertex(-tip / 2, radius);
-        const c = vertex(-tip / 2, -radius);
-        context.moveTo(...a);
-        context.lineTo(...b);
-        context.lineTo(...c);
-        context.closePath();
+        drawAnimationMarker(
+          context,
+          marker,
+          x + scrollX,
+          y + scrollY,
+          angle,
+          color,
+          zoom,
+        );
       } else {
         context.arc(x + scrollX, y + scrollY, radius, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
       }
-      context.fill();
-      context.stroke();
     }
   }
 

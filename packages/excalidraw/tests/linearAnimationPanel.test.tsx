@@ -5,6 +5,9 @@ import { isLinearElement } from "@excalidraw/element";
 
 import { Excalidraw } from "../index";
 import { restoreElements } from "../data/restore";
+import { animationMarkers } from "../renderer/animationMarkers";
+import { exportScene } from "../scene/export";
+import { blobToArrayBuffer } from "../data/blob";
 
 import { API } from "./helpers/api";
 import { Keyboard } from "./helpers/ui";
@@ -20,6 +23,65 @@ const getArrow = (id: string) => {
 };
 
 describe("selected arrow animation controls", () => {
+  it.each(animationMarkers)(
+    "configures, saves, undoes, and exports the %s marker",
+    async (marker) => {
+      await render(<Excalidraw handleKeyboardGlobally />);
+      const arrow = API.createElement({ type: "arrow" });
+      API.setElements([arrow]);
+      API.setSelectedElements([arrow]);
+      expect(screen.queryByTestId("selection-animation-marker")).toBeNull();
+      fireEvent.change(screen.getByTestId("selection-animation-type"), {
+        target: { value: "arrows" },
+      });
+      expect(screen.getByTestId("selection-animation-marker")).toHaveValue(
+        "triangle",
+      );
+      fireEvent.change(screen.getByTestId("selection-animation-marker"), {
+        target: { value: marker },
+      });
+      const configured = getArrow(arrow.id);
+      expect(configured.animation?.marker).toBe(marker);
+      expect(
+        restoreElements([configured], null).filter(isLinearElement)[0]
+          .animation,
+      ).toEqual(configured.animation);
+      Keyboard.undo();
+      expect(getArrow(arrow.id).animation?.marker).toBeUndefined();
+      Keyboard.redo();
+      expect(getArrow(arrow.id).animation?.marker).toBe(marker);
+      const blob = await exportScene({
+        type: "html",
+        data: { elements: [{ ...configured, isDeleted: false }] },
+      });
+      const html = new TextDecoder().decode(await blobToArrayBuffer(blob));
+      expect(html).toContain("animateMotion");
+      fireEvent.change(screen.getByTestId("selection-animation-type"), {
+        target: { value: "dots" },
+      });
+      expect(screen.queryByTestId("selection-animation-marker")).toBeNull();
+      expect(getArrow(arrow.id).animation?.marker).toBe(marker);
+    },
+  );
+
+  it("drops unknown marker shapes from imported scenes", () => {
+    const arrow = API.createElement({ type: "arrow" });
+    const raw = JSON.parse(
+      JSON.stringify({
+        ...arrow,
+        animation: {
+          type: "arrows",
+          speed: 3,
+          direction: "forward",
+          marker: "unknown",
+        },
+      }),
+    );
+    expect(
+      restoreElements([raw], null).filter(isLinearElement)[0].animation,
+    ).toEqual({ type: "arrows", speed: 3, direction: "forward" });
+  });
+
   beforeEach(() => {
     vi.stubGlobal(
       "ResizeObserver",

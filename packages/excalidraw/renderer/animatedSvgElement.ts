@@ -9,6 +9,10 @@ import {
   getAnimatedLinearPath,
   animatedLinearPathToSvg,
 } from "./animatedLinearPath";
+import {
+  animationMarkerToSvg,
+  getAnimationMarkerGeometry,
+} from "./animationMarkers";
 
 /** Declarative animations keep exported HTML independent of JavaScript. */
 export const createAnimatedSvgElement = (
@@ -74,15 +78,26 @@ export const createAnimatedSvgElement = (
       animation.amount ?? Math.max(1, Math.ceil(geometry.length / 56));
     const radius = Math.max(3, element.strokeWidth * 1.5) * size;
     const duration = geometry.length / (speed * 0.06);
+    const markerGeometry = getAnimationMarkerGeometry(
+      animation.marker ?? "triangle",
+      radius,
+    );
     for (let index = 0; index < count; index++) {
-      const marker = ownerDocument.createElementNS(SVG_NS, "path");
-      marker.setAttribute(
-        "d",
-        `M ${radius * 2} 0 L ${-radius} ${radius} L ${-radius} ${-radius} Z`,
-      );
-      marker.setAttribute("fill", color);
-      marker.setAttribute("stroke", "#ffffff");
-      marker.setAttribute("stroke-width", "2");
+      const marker = ownerDocument.createElementNS(SVG_NS, "g");
+      const symbol = ownerDocument.createElementNS(SVG_NS, "path");
+      symbol.setAttribute("d", animationMarkerToSvg(markerGeometry));
+      symbol.setAttribute("fill", markerGeometry.filled ? color : "none");
+      symbol.setAttribute("stroke", "#ffffff");
+      symbol.setAttribute("stroke-width", markerGeometry.filled ? "2" : "5");
+      symbol.setAttribute("stroke-linecap", "round");
+      symbol.setAttribute("stroke-linejoin", "round");
+      marker.appendChild(symbol);
+      if (!markerGeometry.filled) {
+        const foreground = symbol.cloneNode(true) as SVGPathElement;
+        foreground.setAttribute("stroke", color);
+        foreground.setAttribute("stroke-width", "2");
+        marker.appendChild(foreground);
+      }
       const motion = ownerDocument.createElementNS(SVG_NS, "animateMotion");
       motion.setAttribute("path", d);
       motion.setAttribute("dur", `${duration}ms`);

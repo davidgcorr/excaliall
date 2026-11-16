@@ -110,6 +110,8 @@ import type {
 
 import type { MarkOptional, Mutable } from "@excalidraw/common/utility-types";
 
+import { animationMarkers } from "../renderer/animationMarkers";
+
 import { getDefaultAppState } from "../appState";
 
 import {
@@ -257,10 +259,8 @@ const restoreLinearElementAnimation = (
     return undefined;
   }
 
-  const { type, speed, direction, color, amount, size } = animation as Record<
-    string,
-    unknown
-  >;
+  const { type, speed, direction, color, amount, size, marker } =
+    animation as Record<string, unknown>;
   if (
     (type !== "dots" &&
       type !== "pulse" &&
@@ -283,6 +283,9 @@ const restoreLinearElementAnimation = (
       ? { amount: clamp(Math.round(amount), 1, 50) }
       : {}),
     ...(isFiniteNumber(size) ? { size: clamp(size, 0.5, 4) } : {}),
+    ...(animationMarkers.some((value) => value === marker)
+      ? { marker: marker as LinearElementAnimation["marker"] }
+      : {}),
   };
 };
 

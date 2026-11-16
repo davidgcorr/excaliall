@@ -21,6 +21,7 @@ import {
 } from "../renderer/animatedLinearPath";
 import { drawAnimatedLinearElement } from "../renderer/animatedLinearElement";
 import { createAnimatedSvgElement } from "../renderer/animatedSvgElement";
+import { animationMarkers } from "../renderer/animationMarkers";
 
 import { API } from "./helpers/api";
 
@@ -57,6 +58,72 @@ const context = () => ({
 });
 
 describe("animation shaft geometry", () => {
+  it.each(animationMarkers)(
+    "renders moving %s markers consistently in Canvas and SVG",
+    (marker) => {
+      const element = {
+        ...API.createElement({ type: "rectangle", width: 200, height: 100 }),
+        type: "rectangle" as const,
+        animation: {
+          type: "arrows" as const,
+          marker,
+          amount: 4,
+          size: 2,
+          color: "#e03131",
+          speed: 2,
+          direction: "reverse" as const,
+        },
+      };
+      const ctx = context();
+      drawAnimatedLinearElement({
+        context: ctx as unknown as CanvasRenderingContext2D,
+        element,
+        elementsMap: mapFor(element),
+        scrollX: 0,
+        scrollY: 0,
+        zoom: 1,
+        animationTime: 100,
+      });
+      const open =
+        marker === "cross" ||
+        marker === "plus" ||
+        marker === "chevron" ||
+        marker === "circle_outline";
+      expect(ctx.fill).toHaveBeenCalledTimes(open ? 0 : 4);
+      expect(ctx.stroke).toHaveBeenCalledTimes(open ? 8 : 4);
+      if (marker === "circle" || marker === "circle_outline") {
+        expect(ctx.arc).toHaveBeenCalledTimes(4);
+        expect(ctx.arc.mock.calls[0][2]).toBe(6);
+      }
+      const svg = createAnimatedSvgElement(
+        element,
+        mapFor(element),
+        document,
+        7,
+        13,
+        false,
+        1,
+      )!;
+      expect(svg.querySelectorAll("animateMotion")).toHaveLength(4);
+      const paths = svg.querySelectorAll("path");
+      expect(paths).toHaveLength(open ? 8 : 4);
+      expect(paths[0].getAttribute("fill")).toBe(open ? "none" : "#e03131");
+      if (open) {
+        expect(paths[1].getAttribute("stroke")).toBe("#e03131");
+      }
+      const motion = svg.querySelector("animateMotion")!;
+      expect(motion.getAttribute("keyPoints")).toBe("1;0");
+      expect(motion.getAttribute("rotate")).toBe("auto-reverse");
+      expect(motion.getAttribute("path")).toMatch(/ Z$/);
+      if (marker === "circle" || marker === "circle_outline") {
+        expect(paths[0].getAttribute("d")).toContain("A 6 6");
+      } else if (marker === "cross" || marker === "plus") {
+        expect(paths[0].getAttribute("d")!.match(/M /g)).toHaveLength(2);
+        expect(paths[0].getAttribute("d")).not.toContain("Z");
+      }
+    },
+  );
+
   it.each(["rectangle", "diamond", "ellipse"] as const)(
     "builds one continuous, closed %s outline and preserves rotation",
     (type) => {

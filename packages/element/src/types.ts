@@ -388,11 +388,23 @@ export type AnimatedPathElement =
   | ExcalidrawFreeDrawElement
   | AnimatedShapeElement;
 
+export type AnimationMarker =
+  | "triangle"
+  | "circle"
+  | "circle_outline"
+  | "cross"
+  | "plus"
+  | "diamond"
+  | "square"
+  | "chevron";
+
 export type LinearElementAnimation = Readonly<{
   type: "dots" | "pulse" | "dashes" | "arrows";
   speed: number;
   direction: "forward" | "reverse";
   color?: string;
+  /** Shape of the moving markers in the flowing-arrows animation. */
+  marker?: AnimationMarker;
   /** Number of moving markers distributed along the path. */
   amount?: number;
   /** Marker size multiplier, independent of the underlying arrow. */

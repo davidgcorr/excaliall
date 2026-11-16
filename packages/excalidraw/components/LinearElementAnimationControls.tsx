@@ -5,6 +5,7 @@ import type {
 
 import { t } from "../i18n";
 import { useUIAppState } from "../context/ui-appState";
+import { animationMarkers } from "../renderer/animationMarkers";
 
 import { useApp, useExcalidrawSetAppState } from "./App";
 import { ColorPicker } from "./ColorPicker/ColorPicker";
@@ -15,6 +16,17 @@ import type { ChangeLinearAnimationData } from "../actions/actionAnimation";
 
 const commonValue = <T,>(values: T[]): T | "mixed" =>
   values.every((value) => value === values[0]) ? values[0] : "mixed";
+
+const markerLabels = {
+  triangle: "arrowhead_triangle",
+  circle: "arrowhead_circle",
+  circle_outline: "arrowhead_circle_outline",
+  cross: "animationMarkerCross",
+  plus: "animationMarkerPlus",
+  diamond: "arrowhead_diamond",
+  square: "animationMarkerSquare",
+  chevron: "animationMarkerChevron",
+} as const;
 
 export const LinearElementAnimationControls = ({
   elements,
@@ -44,6 +56,12 @@ export const LinearElementAnimationControls = ({
     ? commonValue(animated.map((element) => element.animation!.direction))
     : "forward";
   const enabled = animated.length > 0;
+  const movingMarkers = animated.filter(
+    (element) => element.animation?.type === "arrows",
+  );
+  const marker = commonValue(
+    movingMarkers.map((element) => element.animation!.marker ?? "triangle"),
+  );
   const color = commonValue(
     animated.map(
       (element) =>
@@ -93,6 +111,35 @@ export const LinearElementAnimationControls = ({
           <option value="arrows">{t("labels.animationArrows")}</option>
         </select>
       </label>
+      {!!movingMarkers.length && (
+        <label>
+          {t("labels.animationMarker")}
+          <select
+            aria-label={t("labels.animationMarker")}
+            data-testid={`${idPrefix}-marker`}
+            value={marker}
+            onChange={(event) =>
+              onChange({
+                patch: {
+                  marker: event.currentTarget
+                    .value as LinearElementAnimation["marker"],
+                },
+              })
+            }
+          >
+            {marker === "mixed" && (
+              <option value="mixed" disabled>
+                {t("labels.animationMixed")}
+              </option>
+            )}
+            {animationMarkers.map((value) => (
+              <option key={value} value={value}>
+                {t(`labels.${markerLabels[value]}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <label>
         {t("labels.animationSpeed")}
         <span className="linear-element-animation-controls__speed">
