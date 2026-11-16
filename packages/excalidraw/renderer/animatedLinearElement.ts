@@ -44,6 +44,9 @@ const drawPath = (
       );
     }
   }
+  if (path.closed) {
+    context.closePath();
+  }
   context.stroke();
 };
 
@@ -57,7 +60,7 @@ export const drawAnimatedLinearElement = ({
   animationTime,
 }: AnimatedLinearElementConfig) => {
   const animation = element.animation;
-  if (!animation || element.points.length < 2) {
+  if (!animation || ("points" in element && element.points.length < 2)) {
     return;
   }
 
@@ -73,7 +76,11 @@ export const drawAnimatedLinearElement = ({
   const size = animation.size ?? 1;
   const color = animation.color ?? element.strokeColor;
   const spacingFor = (fallback: number) =>
-    animation.amount ? totalLength / animation.amount : fallback / zoom;
+    animation.amount
+      ? totalLength / animation.amount
+      : path.closed
+      ? totalLength / Math.max(1, Math.ceil(totalLength / (fallback / zoom)))
+      : fallback / zoom;
 
   context.save();
   context.lineCap = "round";

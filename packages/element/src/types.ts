@@ -92,6 +92,7 @@ export type ExcalidrawSelectionElement = _ExcalidrawElementBase & {
 
 export type ExcalidrawRectangleElement = _ExcalidrawElementBase & {
   type: "rectangle";
+  animation?: LinearElementAnimation | null;
   shapeAnimation?: ShapeElementAnimation | null;
 };
 
@@ -107,11 +108,13 @@ export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {
   type: "diamond";
+  animation?: LinearElementAnimation | null;
   shapeAnimation?: ShapeElementAnimation | null;
 };
 
 export type ExcalidrawEllipseElement = _ExcalidrawElementBase & {
   type: "ellipse";
+  animation?: LinearElementAnimation | null;
   shapeAnimation?: ShapeElementAnimation | null;
 };
 
@@ -382,7 +385,8 @@ export type AnimatedShapeElement =
   | ExcalidrawDiamondElement;
 export type AnimatedPathElement =
   | ExcalidrawLinearElement
-  | ExcalidrawFreeDrawElement;
+  | ExcalidrawFreeDrawElement
+  | AnimatedShapeElement;
 
 export type LinearElementAnimation = Readonly<{
   type: "dots" | "pulse" | "dashes" | "arrows";

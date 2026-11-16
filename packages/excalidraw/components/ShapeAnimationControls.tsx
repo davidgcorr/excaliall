@@ -59,9 +59,9 @@ export const ShapeAnimationControls = ({
       data-testid="shape-animation-controls"
     >
       <label>
-        {t("labels.animationType")}
+        {t("labels.animationShape")}
         <select
-          aria-label={t("labels.animationType")}
+          aria-label={t("labels.animationShape")}
           data-testid="shape-animation-type"
           value={type}
           onChange={(event) =>

@@ -65,6 +65,8 @@
     "tablePasteHint": "Edita las celdas. Pega un rango de una hoja de cálculo. ⌘/Ctrl+Enter guarda; Esc cancela.",
     "animate": "Animar",
     "animationType": "Animación",
+    "animationStroke": "Animación del trazo",
+    "animationShape": "Animación de la forma",
     "animationNone": "Sin animación",
     "animationDots": "Puntos en movimiento",
     "animationPulse": "Pulso",

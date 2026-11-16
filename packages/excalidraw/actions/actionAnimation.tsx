@@ -51,6 +51,11 @@ export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
           <LinearElementAnimationControls
             elements={selected.filter(isAnimatedPathElement)}
             idPrefix="selection-animation"
+            typeLabel={
+              selected.some(isAnimatedShapeElement)
+                ? t("labels.animationStroke")
+                : undefined
+            }
             onChange={updateData}
           />
         )}
@@ -88,9 +93,6 @@ export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
           return element;
         }
         if (isAnimatedShapeElement(element)) {
-          if (!("shapeAnimation" in value) && !("shapePatch" in value)) {
-            return element;
-          }
           if (
             "shapePatch" in value &&
             !element.shapeAnimation &&
@@ -98,16 +100,18 @@ export const actionChangeLinearAnimation = register<ChangeLinearAnimationData>({
           ) {
             return element;
           }
-          const shapeAnimation =
-            "shapeAnimation" in value
-              ? value.shapeAnimation
-              : {
-                  type: "pulse" as const,
-                  speed: 3,
-                  ...element.shapeAnimation,
-                  ...value.shapePatch,
-                };
-          return newElementWith(element, { shapeAnimation });
+          if ("shapeAnimation" in value || "shapePatch" in value) {
+            const shapeAnimation =
+              "shapeAnimation" in value
+                ? value.shapeAnimation
+                : {
+                    type: "pulse" as const,
+                    speed: 3,
+                    ...element.shapeAnimation,
+                    ...value.shapePatch,
+                  };
+            return newElementWith(element, { shapeAnimation });
+          }
         }
         if (
           !isAnimatedPathElement(element) ||

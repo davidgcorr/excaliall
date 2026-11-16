@@ -12,7 +12,8 @@ export const isAnimatedPathElement = <T extends ExcalidrawElement>(
 ): element is T & AnimatedPathElement =>
   element.type === "line" ||
   element.type === "arrow" ||
-  element.type === "freedraw";
+  element.type === "freedraw" ||
+  isAnimatedShapeElement(element);
 export const isAnimatedShapeElement = <T extends ExcalidrawElement>(
   element: T,
 ): element is T & AnimatedShapeElement =>
@@ -20,9 +21,8 @@ export const isAnimatedShapeElement = <T extends ExcalidrawElement>(
   element.type === "ellipse" ||
   element.type === "diamond";
 export const hasElementAnimation = (element: ExcalidrawElement) =>
-  isAnimatedPathElement(element)
-    ? !!element.animation
-    : isAnimatedShapeElement(element) && !!element.shapeAnimation;
+  (isAnimatedPathElement(element) && !!element.animation) ||
+  (isAnimatedShapeElement(element) && !!element.shapeAnimation);
 
 export const shapeAnimationTypes = [
   "pulse",

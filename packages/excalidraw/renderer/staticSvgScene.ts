@@ -329,7 +329,24 @@ const renderElementToSvg = (
         }) rotate(${degree} ${cx} ${cy})`,
       );
 
-      const animatedNode = animateShapeNode(node);
+      const strokeAnimation = renderConfig.animate
+        ? createAnimatedSvgElement(
+            element,
+            elementsMap,
+            svgRoot.ownerDocument,
+            renderConfig.offsetX,
+            renderConfig.offsetY,
+            renderConfig.exportWithDarkMode,
+            opacity,
+          )
+        : null;
+      let animatedNode: SVGElement = node;
+      if (strokeAnimation) {
+        const wrapper = svgRoot.ownerDocument.createElementNS(SVG_NS, "g");
+        wrapper.append(node, strokeAnimation);
+        animatedNode = wrapper;
+      }
+      animatedNode = animateShapeNode(animatedNode);
       const g = maybeWrapNodesInFrameClipPath(
         element,
         root,

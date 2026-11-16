@@ -2,12 +2,16 @@ import {
   elementCenterPoint,
   generateLinearCollisionShape,
   getFreedrawStrokeCenterPoints,
+  ShapeCache,
 } from "@excalidraw/element";
 
 import type {
   ElementsMap,
   AnimatedPathElement,
+  AnimatedShapeElement,
 } from "@excalidraw/element/types";
+
+import { isAnimatedShapeElement } from "./shapeAnimation";
 
 import type { Op } from "roughjs/bin/core";
 
@@ -28,6 +32,7 @@ export type AnimatedLinearPath = {
   commands: Command[];
   segments: Segment[];
   length: number;
+  closed: boolean;
 };
 const cache = new WeakMap<
   AnimatedPathElement,
@@ -82,7 +87,7 @@ const curveSamples = (start: Point, c1: Point, c2: Point, end: Point) => {
   return { samples, length };
 };
 
-/** Arrow shaft geometry, sharing the editor's rounded-elbow/spline generator. */
+/** Stroke geometry shared by Canvas and SVG, including complete shape outlines. */
 export const getAnimatedLinearPath = (
   element: AnimatedPathElement,
   elementsMap: ElementsMap,
@@ -104,6 +109,8 @@ export const getAnimatedLinearPath = (
   const ops =
     element.type === "freedraw"
       ? getPencilPathOps(element)
+      : isAnimatedShapeElement(element)
+      ? getShapeOutlineOps(element)
       : generateLinearCollisionShape(
           { ...element, angle: 0 as AnimatedPathElement["angle"] },
           elementsMap,
@@ -146,7 +153,12 @@ export const getAnimatedLinearPath = (
       current = end;
     }
   }
-  const path = { commands, segments, length };
+  const path = {
+    commands,
+    segments,
+    length,
+    closed: isAnimatedShapeElement(element),
+  };
   cache.set(element, { version: element.version, path });
   return path;
 };
@@ -208,15 +220,68 @@ export const animatedLinearPathToSvg = (
   offsetY = 0,
 ) => {
   const point = ([x, y]: Point) => `${x + offsetX} ${y + offsetY}`;
-  return path.commands
-    .map((command) =>
-      command.type === "curve"
-        ? `C ${point(command.control1)} ${point(command.control2)} ${point(
-            command.point,
-          )}`
-        : `${command.type === "move" ? "M" : "L"} ${point(command.point)}`,
-    )
-    .join(" ");
+  return (
+    path.commands
+      .map((command) =>
+        command.type === "curve"
+          ? `C ${point(command.control1)} ${point(command.control2)} ${point(
+              command.point,
+            )}`
+          : `${command.type === "move" ? "M" : "L"} ${point(command.point)}`,
+      )
+      .join(" ") + (path.closed ? " Z" : "")
+  );
+};
+
+const getShapeOutlineOps = (element: AnimatedShapeElement): Op[] => {
+  if (element.type === "ellipse") {
+    // Four cubic arcs form one closed ellipse without sketch overshoot.
+    const rx = element.width / 2;
+    const ry = element.height / 2;
+    const k = 0.5522847498307936;
+    return [
+      { op: "move", data: [rx, 0] },
+      {
+        op: "bcurveTo",
+        data: [rx + k * rx, 0, 2 * rx, ry - k * ry, 2 * rx, ry],
+      },
+      {
+        op: "bcurveTo",
+        data: [2 * rx, ry + k * ry, rx + k * rx, 2 * ry, rx, 2 * ry],
+      },
+      { op: "bcurveTo", data: [rx - k * rx, 2 * ry, 0, ry + k * ry, 0, ry] },
+      { op: "bcurveTo", data: [0, ry - k * ry, rx - k * rx, 0, rx, 0] },
+    ];
+  }
+  // Reuse the renderer's corner geometry, suppressing its second sketch stroke
+  // and fill. Polygon edges must share one subpath so dash phase never resets.
+  const shape = ShapeCache.generateElementShape(
+    {
+      ...element,
+      roughness: 0,
+      strokeStyle: "dashed",
+      backgroundColor: "transparent",
+    },
+    null,
+  );
+  const ops = shape.sets.find((set) => set.type === "path")?.ops ?? [];
+  const outline: Op[] = [];
+  let current: number[] | undefined;
+  for (const op of ops) {
+    if (op.op === "move" && outline.length) {
+      if (current?.[0] !== op.data[0] || current?.[1] !== op.data[1]) {
+        outline.push({ op: "lineTo", data: op.data });
+      }
+    } else {
+      outline.push(op);
+    }
+    current = op.data.slice(-2);
+  }
+  const start = outline[0]?.data;
+  if (start && (current?.[0] !== start[0] || current?.[1] !== start[1])) {
+    outline.push({ op: "lineTo", data: start });
+  }
+  return outline;
 };
 
 /** Smooth the same streamlined samples used to draw the pencil's ink. */

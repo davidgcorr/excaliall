@@ -21,7 +21,7 @@ export const createAnimatedSvgElement = (
   opacity: number,
 ): SVGGElement | null => {
   const animation = element.animation;
-  if (!animation || element.points.length < 2) {
+  if (!animation || ("points" in element && element.points.length < 2)) {
     return null;
   }
   const geometry = getAnimatedLinearPath(element, elementsMap);
@@ -39,7 +39,11 @@ export const createAnimatedSvgElement = (
   );
   const size = animation.size ?? 1;
   const spacingFor = (fallback: number) =>
-    animation.amount ? geometry.length / animation.amount : fallback;
+    animation.amount
+      ? geometry.length / animation.amount
+      : geometry.closed
+      ? geometry.length / Math.max(1, Math.ceil(geometry.length / fallback))
+      : fallback;
   const speed = animation.speed;
   const path = (stroke: string, width: number) => {
     const node = ownerDocument.createElementNS(SVG_NS, "path");

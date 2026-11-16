@@ -38,6 +38,80 @@ const mapFor = (element: AnimatedPathElement) =>
 const selectedShape = () => h.elements.filter(isAnimatedShapeElement)[0];
 
 describe("shape and pencil animations", () => {
+  it.each(
+    (["rectangle", "diamond", "ellipse"] as const).flatMap((shape) =>
+      (["dots", "dashes", "arrows"] as const).map((animation) => ({
+        shape,
+        animation,
+      })),
+    ),
+  )(
+    "configures and exports $animation around a $shape stroke",
+    async ({ shape, animation }) => {
+      await render(<Excalidraw handleKeyboardGlobally />);
+      const element = API.createElement({
+        type: shape,
+        width: 200,
+        height: 100,
+        backgroundColor: "#a5d8ff",
+        fillStyle: "solid",
+        angle: 0.3 as Radians,
+      });
+      API.setElements([element]);
+      API.setSelectedElements([element]);
+      fireEvent.change(screen.getByTestId("selection-animation-type"), {
+        target: { value: animation },
+      });
+      fireEvent.change(screen.getByTestId("selection-animation-direction"), {
+        target: { value: "reverse" },
+      });
+      fireEvent.change(screen.getByTestId("selection-animation-amount"), {
+        target: { value: "8" },
+      });
+      const animated = selectedShape();
+      expect(animated.animation).toEqual({
+        type: animation,
+        speed: 3,
+        direction: "reverse",
+        amount: 8,
+      });
+      expect(hasElementAnimation(animated)).toBe(true);
+      expect(animated.backgroundColor).toBe("#a5d8ff");
+      expect(
+        (restoreElements([animated], null)[0] as AnimatedShapeElement)
+          .animation,
+      ).toEqual(animated.animation);
+      Keyboard.undo();
+      expect(selectedShape().animation?.amount).toBeUndefined();
+      Keyboard.redo();
+      expect(selectedShape().animation?.amount).toBe(8);
+      const blob = await exportScene({
+        type: "html",
+        data: { elements: [{ ...animated, isDeleted: false }] },
+      });
+      const page = new DOMParser().parseFromString(
+        new TextDecoder().decode(await blobToArrayBuffer(blob)),
+        "text/html",
+      );
+      const overlay = page.querySelector(".html-animation")!;
+      expect(overlay).not.toBeNull();
+      const motion = overlay.querySelector(
+        animation === "arrows" ? "animateMotion" : "animate",
+      )!;
+      expect(motion.getAttribute("repeatCount")).toBe("indefinite");
+      const d =
+        animation === "arrows"
+          ? motion.getAttribute("path")
+          : overlay.querySelector("path")!.getAttribute("d");
+      expect(d).toMatch(/ Z$/);
+      expect(page.querySelector('[fill="#a5d8ff"]')).not.toBeNull();
+      fireEvent.change(screen.getByTestId("selection-animation-type"), {
+        target: { value: "none" },
+      });
+      expect(selectedShape().animation).toBeNull();
+    },
+  );
+
   it.each(["rectangle", "ellipse", "diamond"] as const)(
     "configures %s animation from the side panel and saves it",
     async (type) => {

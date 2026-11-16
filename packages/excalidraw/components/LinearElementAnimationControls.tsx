@@ -20,10 +20,12 @@ export const LinearElementAnimationControls = ({
   elements,
   onChange,
   idPrefix = "animation",
+  typeLabel = t("labels.animationType"),
 }: {
   elements: readonly AnimatedPathElement[];
   onChange: (data: ChangeLinearAnimationData) => void;
   idPrefix?: string;
+  typeLabel?: string;
 }) => {
   const app = useApp();
   const setAppState = useExcalidrawSetAppState();
@@ -72,9 +74,9 @@ export const LinearElementAnimationControls = ({
   return (
     <div className="linear-element-animation-controls">
       <label>
-        {t("labels.animationType")}
+        {typeLabel}
         <select
-          aria-label={t("labels.animationType")}
+          aria-label={typeLabel}
           data-testid={`${idPrefix}-type`}
           value={type}
           onChange={(event) => changeType(event.currentTarget.value)}

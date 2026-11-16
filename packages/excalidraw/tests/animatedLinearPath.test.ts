@@ -11,7 +11,7 @@ import type { LocalPoint, Radians } from "@excalidraw/math";
 
 import type {
   ElementsMap,
-  ExcalidrawLinearElement,
+  AnimatedPathElement,
 } from "@excalidraw/element/types";
 
 import {
@@ -39,7 +39,7 @@ const elbow = () => ({
   }),
   animation: { type: "dots" as const, speed: 1, direction: "forward" as const },
 });
-const mapFor = (element: ExcalidrawLinearElement) =>
+const mapFor = (element: AnimatedPathElement) =>
   new Map([[element.id, element]]) as ElementsMap;
 
 const context = () => ({
@@ -57,6 +57,162 @@ const context = () => ({
 });
 
 describe("animation shaft geometry", () => {
+  it.each(["rectangle", "diamond", "ellipse"] as const)(
+    "builds one continuous, closed %s outline and preserves rotation",
+    (type) => {
+      const element = {
+        ...API.createElement({
+          type,
+          x: 20,
+          y: 30,
+          width: 200,
+          height: 100,
+          roundness: null,
+        }),
+        type,
+      };
+      const path = getAnimatedLinearPath(element, mapFor(element));
+      expect(path.closed).toBe(true);
+      expect(
+        path.commands.filter((command) => command.type === "move"),
+      ).toHaveLength(1);
+      expect(path.commands.at(-1)!.point).toEqual(path.commands[0].point);
+      expect(path.length).toBeGreaterThan(400);
+      if (type === "rectangle") {
+        expect(path.length).toBeCloseTo(600, 4);
+        for (let i = 0; i < 40; i++) {
+          const [x, y] = pointOnAnimatedLinearPath(
+            path,
+            (path.length * i) / 40,
+          );
+          expect(
+            Math.min(
+              Math.abs(x - 20),
+              Math.abs(x - 220),
+              Math.abs(y - 30),
+              Math.abs(y - 130),
+            ),
+          ).toBeLessThan(1e-5);
+        }
+      }
+      if (type === "ellipse") {
+        for (let i = 0; i < 40; i++) {
+          const [x, y] = pointOnAnimatedLinearPath(
+            path,
+            (path.length * i) / 40,
+          );
+          // Four cubic arcs have a maximum radial error below 0.03%.
+          expect(
+            Math.abs(((x - 120) / 100) ** 2 + ((y - 80) / 50) ** 2 - 1),
+          ).toBeLessThan(0.0006);
+        }
+      }
+      const rotated = { ...element, angle: (Math.PI / 2) as Radians };
+      const rotatedPath = getAnimatedLinearPath(rotated, mapFor(rotated));
+      expect(rotatedPath.length).toBeCloseTo(path.length, 6);
+      path.commands.forEach((command, index) => {
+        expect(rotatedPath.commands[index].point[0]).toBeCloseTo(
+          120 - (command.point[1] - 80),
+          6,
+        );
+        expect(rotatedPath.commands[index].point[1]).toBeCloseTo(
+          80 + (command.point[0] - 120),
+          6,
+        );
+      });
+      expect(animatedLinearPathToSvg(path)).toMatch(/ Z$/);
+    },
+  );
+
+  it.each(["rectangle", "diamond"] as const)(
+    "follows %s rounded corners without resetting the path",
+    (type) => {
+      const element = {
+        ...API.createElement({
+          type,
+          width: 200,
+          height: 100,
+          roundness: { type: 2 },
+        }),
+        type,
+      };
+      const path = getAnimatedLinearPath(element, mapFor(element));
+      expect(
+        path.commands.filter((command) => command.type === "move"),
+      ).toHaveLength(1);
+      expect(path.segments.some((segment) => segment.controls)).toBe(true);
+      expect(path.commands.at(-1)!.point).toEqual(path.commands[0].point);
+      const sharp = { ...element, roundness: null };
+      expect(path.length).toBeLessThan(
+        getAnimatedLinearPath(sharp, mapFor(sharp)).length,
+      );
+    },
+  );
+
+  it.each(["dots", "dashes", "arrows"] as const)(
+    "draws %s around all four sides and loops its marker spacing",
+    (type) => {
+      const element = {
+        ...API.createElement({
+          type: "rectangle",
+          x: 0,
+          y: 0,
+          width: 200,
+          height: 100,
+          roundness: null,
+        }),
+        type: "rectangle" as const,
+        animation: { type, speed: 1, amount: 4, direction: "forward" as const },
+      };
+      const path = getAnimatedLinearPath(element, mapFor(element));
+      const ctx = context();
+      drawAnimatedLinearElement({
+        context: ctx as unknown as CanvasRenderingContext2D,
+        element,
+        elementsMap: mapFor(element),
+        scrollX: 0,
+        scrollY: 0,
+        zoom: 1,
+        animationTime: 100,
+      });
+      if (type === "dashes") {
+        expect(ctx.closePath).toHaveBeenCalledTimes(2);
+        expect(
+          ctx.setLineDash.mock.calls[0][0].reduce(
+            (a: number, b: number) => a + b,
+            0,
+          ),
+        ).toBeCloseTo(path.length / 4);
+      } else {
+        expect(ctx.fill).toHaveBeenCalledTimes(4);
+        if (type === "dots") {
+          ctx.arc.mock.calls.forEach((args, index) => {
+            expect(args.slice(0, 2)).toEqual(
+              pointOnAnimatedLinearPath(path, 6 + (index * path.length) / 4),
+            );
+          });
+        }
+      }
+      const svg = createAnimatedSvgElement(
+        element,
+        mapFor(element),
+        document,
+        0,
+        0,
+        false,
+        1,
+      )!;
+      expect(
+        svg.querySelector(type === "arrows" ? "animateMotion" : "animate"),
+      ).not.toBeNull();
+      expect(
+        type === "arrows"
+          ? svg.querySelector("animateMotion")!.getAttribute("path")
+          : svg.querySelector("path")!.getAttribute("d"),
+      ).toMatch(/ Z$/);
+    },
+  );
+
   it("follows the rounded elbow rather than its sharp logical corner", () => {
     const element = elbow();
     const path = getAnimatedLinearPath(element, mapFor(element));

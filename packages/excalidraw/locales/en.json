@@ -139,6 +139,8 @@
     "arrowhead_cardinality_zero_or_many": "Cardinality (zero or many)",
     "animate": "Animate",
     "animationType": "Animation",
+    "animationStroke": "Stroke animation",
+    "animationShape": "Shape animation",
     "animationNone": "None",
     "animationDots": "Moving dots",
     "animationPulse": "Pulse",

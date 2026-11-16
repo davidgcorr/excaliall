@@ -138,6 +138,11 @@ export const ContextMenu = React.memo(
                       {!!selectedElements.filter(isAnimatedPathElement)
                         .length && (
                         <LinearElementAnimationControls
+                          typeLabel={
+                            selectedElements.some(isAnimatedShapeElement)
+                              ? t("labels.animationStroke")
+                              : undefined
+                          }
                           elements={selectedElements.filter(
                             isAnimatedPathElement,
                           )}

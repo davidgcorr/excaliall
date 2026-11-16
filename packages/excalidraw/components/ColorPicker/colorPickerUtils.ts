@@ -76,7 +76,10 @@ export const getMostUsedCustomColors = (
       : type === "animationColor"
       ? (element.type === "arrow" ||
           element.type === "line" ||
-          element.type === "freedraw") &&
+          element.type === "freedraw" ||
+          element.type === "rectangle" ||
+          element.type === "diamond" ||
+          element.type === "ellipse") &&
         element.animation?.color
       : type === "elementBackground"
       ? element.backgroundColor

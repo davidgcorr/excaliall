@@ -819,6 +819,9 @@ export const restoreElement = (
     case "rectangle":
     case "diamond":
       return restoreElementWithProperties(element, {
+        ...("animation" in element
+          ? { animation: restoreLinearElementAnimation(element.animation) }
+          : {}),
         ...("shapeAnimation" in element
           ? { shapeAnimation: restoreShapeAnimation(element.shapeAnimation) }
           : {}),
