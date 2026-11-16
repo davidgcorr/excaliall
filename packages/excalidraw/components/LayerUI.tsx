@@ -48,8 +48,8 @@ import MainMenu from "./main-menu/MainMenu";
 import { ActiveConfirmDialog } from "./ActiveConfirmDialog";
 import { useAppProps, useEditorInterface, useStylesPanelMode } from "./App";
 import { OverwriteConfirmDialog } from "./OverwriteConfirm/OverwriteConfirm";
-import { saveAs, sidebarRightIcon } from "./icons";
-import { IconButton } from "./IconButton";
+import { ExportIcon, ExportImageIcon, sidebarRightIcon } from "./icons";
+import { Button } from "./Button";
 import { DefaultSidebar } from "./DefaultSidebar";
 import { TTDDialog } from "./TTDDialog/TTDDialog";
 import { Stats } from "./Stats";
@@ -419,17 +419,31 @@ const LayerUI = ({
             {defaultUIEnabled &&
               UIOptions.canvasActions.export &&
               UIOptions.canvasActions.export.saveFileToDisk && (
-                <IconButton
-                  type="button"
-                  icon={saveAs}
+                <Button
+                  className="canvas-export-button"
                   title={t("exportDialog.disk_title")}
                   aria-label={t("exportDialog.disk_title")}
                   data-testid="save-to-disk-button"
-                  onClick={() =>
+                  onSelect={() =>
                     actionManager.executeAction(actionSaveFileToDisk, "ui")
                   }
-                />
+                >
+                  {ExportIcon}
+                </Button>
               )}
+            {defaultUIEnabled && UIOptions.canvasActions.saveAsImage && (
+              <Button
+                className="canvas-export-button"
+                title={t("buttons.exportImage")}
+                aria-label={t("buttons.exportImage")}
+                data-testid="export-formats-button"
+                onSelect={() =>
+                  setAppState({ openDialog: { name: "imageExport" } })
+                }
+              >
+                {ExportImageIcon}
+              </Button>
+            )}
             {renderTopRightUI?.(
               editorInterface.formFactor === "phone",
               appState,

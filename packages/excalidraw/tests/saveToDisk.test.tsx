@@ -52,7 +52,12 @@ describe("save to disk", () => {
       expect(saveButton.parentElement).toBe(
         container.querySelector(".layer-ui__wrapper__top-right"),
       );
-      expect(saveButton.nextElementSibling?.textContent).toBe("Share");
+      expect(saveButton.nextElementSibling).toBe(
+        getByTestId("export-formats-button"),
+      );
+      expect(
+        saveButton.nextElementSibling?.nextElementSibling?.textContent,
+      ).toBe("Share");
       expect(saveButton).toHaveAccessibleName(t("exportDialog.disk_title"));
       fireEvent.click(saveButton);
 
