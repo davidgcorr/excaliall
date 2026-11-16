@@ -10613,6 +10613,7 @@ class App extends React.Component<AppProps, AppState> {
 
       const imageFiles = await fileOpen({
         description: "Image",
+        ownerDocument: this.ownerDocument,
         extensions: Object.keys(
           IMAGE_MIME_TYPES,
         ) as (keyof typeof IMAGE_MIME_TYPES)[],

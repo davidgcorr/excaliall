@@ -54,6 +54,7 @@ export const LibraryDropdownMenuButton: React.FC<{
   appState,
   className,
 }) => {
+  const app = useApp();
   const [libraryItemsData] = useAtom(libraryItemsAtom);
   const [isLibraryMenuOpen, setIsLibraryMenuOpen] = useAtom(
     isLibraryMenuOpenAtom,
@@ -160,6 +161,7 @@ export const LibraryDropdownMenuButton: React.FC<{
       await library.updateLibrary({
         libraryItems: fileOpen({
           description: "Excalidraw library files",
+          ownerDocument: app.ownerDocument,
           // ToDo: Be over-permissive until https://bugs.webkit.org/show_bug.cgi?id=34442
           // gets resolved. Else, iOS users cannot open `.excalidraw` files.
           /*

@@ -10,10 +10,18 @@ import { normalizeFile } from "./blob";
 
 type FILE_EXTENSION = Exclude<keyof typeof MIME_TYPES, "binary">;
 
+const isFilePickerRestriction = (error: unknown) =>
+  !!error &&
+  typeof error === "object" &&
+  "name" in error &&
+  (error.name === "SecurityError" || error.name === "NotAllowedError");
+
 export const fileOpen = async <M extends boolean | undefined = false>(opts: {
   extensions?: FILE_EXTENSION[];
   description: string;
   multiple?: M;
+  /** Document of the mounted editor, used for upload fallback. */
+  ownerDocument?: Document;
 }): Promise<M extends false | undefined ? File : File[]> => {
   // an unsafe TS hack, alas not much we can do AFAIK
   type RetType = M extends false | undefined ? File : File[];
@@ -31,12 +39,62 @@ export const fileOpen = async <M extends boolean | undefined = false>(opts: {
     return acc.concat(`.${ext}`);
   }, [] as string[]);
 
-  const files = await _fileOpen({
-    description: opts.description,
-    extensions,
-    mimeTypes,
-    multiple: opts.multiple ?? false,
-  });
+  let files: File | File[];
+  try {
+    files = await _fileOpen({
+      description: opts.description,
+      extensions,
+      mimeTypes,
+      multiple: opts.multiple ?? false,
+    });
+  } catch (error) {
+    if (!opts.ownerDocument?.defaultView || !isFilePickerRestriction(error)) {
+      throw error;
+    }
+
+    const ownerDocument = opts.ownerDocument;
+    const ownerWindow = ownerDocument.defaultView!;
+    // Managed browsers can expose showOpenFilePicker while blocking it.
+    // Use a regular upload input, without calling input.showPicker().
+    files = await new Promise<File | File[]>((resolve, reject) => {
+      const input = ownerDocument.createElement("input");
+      input.type = "file";
+      input.multiple = opts.multiple ?? false;
+      input.accept = [...(mimeTypes ?? []), ...(extensions ?? [])].join(",");
+      input.hidden = true;
+
+      const cancel = () => {
+        input.remove();
+        reject(
+          new ownerWindow.DOMException(
+            "The user aborted a request.",
+            "AbortError",
+          ),
+        );
+      };
+      input.addEventListener("cancel", cancel, { once: true });
+      input.addEventListener(
+        "change",
+        () => {
+          const selectedFiles = Array.from(input.files ?? []);
+          if (!selectedFiles.length) {
+            cancel();
+            return;
+          }
+          input.remove();
+          resolve(input.multiple ? selectedFiles : selectedFiles[0]);
+        },
+        { once: true },
+      );
+      ownerDocument.body.append(input);
+      try {
+        input.click();
+      } catch (error) {
+        input.remove();
+        reject(error);
+      }
+    });
+  }
 
   if (Array.isArray(files)) {
     return (await Promise.all(
@@ -76,13 +134,7 @@ export const fileSave = async (
   } catch (error) {
     // Some managed browsers expose the picker but deny its use. Keep the
     // native path (including cancellation) intact and only retry restrictions.
-    if (
-      !opts.ownerDocument?.defaultView ||
-      !error ||
-      typeof error !== "object" ||
-      !("name" in error) ||
-      (error.name !== "SecurityError" && error.name !== "NotAllowedError")
-    ) {
+    if (!opts.ownerDocument?.defaultView || !isFilePickerRestriction(error)) {
       throw error;
     }
 
