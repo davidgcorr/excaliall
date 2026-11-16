@@ -1500,6 +1500,46 @@ export const ArrowheadDiamondOutlineIcon = React.memo(
     ),
 );
 
+export const ArrowheadSymbolIcon = React.memo(
+  ({
+    flip = false,
+    symbol,
+  }: {
+    flip?: boolean;
+    symbol: "cross" | "plus" | "square" | "square_outline";
+  }) =>
+    createIcon(
+      <g
+        transform={flip ? "translate(40, 0) scale(-1, 1)" : ""}
+        stroke="currentColor"
+        strokeWidth={2}
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path
+          d={
+            symbol === "cross" || symbol === "plus" ? "M7 11 H29" : "M7 11 H25"
+          }
+        />
+        {symbol === "cross" ? (
+          <path d="M25 7 L33 15 M25 15 L33 7" />
+        ) : symbol === "plus" ? (
+          <path d="M25 11 H33 M29 7 V15" />
+        ) : (
+          <rect
+            x="25"
+            y="7"
+            width="8"
+            height="8"
+            fill={symbol === "square" ? "currentColor" : "none"}
+          />
+        )}
+      </g>,
+      arrowheadPreviewIconProps,
+    ),
+);
+
 export const ArrowheadBarIcon = React.memo(
   ({ flip = false }: { flip?: boolean }) =>
     createIcon(

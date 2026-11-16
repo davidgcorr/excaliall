@@ -362,6 +362,10 @@ export type ArrowheadLegacy =
 export type Arrowhead =
   | "arrow"
   | "bar"
+  | "cross"
+  | "plus"
+  | "square"
+  | "square_outline"
   | "circle"
   | "circle_outline"
   | "triangle"

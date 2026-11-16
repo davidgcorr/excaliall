@@ -112,6 +112,7 @@ import { Range } from "../components/Range";
 import {
   ArrowheadArrowIcon,
   ArrowheadBarIcon,
+  ArrowheadSymbolIcon,
   ArrowheadCircleIcon,
   ArrowheadTriangleIcon,
   ArrowheadNoneIcon,
@@ -1911,6 +1912,14 @@ const getArrowheadOptions = (flip: boolean) => {
             keyBinding: "z",
             icon: <ArrowheadBarIcon flip={flip} />,
           },
+          ...(["cross", "plus", "square", "square_outline"] as const).map(
+            (symbol) => ({
+              value: symbol,
+              text: t(`labels.arrowhead_${symbol}`),
+              keyBinding: null,
+              icon: <ArrowheadSymbolIcon symbol={symbol} flip={flip} />,
+            }),
+          ),
         ],
       },
       {

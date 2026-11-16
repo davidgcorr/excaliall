@@ -1098,6 +1098,41 @@ export const getArrowheadPoints = (
   const xs = tx - nx * minSize;
   const ys = ty - ny * minSize;
 
+  if (
+    arrowhead === "cross" ||
+    arrowhead === "plus" ||
+    arrowhead === "square" ||
+    arrowhead === "square_outline"
+  ) {
+    const r = minSize / 2;
+    const vertex = (along: number, across: number) => [
+      tx + nx * along - ny * across,
+      ty + ny * along + nx * across,
+    ];
+    if (arrowhead === "cross") {
+      return [
+        ...vertex(-r, -r),
+        ...vertex(r, r),
+        ...vertex(-r, r),
+        ...vertex(r, -r),
+      ];
+    }
+    if (arrowhead === "plus") {
+      return [
+        ...vertex(-r, 0),
+        ...vertex(r, 0),
+        ...vertex(0, -r),
+        ...vertex(0, r),
+      ];
+    }
+    return [
+      ...vertex(-r, -r),
+      ...vertex(r, -r),
+      ...vertex(r, r),
+      ...vertex(-r, r),
+    ];
+  }
+
   if (arrowhead === "circle" || arrowhead === "circle_outline") {
     const diameter = Math.hypot(ys - ty, xs - tx) + element.strokeWidth - 2;
     return [tx, ty, diameter];

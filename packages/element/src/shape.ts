@@ -418,6 +418,46 @@ const getArrowheadShapes = (
     isDarkMode,
   );
   switch (arrowhead) {
+    case "cross":
+    case "plus": {
+      const points = getArrowheadPoints(element, shape, position, arrowhead);
+      if (!points) {
+        return [];
+      }
+      const [x1, y1, x2, y2, x3, y3, x4, y4] = points;
+      const lineOptions = {
+        ...getArrowheadLineOptions(element, options),
+        strokeLineDash: undefined,
+      };
+      return [
+        generator.line(x1, y1, x2, y2, lineOptions),
+        generator.line(x3, y3, x4, y4, lineOptions),
+      ];
+    }
+    case "square":
+    case "square_outline": {
+      const points = getArrowheadPoints(element, shape, position, arrowhead);
+      if (!points) {
+        return [];
+      }
+      const vertices: RoughPoint[] = [];
+      for (let index = 0; index < points.length; index += 2) {
+        vertices.push([points[index], points[index + 1]]);
+      }
+      return [
+        fillArrowheadOutline(
+          generator.polygon(vertices, {
+            ...options,
+            stroke: strokeColor,
+            strokeLineDash: undefined,
+            roughness: Math.min(0.5, options.roughness || 0),
+            disableMultiStroke: true,
+            preserveVertices: true,
+          }),
+          arrowhead === "square_outline" ? backgroundFillColor : strokeColor,
+        ),
+      ];
+    }
     case "circle":
     case "circle_outline": {
       return generateArrowheadOutlineCircle(
