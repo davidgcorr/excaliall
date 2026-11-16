@@ -280,11 +280,13 @@ export const actionSaveToActiveFile = register({
             exportedDataPromise,
             previousFileHandle,
             filename,
+            app.renderEnvironment,
           )
         : await saveAsJSON({
             data: exportedDataPromise,
             filename,
             fileHandle: previousFileHandle,
+            ownerDocument: app.ownerDocument,
           });
 
       return {
@@ -345,6 +347,7 @@ export const actionSaveFileToDisk = register({
         data: exportedDataPromise,
         filename: app.getName(),
         fileHandle: null,
+        ownerDocument: app.ownerDocument,
       });
 
       return {

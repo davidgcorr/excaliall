@@ -18,7 +18,7 @@ import { ShapeCache } from "@excalidraw/element";
 
 import type { NonDeletedExcalidrawElement } from "@excalidraw/element/types";
 
-import { actionToggleStats } from "../actions";
+import { actionSaveFileToDisk, actionToggleStats } from "../actions";
 import { trackEvent } from "../analytics";
 import { TunnelsContext, useInitializeTunnels } from "../context/tunnels";
 import { UIAppStateContext } from "../context/ui-appState";
@@ -48,7 +48,8 @@ import MainMenu from "./main-menu/MainMenu";
 import { ActiveConfirmDialog } from "./ActiveConfirmDialog";
 import { useAppProps, useEditorInterface, useStylesPanelMode } from "./App";
 import { OverwriteConfirmDialog } from "./OverwriteConfirm/OverwriteConfirm";
-import { sidebarRightIcon } from "./icons";
+import { saveAs, sidebarRightIcon } from "./icons";
+import { IconButton } from "./IconButton";
 import { DefaultSidebar } from "./DefaultSidebar";
 import { TTDDialog } from "./TTDDialog/TTDDialog";
 import { Stats } from "./Stats";
@@ -415,6 +416,20 @@ const LayerUI = ({
                 currentUserControls={currentUserControls}
               />
             )}
+            {defaultUIEnabled &&
+              UIOptions.canvasActions.export &&
+              UIOptions.canvasActions.export.saveFileToDisk && (
+                <IconButton
+                  type="button"
+                  icon={saveAs}
+                  title={t("exportDialog.disk_title")}
+                  aria-label={t("exportDialog.disk_title")}
+                  data-testid="save-to-disk-button"
+                  onClick={() =>
+                    actionManager.executeAction(actionSaveFileToDisk, "ui")
+                  }
+                />
+              )}
             {renderTopRightUI?.(
               editorInterface.formFactor === "phone",
               appState,

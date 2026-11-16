@@ -78,10 +78,12 @@ export const saveAsJSON = async ({
   data,
   filename,
   fileHandle,
+  ownerDocument,
 }: {
   data: MaybePromise<JSONExportData>;
   filename: string;
   fileHandle: AppState["fileHandle"];
+  ownerDocument?: Document;
 }) => {
   const blob = Promise.resolve(data).then(({ elements, appState, files }) => {
     const serialized = serializeAsJSON(elements, appState, files, "local");
@@ -90,11 +92,15 @@ export const saveAsJSON = async ({
     });
   });
 
+  // The picker can be cancelled before it consumes the serialized scene.
+  void blob.catch(() => {});
+
   const savedFileHandle = await fileSave(blob, {
     name: filename,
     extension: "excalidraw",
     description: "Excalidraw file",
     fileHandle: isImageFileHandle(fileHandle) ? null : fileHandle,
+    ownerDocument,
   });
   return { fileHandle: savedFileHandle };
 };

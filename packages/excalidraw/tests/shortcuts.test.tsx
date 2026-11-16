@@ -53,7 +53,7 @@ describe("knowledge tool shortcuts", () => {
           ).toBe(true),
         );
       } else if (key.toLowerCase() === "c") {
-        expect(onOpenDataChart).toHaveBeenCalledOnce();
+        expect(onOpenDataChart).toHaveBeenCalledTimes(1);
       } else if (key.toLowerCase() === "j") {
         expect(screen.getByLabelText("LaTeX source")).toHaveValue("E = mc^2");
       } else {

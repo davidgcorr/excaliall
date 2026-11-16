@@ -1,6 +1,7 @@
 import type { MaybePromise } from "@excalidraw/common/utility-types";
 
 import type { ExcalidrawElement } from "@excalidraw/element/types";
+import type { RenderEnvironment } from "@excalidraw/element/renderEnvironment";
 
 import { getFileHandleType, isImageFileHandleType } from "./blob";
 
@@ -17,6 +18,7 @@ export const resaveAsImageWithScene = async (
   }>,
   fileHandle: FileSystemFileHandle,
   filename: string,
+  renderEnvironment?: RenderEnvironment,
 ) => {
   const fileHandleType = getFileHandleType(fileHandle);
 
@@ -39,11 +41,18 @@ export const resaveAsImageWithScene = async (
     false,
   );
 
-  await exportCanvas(fileHandleType, exportedElements, appState, files, {
-    name: filename,
-    fileHandle,
-    exportingFrame,
-  });
+  const savedFileHandle = await exportCanvas(
+    fileHandleType,
+    exportedElements,
+    appState,
+    files,
+    {
+      name: filename,
+      fileHandle,
+      exportingFrame,
+      renderEnvironment,
+    },
+  );
 
-  return { fileHandle };
+  return { fileHandle: savedFileHandle ?? null };
 };
