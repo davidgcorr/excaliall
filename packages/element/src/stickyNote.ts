@@ -607,9 +607,15 @@ export const isPointInStickyNoteFooter = (
     ),
     -element.angle as Radians,
   );
-  const width = getTextWidth(
-    footer.text,
-    `${STICKY_NOTE_FOOTER.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}` as FontString,
+  const width = Math.max(
+    64,
+    Math.min(
+      element.width - STICKY_NOTE_PADDING * 2,
+      getTextWidth(
+        footer.text,
+        `${STICKY_NOTE_FOOTER.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}` as FontString,
+      ),
+    ),
   );
   return (
     local[0] >= element.x + footer.x - width - 6 &&
@@ -628,7 +634,7 @@ export const isPointInStickyNoteFooter = (
 export const getStickyNoteFooter = (
   element: Pick<
     ExcalidrawStickyNoteElement,
-    "created" | "width" | "height" | "noteDate"
+    "created" | "width" | "height" | "noteDate" | "footerText"
   >,
   now = Date.now(),
 ) => {
@@ -638,17 +644,31 @@ export const getStickyNoteFooter = (
   ) {
     return null;
   }
-  const text = getStickyNoteDateLabel(getStickyNoteDateTimestamp(element), {
-    short:
-      element.width - STICKY_NOTE_PADDING * 2 <
-      STICKY_NOTE_FOOTER.minBodyWidthForYear,
-    now,
-  });
-  if (!text) {
+  const text =
+    element.footerText ??
+    getStickyNoteDateLabel(getStickyNoteDateTimestamp(element), {
+      short:
+        element.width - STICKY_NOTE_PADDING * 2 <
+        STICKY_NOTE_FOOTER.minBodyWidthForYear,
+      now,
+    });
+  if (text === null) {
     return null;
   }
   return {
     text,
+    fontSize: Math.min(
+      STICKY_NOTE_FOOTER.fontSize,
+      (STICKY_NOTE_FOOTER.fontSize *
+        (element.width - STICKY_NOTE_PADDING * 2)) /
+        Math.max(
+          1,
+          getTextWidth(
+            text,
+            `${STICKY_NOTE_FOOTER.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}` as FontString,
+          ),
+        ),
+    ),
     x: element.width - STICKY_NOTE_PADDING,
     y: element.height - STICKY_NOTE_FOOTER.baselineFromBottom,
   };

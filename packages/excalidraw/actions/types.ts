@@ -85,7 +85,7 @@ export type ActionName =
   | "changeArrowProperties"
   | "changeLinearAnimation"
   | "changeNoteShadow"
-  | "changeNoteDate"
+  | "changeNoteFooter"
   | "changeOpacity"
   | "changeFontSize"
   | "undo"

@@ -112,6 +112,8 @@ export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
     shadowBlur?: number;
     /** Optional calendar date (YYYY-MM-DD), independent of creation metadata. */
     noteDate?: string;
+    /** Custom bottom-right label. Empty text hides it; omission retains the date. */
+    footerText?: string;
   }>;
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {

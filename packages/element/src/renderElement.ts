@@ -45,6 +45,8 @@ import type {
   InteractiveCanvasRenderConfig,
 } from "@excalidraw/excalidraw/scene/types";
 
+import { createStickyNoteShadow } from "./stickyNoteShadow";
+
 import { getCreatePath, getRenderEnvironment } from "./renderEnvironment";
 
 import { getElementAbsoluteCoords, getElementBounds } from "./bounds";
@@ -474,18 +476,25 @@ const drawElementOnCanvas = (
   switch (element.type) {
     case "stickynote": {
       withSavedContext(context, () => {
-        context.save();
         const shadow = getStickyNoteShadow(element);
-        const transform = context.getTransform();
-        context.filter = `blur(${
-          shadow.blur * Math.hypot(transform.a, transform.b)
-        }px)`;
-        context.fillStyle = `rgba(0, 0, 0, ${shadow.opacity})`;
-        fillStickyNoteShape(
-          context,
-          getStickyNotePathCommands(element, { shadow: true }),
-        );
-        context.restore();
+        if (shadow.opacity > 0) {
+          const transform = context.getTransform();
+          const image = createStickyNoteShadow(
+            element,
+            Math.hypot(transform.a, transform.b),
+            getRenderEnvironment(renderConfig.renderEnvironment),
+          );
+          context.save();
+          context.globalAlpha *= shadow.opacity;
+          context.drawImage(
+            image.canvas,
+            -image.padding,
+            -image.padding,
+            image.width,
+            image.height,
+          );
+          context.restore();
+        }
 
         const commands = getStickyNotePathCommands(element);
         context.fillStyle = applyDarkModeFilter(
@@ -503,8 +512,8 @@ const drawElementOnCanvas = (
         // year boundary — and is regenerated on the next zoom, theme or
         // element change anyway
         const footer = getStickyNoteFooter(element);
-        if (footer) {
-          context.font = `${STICKY_NOTE_FOOTER.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}`;
+        if (footer?.text) {
+          context.font = `${footer.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}`;
           context.textAlign = "right";
           context.textBaseline = "alphabetic";
           context.fillStyle = applyDarkModeFilter(

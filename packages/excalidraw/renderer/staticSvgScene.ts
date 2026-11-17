@@ -42,7 +42,8 @@ import {
   getStickyNotePathCommands,
   getStickyNoteOutlineShape,
   getStickyNoteShadow,
-  getStickyNoteShadowPadding,
+  createStickyNoteShadow,
+  getRenderEnvironment,
   stickyNotePathToSvg,
   type StickyNotePathCommand,
 } from "@excalidraw/element";
@@ -222,31 +223,21 @@ const renderElementToSvg = (
         group.setAttribute("opacity", `${opacity}`);
       }
 
-      const shadow = createPath(
-        getStickyNotePathCommands(element, { shadow: true }),
-        "#000",
-        getStickyNoteShadow(element).opacity,
-      );
-      const diffusion = getStickyNoteShadow(element).blur;
-      if (diffusion > 0) {
-        const filter = svgRoot.ownerDocument.createElementNS(SVG_NS, "filter");
-        const filterId = `sticky-note-shadow-${element.id}`;
-        filter.setAttribute("id", filterId);
-        filter.setAttribute("filterUnits", "userSpaceOnUse");
-        const padding = getStickyNoteShadowPadding(element);
-        filter.setAttribute("x", `${-padding}`);
-        filter.setAttribute("y", `${-padding}`);
-        filter.setAttribute("width", `${element.width + padding * 2}`);
-        filter.setAttribute("height", `${element.height + padding * 2}`);
-        filter.setAttribute("color-interpolation-filters", "sRGB");
-        const blur = svgRoot.ownerDocument.createElementNS(
-          SVG_NS,
-          "feGaussianBlur",
+      const shadow = svgRoot.ownerDocument.createElementNS(SVG_NS, "image");
+      const shadowStyle = getStickyNoteShadow(element);
+      if (shadowStyle.opacity > 0) {
+        const image = createStickyNoteShadow(
+          element,
+          2,
+          getRenderEnvironment(renderConfig.renderEnvironment),
         );
-        blur.setAttribute("stdDeviation", `${diffusion}`);
-        filter.appendChild(blur);
-        addToRoot(filter, element);
-        shadow.setAttribute("filter", `url(#${filterId})`);
+        shadow.setAttribute("x", `${-image.padding}`);
+        shadow.setAttribute("y", `${-image.padding}`);
+        shadow.setAttribute("width", `${image.width}`);
+        shadow.setAttribute("height", `${image.height}`);
+        shadow.setAttribute("opacity", `${shadowStyle.opacity}`);
+        shadow.setAttribute("href", image.canvas.toDataURL());
+        shadow.setAttribute("data-note-shadow", "true");
       }
       const commands = getStickyNotePathCommands(element);
       const rect = createPath(
@@ -288,12 +279,12 @@ const renderElementToSvg = (
       }
 
       const footer = getStickyNoteFooter(element);
-      if (footer) {
+      if (footer?.text) {
         const dateText = svgRoot.ownerDocument.createElementNS(SVG_NS, "text");
         dateText.setAttribute("x", `${footer.x}`);
         dateText.setAttribute("y", `${footer.y}`);
         dateText.setAttribute("font-family", STICKY_NOTE_FOOTER.fontFamily);
-        dateText.setAttribute("font-size", `${STICKY_NOTE_FOOTER.fontSize}px`);
+        dateText.setAttribute("font-size", `${footer.fontSize}px`);
         // `text-anchor` is logical in SVG: pin the direction so an RTL host
         // page can't flip the label to the left edge
         dateText.setAttribute("text-anchor", "end");

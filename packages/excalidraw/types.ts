@@ -501,7 +501,7 @@ export interface AppState {
     | { name: "commandPalette" }
     | { name: "settings" }
     | { name: "latex"; elementId?: string }
-    | { name: "noteDate"; elementId: string }
+    | { name: "noteFooter"; elementId: string }
     | { name: "elementLinkSelector"; sourceElementId: ExcalidrawElement["id"] }
     | { name: "charts"; data: Spreadsheet; rawText: string };
   /**

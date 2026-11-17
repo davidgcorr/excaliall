@@ -1,6 +1,7 @@
 {
   "labels": {
     "shadowDiffusion": "Difusión",
+    "noteFooter": "Texto al pie de la nota",
     "noteDate": "Fecha de la nota",
     "noteShadow": "Sombra de la nota",
     "shadowStrength": "Intensidad",

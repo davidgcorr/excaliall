@@ -6,12 +6,12 @@ import {
 
 import { register } from "./register";
 
-export const actionChangeNoteDate = register<{
+export const actionChangeNoteFooter = register<{
   elementId: string;
-  noteDate: string;
+  footerText: string;
 }>({
-  name: "changeNoteDate",
-  label: "labels.noteDate",
+  name: "changeNoteFooter",
+  label: "labels.noteFooter",
   trackEvent: false,
   perform: (elements, _appState, value) => ({
     elements: elements.map((element) =>
@@ -19,7 +19,7 @@ export const actionChangeNoteDate = register<{
       element.id === value.elementId &&
       isStickyNoteElement(element) &&
       !element.locked
-        ? newElementWith(element, { noteDate: value.noteDate || undefined })
+        ? newElementWith(element, { footerText: value.footerText })
         : element,
     ),
     appState: { openDialog: null },

@@ -1,14 +1,10 @@
 import { useRef, useState } from "react";
 
 import { sceneCoordsToViewportCoords } from "@excalidraw/common";
-import {
-  getStickyNoteDateTimestamp,
-  getStickyNoteFooter,
-  isStickyNoteElement,
-} from "@excalidraw/element";
+import { getStickyNoteFooter, isStickyNoteElement } from "@excalidraw/element";
 import { pointFrom, pointRotateRads, type GlobalPoint } from "@excalidraw/math";
 
-import { actionChangeNoteDate } from "../actions/actionNoteDate";
+import { actionChangeNoteFooter } from "../actions/actionNoteFooter";
 import { t } from "../i18n";
 
 import {
@@ -18,7 +14,7 @@ import {
   useExcalidrawActionManager,
 } from "./App";
 
-export const NoteDateEditor = ({ elementId }: { elementId: string }) => {
+export const NoteFooterEditor = ({ elementId }: { elementId: string }) => {
   const app = useApp();
   const setAppState = useExcalidrawSetAppState();
   const actionManager = useExcalidrawActionManager();
@@ -29,12 +25,7 @@ export const NoteDateEditor = ({ elementId }: { elementId: string }) => {
     if (!element || !isStickyNoteElement(element)) {
       return "";
     }
-    const date = new Date(getStickyNoteDateTimestamp(element) ?? Date.now());
-    return `${date.getFullYear().toString().padStart(4, "0")}-${(
-      date.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    return getStickyNoteFooter(element)?.text ?? "";
   });
   if (!element || !isStickyNoteElement(element) || element.locked) {
     return null;
@@ -65,18 +56,20 @@ export const NoteDateEditor = ({ elementId }: { elementId: string }) => {
       return;
     }
     finished.current = true;
-    actionManager.executeAction(actionChangeNoteDate, "ui", {
+    actionManager.executeAction(actionChangeNoteFooter, "ui", {
       elementId,
-      noteDate: value,
+      footerText: value,
     });
     app.focusContainer();
   };
   return (
     <input
       autoFocus
-      type="date"
-      aria-label={t("labels.noteDate")}
-      data-testid="note-date-editor"
+      type="text"
+      maxLength={200}
+      onFocus={(event) => event.currentTarget.select()}
+      aria-label={t("labels.noteFooter")}
+      data-testid="note-footer-editor"
       value={value}
       style={{
         position: "absolute",

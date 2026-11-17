@@ -1100,6 +1100,7 @@ describe("sticky note creation date", () => {
 
     expect(footer(DEFAULT_STICKY_NOTE_SIZE)).toEqual({
       text: "30 May 2025",
+      fontSize: 12,
       x: DEFAULT_STICKY_NOTE_SIZE - STICKY_NOTE_PADDING,
       y: DEFAULT_STICKY_NOTE_SIZE - STICKY_NOTE_FOOTER.baselineFromBottom,
     });

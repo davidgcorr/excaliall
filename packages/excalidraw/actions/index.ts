@@ -107,4 +107,4 @@ export { actionToggleCropEditor } from "./actionCropEditor";
 
 export { actionChangeNoteShadow } from "./actionNoteShadow";
 
-export { actionChangeNoteDate } from "./actionNoteDate";
+export { actionChangeNoteFooter } from "./actionNoteFooter";

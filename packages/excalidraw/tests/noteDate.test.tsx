@@ -22,7 +22,7 @@ import { fireEvent, render } from "./test-utils";
 const { h } = window;
 const mouse = new Pointer("mouse");
 
-describe("editable note date", () => {
+describe("editable note footer", () => {
   it("opens from the footer, saves separately from creation time, and supports undo and export", async () => {
     const note = API.createElement({
       type: "stickynote",
@@ -37,34 +37,32 @@ describe("editable note date", () => {
     );
     const footer = getStickyNoteFooter(note)!;
     mouse.doubleClickAt(note.x + footer.x - 10, note.y + footer.y - 5);
-    const input = getByTestId("note-date-editor");
-    expect(input).toHaveValue("2025-03-07");
-    fireEvent.change(input, { target: { value: "2024-06-15" } });
+    const input = getByTestId("note-footer-editor");
+    expect(input).toHaveValue("7 Mar 2025");
+    fireEvent.change(input, { target: { value: "Draft / David" } });
     fireEvent.keyDown(input, { key: "Enter" });
-    expect(queryByTestId("note-date-editor")).toBeNull();
+    expect(queryByTestId("note-footer-editor")).toBeNull();
     const live = () => h.elements[0] as typeof note;
-    expect(live().noteDate).toBe("2024-06-15");
+    expect(live().footerText).toBe("Draft / David");
     expect(live().created).toBe(note.created);
-    expect(getStickyNoteFooter(live())?.text).toBe("15 Jun 2024");
+    expect(getStickyNoteFooter(live())?.text).toBe("Draft / David");
     const [restored] = restoreElements(
       JSON.parse(JSON.stringify(h.elements)),
       null,
     );
     expect(getStickyNoteFooter(restored as typeof note)?.text).toBe(
-      "15 Jun 2024",
+      "Draft / David",
     );
     const svg = await exportScene({
       type: "svg",
       data: { elements: h.app.scene.getNonDeletedElements(), files: {} },
     });
-    expect(svg.textContent).toContain("15 Jun 2024");
-    expect(
-      svg.querySelector("feGaussianBlur")?.getAttribute("stdDeviation"),
-    ).toBe("4");
+    expect(svg.textContent).toContain("Draft / David");
+    expect(svg.querySelector("image[data-note-shadow]")).not.toBeNull();
     Keyboard.undo();
-    expect(live().noteDate).toBeUndefined();
+    expect(live().footerText).toBeUndefined();
     Keyboard.redo();
-    expect(live().noteDate).toBe("2024-06-15");
+    expect(live().footerText).toBe("Draft / David");
   });
 
   it("cancels with Escape and commits on blur", async () => {
@@ -82,18 +80,53 @@ describe("editable note date", () => {
     const open = () =>
       mouse.doubleClickAt(note.x + footer.x - 10, note.y + footer.y - 5);
     open();
-    fireEvent.change(getByTestId("note-date-editor"), {
-      target: { value: "2024-06-15" },
+    fireEvent.change(getByTestId("note-footer-editor"), {
+      target: { value: "Draft / David" },
     });
-    fireEvent.keyDown(getByTestId("note-date-editor"), { key: "Escape" });
-    expect(queryByTestId("note-date-editor")).toBeNull();
-    expect((h.elements[0] as typeof note).noteDate).toBeUndefined();
+    fireEvent.keyDown(getByTestId("note-footer-editor"), { key: "Escape" });
+    expect(queryByTestId("note-footer-editor")).toBeNull();
+    expect((h.elements[0] as typeof note).footerText).toBeUndefined();
     open();
-    fireEvent.change(getByTestId("note-date-editor"), {
-      target: { value: "2024-06-15" },
+    fireEvent.change(getByTestId("note-footer-editor"), {
+      target: { value: "Draft / David" },
     });
-    fireEvent.blur(getByTestId("note-date-editor"));
-    expect((h.elements[0] as typeof note).noteDate).toBe("2024-06-15");
+    fireEvent.blur(getByTestId("note-footer-editor"));
+    expect((h.elements[0] as typeof note).footerText).toBe("Draft / David");
+  });
+
+  it("keeps an empty footer deleted after reopening and allows editing it again", async () => {
+    const note = API.createElement({
+      type: "stickynote",
+      x: 100,
+      y: 100,
+      width: 250,
+      height: 250,
+    });
+    const { getByTestId } = await render(
+      <Excalidraw initialData={{ elements: [note] }} />,
+    );
+    const footer = getStickyNoteFooter(note)!;
+    const open = () =>
+      mouse.doubleClickAt(note.x + footer.x - 10, note.y + footer.y - 5);
+    open();
+    fireEvent.change(getByTestId("note-footer-editor"), {
+      target: { value: "" },
+    });
+    fireEvent.keyDown(getByTestId("note-footer-editor"), { key: "Enter" });
+    const [restored] = restoreElements(
+      JSON.parse(JSON.stringify(h.elements)),
+      null,
+    );
+    expect(getStickyNoteFooter(restored as typeof note)?.text).toBe("");
+    open();
+    expect(getByTestId("note-footer-editor")).toHaveValue("");
+    fireEvent.change(getByTestId("note-footer-editor"), {
+      target: { value: "Review" },
+    });
+    fireEvent.keyDown(getByTestId("note-footer-editor"), { key: "Enter" });
+    expect(getStickyNoteFooter(h.elements[0] as typeof note)?.text).toBe(
+      "Review",
+    );
   });
 
   it("hits the date on rotated notes without intercepting the body", () => {

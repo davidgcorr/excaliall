@@ -839,6 +839,10 @@ export const restoreElement = (
           shadowOffset: element.shadowOffset,
           shadowBlur: element.shadowBlur,
           noteDate: element.noteDate,
+          footerText:
+            typeof element.footerText === "string"
+              ? element.footerText
+              : undefined,
           baseHeight:
             element.baseHeight ??
             (element as typeof element & { maxHeight?: number }).maxHeight ??

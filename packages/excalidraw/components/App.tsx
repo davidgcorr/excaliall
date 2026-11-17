@@ -6331,7 +6331,7 @@ class App extends React.Component<AppProps, AppState> {
       this.setState({
         selectedElementIds: { [chartHit.id]: true },
         selectedGroupIds: {},
-        openDialog: { name: "noteDate", elementId: chartHit.id },
+        openDialog: { name: "noteFooter", elementId: chartHit.id },
       });
       return;
     }
