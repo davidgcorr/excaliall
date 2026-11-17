@@ -265,6 +265,7 @@ export class AppPan {
           app.isInteractionEnabled() &&
           !app.state.viewModeEnabled &&
           !app.state.editingTextElement &&
+          app.state.activeTool.type !== "selection" &&
           !app.props.activeTool &&
           app.isToolSupported("selection")
         ) {
