@@ -1191,6 +1191,8 @@ describe("rubberband overscroll (integration)", () => {
       AnimationController.running(h.app.viewport.snapBackAnimationKey),
     ).toBe(true);
 
+    // A completed pan returns to Select; start another hand gesture explicitly.
+    React.act(() => h.app.setActiveTool({ type: "hand" }));
     // Direct manipulation takes ownership of the viewport again.
     mouse.downAt(50, 7);
     mouse.move(0, 1);

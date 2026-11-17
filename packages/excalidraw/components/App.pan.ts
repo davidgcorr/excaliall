@@ -145,6 +145,7 @@ export class AppPan {
     }
     const { clientX: startX, clientY: startY } = event;
     let { clientX: lastX, clientY: lastY } = event;
+    let didPan = false;
     const onPointerMove = withBatchedUpdatesThrottled((event: PointerEvent) => {
       if (this.secondary && !this.secondary.engaged) {
         // a right-click until the pointer travels far enough for a drag
@@ -164,6 +165,7 @@ export class AppPan {
 
       const deltaX = lastX - event.clientX;
       const deltaY = lastY - event.clientY;
+      didPan ||= deltaX !== 0 || deltaY !== 0;
       lastX = event.clientX;
       lastY = event.clientY;
 
@@ -256,6 +258,18 @@ export class AppPan {
         app.ownerWindow.removeEventListener(EVENT.POINTER_UP, teardown);
         app.ownerWindow.removeEventListener(EVENT.BLUR, teardown);
         onPointerMove.flush();
+
+        if (
+          didPan &&
+          upEvent?.type === EVENT.POINTER_UP &&
+          app.isInteractionEnabled() &&
+          !app.state.viewModeEnabled &&
+          !app.state.editingTextElement &&
+          !app.props.activeTool &&
+          app.isToolSupported("selection")
+        ) {
+          app.setActiveTool({ type: "selection" });
+        }
 
         // released without a drag: a right-click. Where the platform's
         // `contextmenu` came with the press it was swallowed, so the menu

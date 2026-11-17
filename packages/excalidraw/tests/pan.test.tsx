@@ -11,7 +11,7 @@ import {
 import { Excalidraw } from "../index";
 
 import { API } from "./helpers/api";
-import { GlobalTestState, render } from "./test-utils";
+import { act, GlobalTestState, render } from "./test-utils";
 
 const { h } = window;
 
@@ -40,6 +40,52 @@ const canvas = () => GlobalTestState.interactiveCanvas;
 describe("secondary-button pan", () => {
   beforeEach(async () => {
     await render(<Excalidraw />);
+  });
+
+  it.each([
+    [POINTER_BUTTON.MAIN, "hand"],
+    [POINTER_BUTTON.WHEEL, "rectangle"],
+    [POINTER_BUTTON.SECONDARY, "rectangle"],
+  ] as const)(
+    "returns to Select after a completed pan with button %s",
+    (button, type) => {
+      act(() => h.app.setActiveTool({ type }));
+      fireEvent.pointerDown(canvas(), { ...at(100, 100), button });
+      fireEvent.pointerMove(window, { ...at(120, 100), button });
+      fireEvent.pointerMove(window, { ...at(140, 110), button });
+      fireEvent.pointerUp(window, { ...at(140, 110), button, buttons: 0 });
+      expect(h.state.activeTool.type).toBe("selection");
+      expect(h.state.scrollX).not.toBe(0);
+    },
+  );
+
+  it("keeps the hand tool for a click without panning and preserves view-mode tools", () => {
+    act(() => h.app.setActiveTool({ type: "hand" }));
+    fireEvent.pointerDown(canvas(), {
+      ...at(100, 100),
+      button: POINTER_BUTTON.MAIN,
+    });
+    fireEvent.pointerUp(window, {
+      ...at(100, 100),
+      button: POINTER_BUTTON.MAIN,
+      buttons: 0,
+    });
+    expect(h.state.activeTool.type).toBe("hand");
+    API.setAppState({ viewModeEnabled: true });
+    fireEvent.pointerDown(canvas(), {
+      ...at(100, 100),
+      button: POINTER_BUTTON.MAIN,
+    });
+    fireEvent.pointerMove(window, {
+      ...at(140, 110),
+      button: POINTER_BUTTON.MAIN,
+    });
+    fireEvent.pointerUp(window, {
+      ...at(140, 110),
+      button: POINTER_BUTTON.MAIN,
+      buttons: 0,
+    });
+    expect(h.state.activeTool.type).toBe("hand");
   });
 
   it.each([false, true])(
