@@ -12,6 +12,7 @@ import {
   STICKY_NOTE_MIN_FONT_SIZE,
   STICKY_NOTE_PADDING,
   STICKY_NOTE_SHADOW_OFFSET,
+  STICKY_NOTE_SHADOW_OPACITY,
   getFontString,
   getLineHeight,
   isTransparent,
@@ -19,6 +20,7 @@ import {
 } from "@excalidraw/common";
 
 import { clamp } from "@excalidraw/math";
+import { RoughGenerator } from "roughjs/bin/generator";
 
 import { updateBoundElements } from "./binding";
 import { newElementWith } from "./mutateElement";
@@ -27,6 +29,8 @@ import { computeBoundTextPosition, getBoundTextElement } from "./textElement";
 import { measureText } from "./textMeasurements";
 import { wrapText } from "./textWrapping";
 import { isStickyNoteElement, isTextElement } from "./typeChecks";
+
+import type { Drawable } from "roughjs/bin/core";
 
 import type { RenderEnvironment } from "./renderEnvironment";
 import type { Scene } from "./Scene";
@@ -61,9 +65,9 @@ export type StickyNotePathCommand =
       point: StickyNoteRenderPoint;
     };
 
-const STICKY_NOTE_RENDER_ROUGHNESS = [0, 1.5, 8] as const;
-const STICKY_NOTE_CORNER_RADIUS_RATIO = 0.04;
-const STICKY_NOTE_MAX_CORNER_RADIUS = 16;
+const STICKY_NOTE_RENDER_ROUGHNESS = [0, 2.75, 5] as const;
+const STICKY_NOTE_CORNER_RADIUS_RATIO = 0.008;
+const STICKY_NOTE_MAX_CORNER_RADIUS = 3;
 
 export const normalizeStickyNoteStrokeColor = (
   strokeColor: string | null | undefined,
@@ -239,7 +243,7 @@ export const getStickyNoteRenderPoints = (
   const roughness = Math.max(0, Math.min(2, Math.round(element.roughness)));
   const amount = Math.min(
     STICKY_NOTE_RENDER_ROUGHNESS[roughness],
-    Math.min(element.width, element.height) * 0.012,
+    Math.min(element.width, element.height) * 0.02,
   );
 
   if (!amount) {
@@ -273,6 +277,19 @@ export const getStickyNoteRenderPoints = (
   ];
 };
 
+export const getStickyNoteShadow = (element: ExcalidrawStickyNoteElement) => ({
+  opacity:
+    typeof element.shadowOpacity === "number" &&
+    Number.isFinite(element.shadowOpacity)
+      ? clamp(element.shadowOpacity, 0, 100) / 100
+      : STICKY_NOTE_SHADOW_OPACITY,
+  offset:
+    typeof element.shadowOffset === "number" &&
+    Number.isFinite(element.shadowOffset)
+      ? clamp(element.shadowOffset, 0, 12)
+      : STICKY_NOTE_SHADOW_OFFSET,
+});
+
 export const getStickyNotePathCommands = (
   element: ExcalidrawStickyNoteElement,
   { shadow = false }: { shadow?: boolean } = {},
@@ -281,8 +298,8 @@ export const getStickyNotePathCommands = (
     element,
     shadow
       ? {
-          offsetX: STICKY_NOTE_SHADOW_OFFSET,
-          offsetY: STICKY_NOTE_SHADOW_OFFSET,
+          offsetX: getStickyNoteShadow(element).offset,
+          offsetY: getStickyNoteShadow(element).offset,
           seedOffset: 1,
         }
       : undefined,
@@ -291,7 +308,7 @@ export const getStickyNotePathCommands = (
   // The note's seed keeps the same corner for the paper and shadow through
   // redraws and resizes.
   const liftedCorner =
-    element.roughness === 2
+    element.roughness > 0
       ? Math.floor(seededRandom(element.seed)() * points.length)
       : -1;
 
@@ -321,7 +338,9 @@ export const getStickyNotePathCommands = (
       const reach = Math.min(size * 0.18, 40);
       // The shadow follows the paper inward at half the bend, keeping its
       // usual down-right offset from the light at the top left.
-      const lift = Math.min(size * 0.02, 5) * (shadow ? 0.5 : 1);
+      const lift =
+        Math.min(size * (element.roughness >= 2 ? 0.02 : 0.01), 5) *
+        (shadow ? 0.5 : 1);
       // The bend joins the straight edges before the corner, keeping it local.
       const tip = {
         x: point.x + (index === 1 || index === 2 ? -lift : lift),
@@ -367,7 +386,78 @@ export const getStickyNotePathCommands = (
     commands.push(...corners[index % corners.length]);
   }
 
-  return commands;
+  if (element.roughness <= 0) {
+    return commands;
+  }
+  // Broad, shallow bends feel like paper rather than a perfectly cut UI card.
+  // Use the same seed for the silhouette and its offset shadow.
+  const random = seededRandom(element.seed + 49);
+  const amplitude =
+    Math.min(3, Math.min(element.width, element.height) * 0.012) *
+    Math.min(element.roughness, 2);
+  return commands.map((command, index) => {
+    const previous = commands[index - 1];
+    if (command.type !== "line" || !previous) {
+      return command;
+    }
+    const dx = command.point.x - previous.point.x;
+    const dy = command.point.y - previous.point.y;
+    const length = Math.hypot(dx, dy);
+    if (length < 20) {
+      return command;
+    }
+    const bend = jitter(random, amplitude);
+    return {
+      type: "quadratic" as const,
+      control: {
+        x: (previous.point.x + command.point.x) / 2 - (dy / length) * bend,
+        y: (previous.point.y + command.point.y) / 2 + (dx / length) * bend,
+      },
+      point: command.point,
+    };
+  });
+};
+
+export const stickyNotePathToSvg = (commands: StickyNotePathCommand[]) =>
+  `${commands
+    .map((command) =>
+      command.type === "move"
+        ? `M ${command.point.x} ${command.point.y}`
+        : command.type === "line"
+        ? `L ${command.point.x} ${command.point.y}`
+        : `Q ${command.control.x} ${command.control.y} ${command.point.x} ${command.point.y}`,
+    )
+    .join(" ")} Z`;
+
+const outlineCache = new WeakMap<
+  ExcalidrawStickyNoteElement,
+  { version: number; shape: Drawable }
+>();
+const paperGenerator = new RoughGenerator();
+
+export const getStickyNoteOutlineShape = (
+  element: ExcalidrawStickyNoteElement,
+): Drawable | null => {
+  if (element.roughness <= 0) {
+    return null;
+  }
+  const cached = outlineCache.get(element);
+  if (cached?.version === element.version) {
+    return cached.shape;
+  }
+  const shape = paperGenerator.path(
+    stickyNotePathToSvg(getStickyNotePathCommands(element)),
+    {
+      seed: element.seed,
+      roughness: Math.min(1.2, element.roughness * 0.7),
+      stroke: "rgba(0, 0, 0, 0.24)",
+      strokeWidth: 0.7,
+      fill: undefined,
+      preserveVertices: true,
+    },
+  );
+  outlineCache.set(element, { version: element.version, shape });
+  return shape;
 };
 
 // -----------------------------------------------------------------------------

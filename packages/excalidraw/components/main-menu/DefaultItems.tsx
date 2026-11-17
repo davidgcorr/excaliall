@@ -23,6 +23,7 @@ import {
   actionToggleStats,
   actionToggleTheme,
   actionToggleZenMode,
+  actionTogglePresentationMode,
 } from "../../actions";
 import { actionToggleViewMode } from "../../actions/actionToggleViewMode";
 import { resolveInputDevice } from "../../appState";
@@ -53,6 +54,7 @@ import {
   DeviceDesktopIcon,
   ExportIcon,
   ExportImageIcon,
+  presentationIcon,
   HelpIcon,
   LoadIcon,
   MoonIcon,
@@ -146,6 +148,25 @@ export const SaveAsImage = () => {
   );
 };
 SaveAsImage.displayName = "SaveAsImage";
+
+export const PresentationMode = () => {
+  const { t } = useI18n();
+  const actionManager = useExcalidrawActionManager();
+  if (!actionManager.isActionEnabled(actionTogglePresentationMode)) {
+    return null;
+  }
+  return (
+    <DropdownMenuItem
+      icon={presentationIcon}
+      onSelect={() =>
+        actionManager.executeAction(actionTogglePresentationMode, "ui")
+      }
+      aria-label={t("buttons.present")}
+    >
+      {t("buttons.present")}
+    </DropdownMenuItem>
+  );
+};
 
 export const CommandPalette = (opts?: { className?: string }) => {
   const setAppState = useExcalidrawSetAppState();

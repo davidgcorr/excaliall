@@ -14,7 +14,6 @@ import {
   STICKY_NOTE_EDGE_SHADOW_OPACITY,
   STICKY_NOTE_EDGE_SHADOW_WIDTH,
   STICKY_NOTE_FOOTER,
-  STICKY_NOTE_SHADOW_OPACITY,
 } from "@excalidraw/common";
 import { normalizeLink, toValidURL } from "@excalidraw/common";
 import { hashString } from "@excalidraw/element";
@@ -41,6 +40,9 @@ import { ShapeCache } from "@excalidraw/element";
 import {
   getStickyNoteFooter,
   getStickyNotePathCommands,
+  getStickyNoteOutlineShape,
+  getStickyNoteShadow,
+  stickyNotePathToSvg,
   type StickyNotePathCommand,
 } from "@excalidraw/element";
 
@@ -193,27 +195,13 @@ const renderElementToSvg = (
       throw new Error("Selection rendering is not supported for SVG");
     }
     case "stickynote": {
-      const getPathData = (commands: StickyNotePathCommand[]) =>
-        commands
-          .map((command) => {
-            if (command.type === "move") {
-              return `M ${command.point.x} ${command.point.y}`;
-            }
-            if (command.type === "line") {
-              return `L ${command.point.x} ${command.point.y}`;
-            }
-            return `Q ${command.control.x} ${command.control.y} ${command.point.x} ${command.point.y}`;
-          })
-          .join(" ")
-          .concat(" Z");
-
       const createPath = (
         commands: StickyNotePathCommand[],
         fill: string,
         fillOpacity?: number,
       ) => {
         const path = svgRoot.ownerDocument.createElementNS(SVG_NS, "path");
-        path.setAttribute("d", getPathData(commands));
+        path.setAttribute("d", stickyNotePathToSvg(commands));
         path.setAttribute("fill", fill);
         if (typeof fillOpacity !== "undefined") {
           path.setAttribute("fill-opacity", `${fillOpacity}`);
@@ -236,7 +224,7 @@ const renderElementToSvg = (
       const shadow = createPath(
         getStickyNotePathCommands(element, { shadow: true }),
         "#000",
-        STICKY_NOTE_SHADOW_OPACITY,
+        getStickyNoteShadow(element).opacity,
       );
       const commands = getStickyNotePathCommands(element);
       const rect = createPath(
@@ -270,6 +258,12 @@ const renderElementToSvg = (
       group.appendChild(shadow);
       group.appendChild(rect);
       group.appendChild(edgeShadow);
+      const outline = getStickyNoteOutlineShape(element);
+      if (outline) {
+        group.appendChild(
+          roughSVGDrawWithPrecision(rsvg, outline, MAX_DECIMALS_FOR_SVG_EXPORT),
+        );
+      }
 
       const footer = getStickyNoteFooter(element);
       if (footer) {

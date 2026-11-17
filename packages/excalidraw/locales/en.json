@@ -1,5 +1,8 @@
 {
   "labels": {
+    "noteShadow": "Note shadow",
+    "shadowStrength": "Strength",
+    "shadowDistance": "Distance",
     "latexProperties": "Formula properties",
     "latexStyle": "Formula style",
     "latexNormal": "Normal",
@@ -334,6 +337,8 @@
     "texts": "Texts"
   },
   "buttons": {
+    "present": "Present",
+    "exitPresentation": "Exit presentation (Esc)",
     "clearReset": "Reset the canvas",
     "exportJSON": "Export to file",
     "exportImage": "Export image...",

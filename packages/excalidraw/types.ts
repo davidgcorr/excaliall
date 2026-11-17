@@ -524,6 +524,11 @@ export interface AppState {
     duration?: number;
   } | null;
   zenModeEnabled: boolean;
+  /** Transient presentation session; never saved with the drawing. */
+  presentationMode?: {
+    previousTool: AppState["activeTool"];
+    previousViewMode: boolean;
+  } | null;
   theme: Theme;
   /** grid cell px size */
   gridSize: number;
@@ -1266,6 +1271,7 @@ export type AppClassProperties = {
   wrap: App["wrap"];
   modifiers: App["modifiers"];
   isToolLocked: App["isToolLocked"];
+  isToolSupported: App["isToolSupported"];
   getEffectiveGridSize: App["getEffectiveGridSize"];
   setPlugins: App["setPlugins"];
   plugins: App["plugins"];

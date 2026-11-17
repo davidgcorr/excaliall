@@ -18,7 +18,11 @@ import { ShapeCache } from "@excalidraw/element";
 
 import type { NonDeletedExcalidrawElement } from "@excalidraw/element/types";
 
-import { actionSaveFileToDisk, actionToggleStats } from "../actions";
+import {
+  actionSaveFileToDisk,
+  actionToggleStats,
+  actionTogglePresentationMode,
+} from "../actions";
 import { trackEvent } from "../analytics";
 import { TunnelsContext, useInitializeTunnels } from "../context/tunnels";
 import { UIAppStateContext } from "../context/ui-appState";
@@ -48,7 +52,13 @@ import MainMenu from "./main-menu/MainMenu";
 import { ActiveConfirmDialog } from "./ActiveConfirmDialog";
 import { useAppProps, useEditorInterface, useStylesPanelMode } from "./App";
 import { OverwriteConfirmDialog } from "./OverwriteConfirm/OverwriteConfirm";
-import { ExportIcon, ExportImageIcon, sidebarRightIcon } from "./icons";
+import {
+  ExportIcon,
+  ExportImageIcon,
+  sidebarRightIcon,
+  presentationIcon,
+  CloseIcon,
+} from "./icons";
 import { Button } from "./Button";
 import { DefaultSidebar } from "./DefaultSidebar";
 import { TTDDialog } from "./TTDDialog/TTDDialog";
@@ -118,6 +128,7 @@ const DefaultMainMenu: React.FC<{
     <MainMenu __fallback>
       <MainMenu.DefaultItems.LoadScene />
       <MainMenu.DefaultItems.SaveToActiveFile />
+      <MainMenu.DefaultItems.PresentationMode />
       {/* FIXME we should to test for this inside the item itself */}
       {UIOptions.canvasActions.export && <MainMenu.DefaultItems.Export />}
       {/* FIXME we should to test for this inside the item itself */}
@@ -444,6 +455,23 @@ const LayerUI = ({
                 {ExportImageIcon}
               </Button>
             )}
+            {defaultUIEnabled &&
+              actionManager.isActionEnabled(actionTogglePresentationMode) && (
+                <Button
+                  className="canvas-export-button"
+                  title={t("buttons.present")}
+                  aria-label={t("buttons.present")}
+                  data-testid="presentation-mode-button"
+                  onSelect={() =>
+                    actionManager.executeAction(
+                      actionTogglePresentationMode,
+                      "ui",
+                    )
+                  }
+                >
+                  {presentationIcon}
+                </Button>
+              )}
             {renderTopRightUI?.(
               editorInterface.formFactor === "phone",
               appState,
@@ -745,7 +773,21 @@ const LayerUI = ({
     <UIAppStateContext.Provider value={appState}>
       <TunnelsJotaiProvider>
         <TunnelsContext.Provider value={tunnels}>
-          {layerUIJSX}
+          {appState.presentationMode ? (
+            <Button
+              className="canvas-export-button presentation-exit"
+              title={t("buttons.exitPresentation")}
+              aria-label={t("buttons.exitPresentation")}
+              data-testid="exit-presentation-button"
+              onSelect={() =>
+                actionManager.executeAction(actionTogglePresentationMode, "ui")
+              }
+            >
+              {CloseIcon}
+            </Button>
+          ) : (
+            layerUIJSX
+          )}
         </TunnelsContext.Provider>
       </TunnelsJotaiProvider>
     </UIAppStateContext.Provider>

@@ -1,5 +1,8 @@
 {
   "labels": {
+    "noteShadow": "Sombra de la nota",
+    "shadowStrength": "Intensidad",
+    "shadowDistance": "Distancia",
     "latexProperties": "Propiedades de la fórmula",
     "latexStyle": "Estilo de fórmula",
     "latexNormal": "Normal",
@@ -324,6 +327,8 @@
     "texts": "Textos"
   },
   "buttons": {
+    "present": "Presentar",
+    "exitPresentation": "Salir de la presentación (Esc)",
     "clearReset": "Limpiar lienzo y reiniciar el color de fondo",
     "exportJSON": "Exportar a archivo",
     "exportImage": "Exportar imagen...",

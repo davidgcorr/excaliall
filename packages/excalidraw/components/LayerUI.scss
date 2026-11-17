@@ -18,6 +18,19 @@
   .layer-ui__wrapper.animate {
     transition: width 0.1s ease-in-out;
   }
+  .presentation-exit {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: var(--zIndex-layerUI);
+    opacity: 0.3;
+    transition: opacity 150ms ease;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+    }
+  }
   .layer-ui__wrapper {
     // when the rightside sidebar is docked, we need to resize the UI by its
     // width, making the nested UI content shift to the left. To do this,

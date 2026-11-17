@@ -28,7 +28,6 @@ import {
   STICKY_NOTE_EDGE_SHADOW_OPACITY,
   STICKY_NOTE_EDGE_SHADOW_WIDTH,
   STICKY_NOTE_FOOTER,
-  STICKY_NOTE_SHADOW_OPACITY,
   DEFAULT_ZOOM,
 } from "@excalidraw/common";
 
@@ -77,6 +76,8 @@ import { ShapeCache } from "./shape";
 import {
   getStickyNoteFooter,
   getStickyNotePathCommands,
+  getStickyNoteOutlineShape,
+  getStickyNoteShadow,
   type StickyNotePathCommand,
 } from "./stickyNote";
 
@@ -466,7 +467,7 @@ const drawElementOnCanvas = (
   switch (element.type) {
     case "stickynote": {
       withSavedContext(context, () => {
-        context.fillStyle = `rgba(0, 0, 0, ${STICKY_NOTE_SHADOW_OPACITY})`;
+        context.fillStyle = `rgba(0, 0, 0, ${getStickyNoteShadow(element).opacity})`;
         fillStickyNoteShape(
           context,
           getStickyNotePathCommands(element, { shadow: true }),
@@ -479,6 +480,10 @@ const drawElementOnCanvas = (
         );
         fillStickyNoteShape(context, commands);
         strokeStickyNoteEdge(context, commands);
+        const outline = getStickyNoteOutlineShape(element);
+        if (outline) {
+          rc.draw(outline);
+        }
 
         // the label is absolute, so this cached canvas only goes stale at a
         // year boundary — and is regenerated on the next zoom, theme or

@@ -192,6 +192,7 @@ export const SelectedShapeActions = ({
       {predicates.verticalAlign && renderAction("changeVerticalAlign")}
       {predicates.arrowheads && <>{renderAction("changeArrowhead")}</>}
       {renderAction("changeLinearAnimation")}
+      {renderAction("changeNoteShadow")}
 
       {predicates.opacity && renderAction("changeOpacity")}
 
@@ -306,6 +307,7 @@ const CombinedShapeProperties = ({
               {renderAction("editMindMap")}
               {renderAction("editDataChart")}
               {renderAction("changeLinearAnimation")}
+              {renderAction("changeNoteShadow")}
             </div>
           </PropertiesPopover>
         )}
@@ -404,6 +406,7 @@ const CombinedArrowProperties = ({
           >
             {renderAction("changeArrowProperties")}
             {renderAction("changeLinearAnimation")}
+            {renderAction("changeNoteShadow")}
           </PropertiesPopover>
         )}
       </Popover.Root>

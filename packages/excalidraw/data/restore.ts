@@ -835,6 +835,8 @@ export const restoreElement = (
     case "stickynote":
       return normalizeStickyNote(
         restoreElementWithProperties(element, {
+          shadowOpacity: element.shadowOpacity,
+          shadowOffset: element.shadowOffset,
           baseHeight:
             element.baseHeight ??
             (element as typeof element & { maxHeight?: number }).maxHeight ??

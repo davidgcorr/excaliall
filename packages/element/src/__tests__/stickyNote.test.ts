@@ -37,6 +37,9 @@ import {
   getStickyNoteDateLabel,
   getStickyNoteFooter,
   getStickyNoteMinSize,
+  getStickyNoteOutlineShape,
+  getStickyNotePathCommands,
+  stickyNotePathToSvg,
   syncStickyNoteInk,
   normalizeStickyNoteFontSize,
   updateStickyNoteLayout,
@@ -109,6 +112,37 @@ const createStickyWithText = (
 };
 
 describe("sticky note text layout", () => {
+  it("renders a stable paper silhouette and sketch outline without changing note geometry", () => {
+    const note = newStickyNoteElement({
+      type: "stickynote",
+      x: 10,
+      y: 20,
+      width: 240,
+      height: 200,
+      roughness: 1,
+      roundness: { type: ROUNDNESS.PROPORTIONAL_RADIUS },
+    });
+    const original = JSON.stringify(note);
+    const commands = getStickyNotePathCommands(note);
+    expect(
+      commands.filter((command) => command.type === "quadratic").length,
+    ).toBeGreaterThan(4);
+    expect(getStickyNotePathCommands(note)).toEqual(commands);
+    expect(stickyNotePathToSvg(commands)).toMatch(/ Z$/);
+    const outline = getStickyNoteOutlineShape(note)!;
+    expect(outline).not.toBeNull();
+    expect(outline.options.roughness).toBeGreaterThan(0);
+    expect(outline.sets.every((set) => set.type === "path")).toBe(true);
+    expect(getStickyNoteOutlineShape(note)).toBe(outline);
+    expect(JSON.stringify(note)).toBe(original);
+    const shadow = getStickyNotePathCommands(note, { shadow: true });
+    expect(shadow).not.toEqual(commands);
+    expect(
+      shadow.filter((command) => command.type === "quadratic").length,
+    ).toBeGreaterThan(4);
+    expect(getStickyNoteOutlineShape({ ...note, roughness: 0 })).toBeNull();
+  });
+
   it("preserves rounded corners with reduced radius", () => {
     const sticky = newStickyNoteElement({
       type: "stickynote",

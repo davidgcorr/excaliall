@@ -284,6 +284,7 @@ import {
   actionToggleGridMode,
   actionToggleStats,
   actionToggleZenMode,
+  actionTogglePresentationMode,
   actionUnbindText,
   actionBindText,
   actionUngroup,
@@ -971,6 +972,9 @@ class App extends React.Component<AppProps, AppState> {
   public isLinksEnabled(
     props: Pick<AppProps, "interaction"> = this.props,
   ): boolean {
+    if (this.state.presentationMode) {
+      return false;
+    }
     if (typeof props.interaction === "object" && props.interaction !== null) {
       return (
         props.interaction.enabled?.links === true ||
@@ -1098,7 +1102,9 @@ class App extends React.Component<AppProps, AppState> {
   /** Whether Excalidraw's full default UI is rendered. */
   public isDefaultUIEnabled(props: Pick<AppProps, "ui"> = this.props): boolean {
     return (
-      props.ui !== false && (typeof props.ui !== "object" || props.ui === null)
+      !this.state.presentationMode &&
+      props.ui !== false &&
+      (typeof props.ui !== "object" || props.ui === null)
     );
   }
 
@@ -3200,6 +3206,14 @@ class App extends React.Component<AppProps, AppState> {
         zenModeEnabled = this.props.zenModeEnabled;
       }
 
+      const presentationMode =
+        actionResult.appState && "presentationMode" in actionResult.appState
+          ? actionResult.appState.presentationMode
+          : this.state.presentationMode;
+      if (presentationMode) {
+        viewModeEnabled = true;
+      }
+
       editingTextElement = actionResult.appState?.editingTextElement || null;
 
       // make sure editingTextElement points to latest element reference
@@ -3427,7 +3441,7 @@ class App extends React.Component<AppProps, AppState> {
     // uncontrolled. Synchronize it when its prop changes, when interaction is
     // re-enabled, or when non-interactive mode needs to force it on.
     let nextViewModeEnabled = this.state.viewModeEnabled;
-    if (!this.isInteractionEnabled()) {
+    if (this.state.presentationMode || !this.isInteractionEnabled()) {
       nextViewModeEnabled = true;
     } else if (viewModePropChanged || interactionEnabledChanged) {
       nextViewModeEnabled = !!this.props.viewModeEnabled;
@@ -5166,6 +5180,25 @@ class App extends React.Component<AppProps, AppState> {
   private onKeyDown = withBatchedUpdates(
     (event: React.KeyboardEvent | KeyboardEvent) => {
       if (!this.isInteractionEnabled()) {
+        return;
+      }
+
+      if (this.state.presentationMode) {
+        if (event.key === KEYS.ESCAPE) {
+          this.actionManager.executeAction(
+            actionTogglePresentationMode,
+            "keyboard",
+          );
+        }
+        // Keep the laser selected and keep editing shortcuts out of a talk.
+        // Tab/Enter remain available for the single exit button.
+        if (
+          event.key !== KEYS.TAB &&
+          event.key !== KEYS.ENTER &&
+          event.key !== " "
+        ) {
+          event.preventDefault();
+        }
         return;
       }
 
@@ -11107,7 +11140,7 @@ class App extends React.Component<AppProps, AppState> {
   }) => {
     // In non-interactive mode there is no menu, so the native one cannot be
     // mistaken for Excalidraw's own.
-    if (!this.isInteractionEnabled()) {
+    if (this.state.presentationMode || !this.isInteractionEnabled()) {
       return;
     }
 

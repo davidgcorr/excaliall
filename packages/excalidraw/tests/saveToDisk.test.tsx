@@ -56,7 +56,7 @@ describe("save to disk", () => {
         getByTestId("export-formats-button"),
       );
       expect(
-        saveButton.nextElementSibling?.nextElementSibling?.textContent,
+        getByTestId("presentation-mode-button").nextElementSibling?.textContent,
       ).toBe("Share");
       expect(saveButton).toHaveAccessibleName(t("exportDialog.disk_title"));
       fireEvent.click(saveButton);
