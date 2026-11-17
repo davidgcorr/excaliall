@@ -42,6 +42,7 @@ import {
   getStickyNotePathCommands,
   getStickyNoteOutlineShape,
   getStickyNoteShadow,
+  getStickyNoteShadowPadding,
   stickyNotePathToSvg,
   type StickyNotePathCommand,
 } from "@excalidraw/element";
@@ -232,7 +233,7 @@ const renderElementToSvg = (
         const filterId = `sticky-note-shadow-${element.id}`;
         filter.setAttribute("id", filterId);
         filter.setAttribute("filterUnits", "userSpaceOnUse");
-        const padding = diffusion * 3 + 16;
+        const padding = getStickyNoteShadowPadding(element);
         filter.setAttribute("x", `${-padding}`);
         filter.setAttribute("y", `${-padding}`);
         filter.setAttribute("width", `${element.width + padding * 2}`);

@@ -19,6 +19,7 @@ import {
 
 import {
   getStickyNoteShadow,
+  getStickyNoteShadowPadding,
   isStickyNoteElement,
   getCommonBounds,
   getElementAbsoluteCoords,
@@ -1333,7 +1334,7 @@ const getCanvasSize = (
       const shadow = getStickyNoteShadow(element);
       if (shadow.opacity > 0 && shadow.blur > 0) {
         const [left, top, right, bottom] = getCommonBounds([element]);
-        const padding = Math.ceil(shadow.blur * 3 + shadow.offset);
+        const padding = getStickyNoteShadowPadding(element);
         minX = Math.min(minX, left - padding);
         minY = Math.min(minY, top - padding);
         maxX = Math.max(maxX, right + padding);

@@ -302,6 +302,14 @@ export const getStickyNoteShadow = (element: ExcalidrawStickyNoteElement) => ({
       : STICKY_NOTE_SHADOW_OFFSET,
 });
 
+/** Scene-space margin covering the blur tail, offset, and rough paper edges. */
+export const getStickyNoteShadowPadding = (
+  element: ExcalidrawStickyNoteElement,
+) => {
+  const shadow = getStickyNoteShadow(element);
+  return Math.ceil(shadow.blur * 4 + shadow.offset + 6);
+};
+
 export const getStickyNotePathCommands = (
   element: ExcalidrawStickyNoteElement,
   { shadow = false }: { shadow?: boolean } = {},

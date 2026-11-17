@@ -78,6 +78,7 @@ import {
   getStickyNotePathCommands,
   getStickyNoteOutlineShape,
   getStickyNoteShadow,
+  getStickyNoteShadowPadding,
   type StickyNotePathCommand,
 } from "./stickyNote";
 
@@ -104,11 +105,13 @@ const isPendingImageElement = (
   isInitializedImageElement(element) &&
   !renderConfig.imageCache.has(element.fileId);
 
-const getCanvasPadding = (element: ExcalidrawElement) => {
+const getCanvasPadding = (element: ExcalidrawElement, deviceScale: number) => {
   switch (element.type) {
     case "stickynote": {
-      const shadow = getStickyNoteShadow(element);
-      return Math.max(20, Math.ceil(shadow.blur * 3 + shadow.offset + 5));
+      // Padding is in backing-store pixels, while blur and offset use scene units.
+      return Math.ceil(
+        Math.max(20, getStickyNoteShadowPadding(element)) * deviceScale,
+      );
     }
     case "freedraw":
       return element.strokeWidth * 12;
@@ -246,7 +249,7 @@ const cappedElementCanvasSize = (
   // ~ safari width/height limit based on developer.mozilla.org.
   const WIDTH_HEIGHT_LIMIT = 32767;
 
-  const padding = getCanvasPadding(element);
+  const padding = getCanvasPadding(element, deviceScale);
 
   const [x1, y1, x2, y2] = getElementAbsoluteCoords(element, elementsMap);
   const elementWidth =
@@ -292,7 +295,7 @@ const generateElementCanvas = (
   const environment = getRenderEnvironment(renderConfig.renderEnvironment);
   const canvas = environment.createCanvas();
   const context = canvas.getContext("2d")!;
-  const padding = getCanvasPadding(element);
+  const padding = getCanvasPadding(element, renderConfig.scale);
 
   const { width, height, scale } = cappedElementCanvasSize(
     element,
@@ -835,7 +838,7 @@ const drawElementFromCanvas = (
   // (`generateElementCanvas`); the blit's size math needs the same one, so it
   // is the render config's, not the owner window's
   const devicePixelRatio = renderConfig.scale;
-  const padding = getCanvasPadding(element);
+  const padding = getCanvasPadding(element, renderConfig.scale);
   const [x1, y1, x2, y2] = getElementAbsoluteCoords(element, allElementsMap);
   const cx =
     ((x1 + x2) / 2 + positionOffset.x + appState.scrollX) * devicePixelRatio;
@@ -943,7 +946,9 @@ const drawElementFromCanvas = (
       const anchorSceneX = anchorCoords?.[0] ?? x1;
       const anchorSceneY = anchorCoords?.[1] ?? y1;
       const anchorPadding =
-        anchor === element ? padding : getCanvasPadding(anchor);
+        anchor === element
+          ? padding
+          : getCanvasPadding(anchor, renderConfig.scale);
       const anchorX =
         (anchorSceneX + positionOffset.x + appState.scrollX) *
           devicePixelRatio -
@@ -1236,7 +1241,7 @@ const drawElement = (
             // (the hole rect stays axis-aligned in scene space)
             const outerHalf =
               Math.max(distance(x1, x2), distance(y1, y2)) +
-              getCanvasPadding(element) * 10;
+              getCanvasPadding(element, renderConfig.scale) * 10;
 
             withSavedContext(context, () => {
               context.beginPath();

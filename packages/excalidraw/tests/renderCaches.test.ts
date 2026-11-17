@@ -2,7 +2,7 @@
 
 import { RoughCanvas } from "roughjs/bin/canvas";
 
-import { newElement } from "@excalidraw/element";
+import { newElement, newStickyNoteElement } from "@excalidraw/element";
 
 import { vi } from "vitest";
 
@@ -13,6 +13,8 @@ import type {
   NonDeletedExcalidrawElement,
   NonDeletedSceneElementsMap,
 } from "@excalidraw/element/types";
+
+import { getNormalizedZoom } from "../scene";
 
 import { getDefaultAppState } from "../appState";
 import { renderStaticScene } from "../renderer/staticScene";
@@ -116,6 +118,54 @@ afterEach(() => {
  * scene size, or a canvas belonging to another document.
  */
 describe("element canvas cache", () => {
+  it.each([
+    [1, 0.5],
+    [1, 1],
+    [1, 2],
+    [2, 0.5],
+    [2, 1],
+    [2, 2],
+    [3, 0.5],
+    [3, 1],
+    [3, 2],
+  ])(
+    "keeps the full note shadow at display scale %s and zoom %s",
+    (scale, zoom) => {
+      const { env, canvases } = makeEnv();
+      const note = {
+        ...newStickyNoteElement({
+          type: "stickynote",
+          x: 100,
+          y: 100,
+          width: 200,
+          height: 200,
+        }),
+        shadowOpacity: 100,
+        shadowOffset: 12,
+        shadowBlur: 12,
+      };
+      const config = makeConfig([note], { scale, renderEnvironment: env });
+      config.appState = {
+        ...config.appState,
+        zoom: { value: getNormalizedZoom(zoom) },
+      };
+      renderStaticScene(config);
+      const canvas = canvases[0];
+      const marginX = (canvas.width - note.width * scale * zoom) / 2;
+      const marginY = (canvas.height - note.height * scale * zoom) / 2;
+      // Four Gaussian standard deviations plus the offset must fit in the bitmap,
+      // even when the backing store uses multiple pixels per scene unit.
+      const requiredMargin =
+        (note.shadowBlur * 4 + note.shadowOffset) * scale * zoom;
+      expect(marginX).toBeGreaterThanOrEqual(requiredMargin);
+      expect(marginY).toBeGreaterThanOrEqual(requiredMargin);
+      expect(canvas.getContext("2d")?.translate).toHaveBeenCalledWith(
+        marginX,
+        marginY,
+      );
+    },
+  );
+
   const rect = () =>
     newElement({
       type: "rectangle",
