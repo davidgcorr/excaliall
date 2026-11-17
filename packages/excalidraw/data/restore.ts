@@ -837,6 +837,8 @@ export const restoreElement = (
         restoreElementWithProperties(element, {
           shadowOpacity: element.shadowOpacity,
           shadowOffset: element.shadowOffset,
+          shadowBlur: element.shadowBlur,
+          noteDate: element.noteDate,
           baseHeight:
             element.baseHeight ??
             (element as typeof element & { maxHeight?: number }).maxHeight ??

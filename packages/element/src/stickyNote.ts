@@ -19,14 +19,20 @@ import {
   seededRandom,
 } from "@excalidraw/common";
 
-import { clamp } from "@excalidraw/math";
+import {
+  clamp,
+  pointFrom,
+  pointRotateRads,
+  type GlobalPoint,
+  type Radians,
+} from "@excalidraw/math";
 import { RoughGenerator } from "roughjs/bin/generator";
 
 import { updateBoundElements } from "./binding";
 import { newElementWith } from "./mutateElement";
 import { getPositionAfterHeightChange } from "./sizeHelpers";
 import { computeBoundTextPosition, getBoundTextElement } from "./textElement";
-import { measureText } from "./textMeasurements";
+import { measureText, getTextWidth } from "./textMeasurements";
 import { wrapText } from "./textWrapping";
 import { isStickyNoteElement, isTextElement } from "./typeChecks";
 
@@ -37,6 +43,7 @@ import type { Scene } from "./Scene";
 import type { VerticalResizeAnchor } from "./sizeHelpers";
 import type { TransformHandleDirection } from "./transformHandles";
 import type {
+  FontString,
   ElementsMap,
   ExcalidrawElement,
   ExcalidrawStickyNoteElement,
@@ -283,6 +290,11 @@ export const getStickyNoteShadow = (element: ExcalidrawStickyNoteElement) => ({
     Number.isFinite(element.shadowOpacity)
       ? clamp(element.shadowOpacity, 0, 100) / 100
       : STICKY_NOTE_SHADOW_OPACITY,
+  blur:
+    typeof element.shadowBlur === "number" &&
+    Number.isFinite(element.shadowBlur)
+      ? clamp(element.shadowBlur, 0, 12)
+      : 4,
   offset:
     typeof element.shadowOffset === "number" &&
     Number.isFinite(element.shadowOffset)
@@ -553,6 +565,52 @@ export const getStickyNoteDateLabel = (
     : `${label} ${year}`;
 };
 
+/** Resolve calendar overrides in local time without changing creation metadata. */
+export const getStickyNoteDateTimestamp = (
+  element: Pick<ExcalidrawStickyNoteElement, "created" | "noteDate">,
+) => {
+  if (element.noteDate && /^\d{4}-\d{2}-\d{2}$/.test(element.noteDate)) {
+    const date = new Date(`${element.noteDate}T12:00:00`);
+    if (
+      Number.isFinite(date.getTime()) &&
+      date.getFullYear() === Number(element.noteDate.slice(0, 4)) &&
+      date.getMonth() + 1 === Number(element.noteDate.slice(5, 7)) &&
+      date.getDate() === Number(element.noteDate.slice(8, 10))
+    ) {
+      return date.getTime();
+    }
+  }
+  return element.created;
+};
+
+export const isPointInStickyNoteFooter = (
+  element: ExcalidrawStickyNoteElement,
+  point: { x: number; y: number },
+) => {
+  const footer = getStickyNoteFooter(element);
+  if (!footer) {
+    return false;
+  }
+  const local = pointRotateRads(
+    pointFrom<GlobalPoint>(point.x, point.y),
+    pointFrom<GlobalPoint>(
+      element.x + element.width / 2,
+      element.y + element.height / 2,
+    ),
+    -element.angle as Radians,
+  );
+  const width = getTextWidth(
+    footer.text,
+    `${STICKY_NOTE_FOOTER.fontSize}px ${STICKY_NOTE_FOOTER.fontFamily}` as FontString,
+  );
+  return (
+    local[0] >= element.x + footer.x - width - 6 &&
+    local[0] <= element.x + footer.x + 6 &&
+    local[1] >= element.y + footer.y - STICKY_NOTE_FOOTER.fontSize - 6 &&
+    local[1] <= element.y + footer.y + 6
+  );
+};
+
 /**
  * What the footer paints and where, in note-local coordinates — shared by the
  * canvas and SVG renderers, which take the font and opacity from
@@ -560,7 +618,10 @@ export const getStickyNoteDateLabel = (
  * the data floor, where the band would overlap the top padding.
  */
 export const getStickyNoteFooter = (
-  element: Pick<ExcalidrawStickyNoteElement, "created" | "width" | "height">,
+  element: Pick<
+    ExcalidrawStickyNoteElement,
+    "created" | "width" | "height" | "noteDate"
+  >,
   now = Date.now(),
 ) => {
   if (
@@ -569,7 +630,7 @@ export const getStickyNoteFooter = (
   ) {
     return null;
   }
-  const text = getStickyNoteDateLabel(element.created, {
+  const text = getStickyNoteDateLabel(getStickyNoteDateTimestamp(element), {
     short:
       element.width - STICKY_NOTE_PADDING * 2 <
       STICKY_NOTE_FOOTER.minBodyWidthForYear,

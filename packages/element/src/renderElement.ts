@@ -106,6 +106,10 @@ const isPendingImageElement = (
 
 const getCanvasPadding = (element: ExcalidrawElement) => {
   switch (element.type) {
+    case "stickynote": {
+      const shadow = getStickyNoteShadow(element);
+      return Math.max(20, Math.ceil(shadow.blur * 3 + shadow.offset + 5));
+    }
     case "freedraw":
       return element.strokeWidth * 12;
     case "text":
@@ -467,11 +471,18 @@ const drawElementOnCanvas = (
   switch (element.type) {
     case "stickynote": {
       withSavedContext(context, () => {
-        context.fillStyle = `rgba(0, 0, 0, ${getStickyNoteShadow(element).opacity})`;
+        context.save();
+        const shadow = getStickyNoteShadow(element);
+        const transform = context.getTransform();
+        context.filter = `blur(${
+          shadow.blur * Math.hypot(transform.a, transform.b)
+        }px)`;
+        context.fillStyle = `rgba(0, 0, 0, ${shadow.opacity})`;
         fillStickyNoteShape(
           context,
           getStickyNotePathCommands(element, { shadow: true }),
         );
+        context.restore();
 
         const commands = getStickyNotePathCommands(element);
         context.fillStyle = applyDarkModeFilter(

@@ -1,5 +1,7 @@
 {
   "labels": {
+    "shadowDiffusion": "Diffusion",
+    "noteDate": "Note date",
     "noteShadow": "Note shadow",
     "shadowStrength": "Strength",
     "shadowDistance": "Distance",

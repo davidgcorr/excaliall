@@ -17,7 +17,12 @@ import {
   removeDarkModeFilter,
 } from "@excalidraw/common";
 
-import { getCommonBounds, getElementAbsoluteCoords } from "@excalidraw/element";
+import {
+  getStickyNoteShadow,
+  isStickyNoteElement,
+  getCommonBounds,
+  getElementAbsoluteCoords,
+} from "@excalidraw/element";
 
 import {
   getInitializedImageElements,
@@ -1321,7 +1326,21 @@ export const decodeSvgBase64Payload = ({ svg }: { svg: string }) => {
 const getCanvasSize = (
   elements: readonly NonDeletedExcalidrawElement[],
 ): [x: number, y: number, width: number, height: number] => {
-  const [minX, minY, maxX, maxY] = getCommonBounds(elements);
+  let [minX, minY, maxX, maxY] = getCommonBounds(elements);
+  // Soft paper shadows extend beyond the element's selection bounds.
+  for (const element of elements) {
+    if (isStickyNoteElement(element)) {
+      const shadow = getStickyNoteShadow(element);
+      if (shadow.opacity > 0 && shadow.blur > 0) {
+        const [left, top, right, bottom] = getCommonBounds([element]);
+        const padding = Math.ceil(shadow.blur * 3 + shadow.offset);
+        minX = Math.min(minX, left - padding);
+        minY = Math.min(minY, top - padding);
+        maxX = Math.max(maxX, right + padding);
+        maxY = Math.max(maxY, bottom + padding);
+      }
+    }
+  }
   const width = distance(minX, maxX);
   const height = distance(minY, maxY);
 

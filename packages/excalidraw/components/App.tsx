@@ -157,6 +157,7 @@ import {
   getContainerElement,
   getColorUpdate,
   getStickyNoteMinSize,
+  isPointInStickyNoteFooter,
   isValidTextContainer,
   redrawTextBoundingBox,
   hasBoundingBox,
@@ -6320,6 +6321,20 @@ class App extends React.Component<AppProps, AppState> {
     );
 
     const chartHit = this.getElementAtPosition(sceneX, sceneY);
+    if (
+      chartHit &&
+      isStickyNoteElement(chartHit) &&
+      !chartHit.locked &&
+      !this.state.viewModeEnabled &&
+      isPointInStickyNoteFooter(chartHit, { x: sceneX, y: sceneY })
+    ) {
+      this.setState({
+        selectedElementIds: { [chartHit.id]: true },
+        selectedGroupIds: {},
+        openDialog: { name: "noteDate", elementId: chartHit.id },
+      });
+      return;
+    }
     if (
       chartHit &&
       !this.state.viewModeEnabled &&

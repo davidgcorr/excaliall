@@ -11,7 +11,11 @@ import { getSelectedElements } from "../scene";
 
 import { register } from "./register";
 
-type ShadowUpdate = { shadowOpacity?: number; shadowOffset?: number };
+type ShadowUpdate = {
+  shadowOpacity?: number;
+  shadowOffset?: number;
+  shadowBlur?: number;
+};
 
 export const actionChangeNoteShadow = register<ShadowUpdate>({
   name: "changeNoteShadow",
@@ -34,6 +38,9 @@ export const actionChangeNoteShadow = register<ShadowUpdate>({
                       Math.min(100, value.shadowOpacity),
                     ),
                   }
+                : {}),
+              ...(value.shadowBlur !== undefined
+                ? { shadowBlur: Math.max(0, Math.min(12, value.shadowBlur)) }
                 : {}),
               ...(value.shadowOffset !== undefined
                 ? {
@@ -81,6 +88,16 @@ export const actionChangeNoteShadow = register<ShadowUpdate>({
           step={1}
           testId="note-shadow-distance"
           onChange={(shadowOffset) => updateData({ shadowOffset })}
+        />
+        <Range
+          label={t("labels.shadowDiffusion")}
+          value={first.blur}
+          hasCommonValue={shadows.every(({ blur }) => blur === first.blur)}
+          min={0}
+          max={12}
+          step={1}
+          testId="note-shadow-diffusion"
+          onChange={(shadowBlur) => updateData({ shadowBlur })}
         />
       </fieldset>
     );

@@ -36,6 +36,7 @@ import {
   type ColorDefaultKey,
 } from "../actions/colorTargets";
 
+import { NoteDateEditor } from "./NoteDateEditor";
 import { LatexDialog } from "./Latex/LatexDialog";
 
 import { SelectedShapeActions, CompactShapeActions } from "./Actions";
@@ -643,6 +644,12 @@ const LayerUI = ({
       {appState.openDialog?.name === "latex" && (
         <LatexDialog
           key={appState.openDialog.elementId ?? "new"}
+          elementId={appState.openDialog.elementId}
+        />
+      )}
+      {appState.openDialog?.name === "noteDate" && (
+        <NoteDateEditor
+          key={appState.openDialog.elementId}
           elementId={appState.openDialog.elementId}
         />
       )}

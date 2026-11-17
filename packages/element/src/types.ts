@@ -108,6 +108,10 @@ export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
     shadowOpacity?: number;
     /** Down-right shadow distance in canvas units. */
     shadowOffset?: number;
+    /** Gaussian shadow diffusion in canvas units. */
+    shadowBlur?: number;
+    /** Optional calendar date (YYYY-MM-DD), independent of creation metadata. */
+    noteDate?: string;
   }>;
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {

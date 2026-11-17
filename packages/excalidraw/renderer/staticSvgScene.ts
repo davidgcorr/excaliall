@@ -226,6 +226,27 @@ const renderElementToSvg = (
         "#000",
         getStickyNoteShadow(element).opacity,
       );
+      const diffusion = getStickyNoteShadow(element).blur;
+      if (diffusion > 0) {
+        const filter = svgRoot.ownerDocument.createElementNS(SVG_NS, "filter");
+        const filterId = `sticky-note-shadow-${element.id}`;
+        filter.setAttribute("id", filterId);
+        filter.setAttribute("filterUnits", "userSpaceOnUse");
+        const padding = diffusion * 3 + 16;
+        filter.setAttribute("x", `${-padding}`);
+        filter.setAttribute("y", `${-padding}`);
+        filter.setAttribute("width", `${element.width + padding * 2}`);
+        filter.setAttribute("height", `${element.height + padding * 2}`);
+        filter.setAttribute("color-interpolation-filters", "sRGB");
+        const blur = svgRoot.ownerDocument.createElementNS(
+          SVG_NS,
+          "feGaussianBlur",
+        );
+        blur.setAttribute("stdDeviation", `${diffusion}`);
+        filter.appendChild(blur);
+        addToRoot(filter, element);
+        shadow.setAttribute("filter", `url(#${filterId})`);
+      }
       const commands = getStickyNotePathCommands(element);
       const rect = createPath(
         commands,

@@ -27,16 +27,25 @@ describe("note shadow controls", () => {
       target: { value: "9" },
     });
     expect(getStickyNoteShadow(h.elements[0] as typeof note)).toEqual({
+      blur: 4,
       opacity: 0.4,
       offset: 9,
     });
+    fireEvent.change(getByTestId("note-shadow-diffusion"), {
+      target: { value: "10" },
+    });
+    expect(getStickyNoteShadow(h.elements[0] as typeof note).blur).toBe(10);
+    Keyboard.undo();
+    expect(getStickyNoteShadow(h.elements[0] as typeof note).blur).toBe(4);
     Keyboard.undo();
     expect(getStickyNoteShadow(h.elements[0] as typeof note)).toEqual({
+      blur: 4,
       opacity: 0.4,
       offset: 3,
     });
     Keyboard.redo();
     expect(getStickyNoteShadow(h.elements[0] as typeof note)).toEqual({
+      blur: 4,
       opacity: 0.4,
       offset: 9,
     });
@@ -45,6 +54,7 @@ describe("note shadow controls", () => {
       null,
     );
     expect(getStickyNoteShadow(restored as typeof note)).toEqual({
+      blur: 4,
       opacity: 0.4,
       offset: 9,
     });
@@ -75,16 +85,20 @@ describe("note shadow controls", () => {
 
   it("preserves old note defaults and safely handles invalid saved values", () => {
     const note = API.createElement({ type: "stickynote" });
-    expect(getStickyNoteShadow(note)).toEqual({ opacity: 0.16, offset: 3 });
+    expect(getStickyNoteShadow(note)).toEqual({
+      opacity: 0.16,
+      offset: 3,
+      blur: 4,
+    });
     expect(
       getStickyNoteShadow({ ...note, shadowOpacity: 200, shadowOffset: -5 }),
-    ).toEqual({ opacity: 1, offset: 0 });
+    ).toEqual({ opacity: 1, offset: 0, blur: 4 });
     expect(
       getStickyNoteShadow({
         ...note,
         shadowOpacity: NaN,
         shadowOffset: Infinity,
       }),
-    ).toEqual({ opacity: 0.16, offset: 3 });
+    ).toEqual({ opacity: 0.16, offset: 3, blur: 4 });
   });
 });
