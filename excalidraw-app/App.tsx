@@ -219,6 +219,7 @@ const shareableLinkConfirmDialog = {
 const initializeScene = async (opts: {
   collabAPI: CollabAPI | null;
   excalidrawAPI: ExcalidrawImperativeAPI;
+  isInitialLoad?: boolean;
 }): Promise<
   { scene: ExcalidrawInitialDataState | null } & (
     | { isExternalScene: true; id: string; key: string }
@@ -325,6 +326,30 @@ const initializeScene = async (opts: {
         },
         isExternalScene,
       };
+    }
+  }
+
+  if (
+    opts.isInitialLoad &&
+    !localDataState.hasSavedScene &&
+    !isExternalScene &&
+    !externalUrlMatch
+  ) {
+    try {
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}readme/MainDemo.excalidraw`,
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to load demo scene: ${response.status}`);
+      }
+      const demo = await loadFromBlob(await response.blob(), null, null);
+      return {
+        scene: { ...demo, scrollToContent: true },
+        isExternalScene: false,
+      };
+    } catch (error) {
+      // A missing demo should not prevent opening the editor.
+      console.error(error);
     }
   }
 
@@ -535,9 +560,12 @@ const ExcalidrawWrapper = () => {
             ]);
           });
         } else if (isInitialLoad) {
-          if (fileIds.length) {
+          const missingFileIds = fileIds.filter(
+            (id) => !data.scene?.files?.[id],
+          );
+          if (missingFileIds.length) {
             LocalData.fileStorage
-              .getFiles(fileIds)
+              .getFiles(missingFileIds)
               .then(async ({ loadedFiles, erroredFiles }) => {
                 if (loadedFiles.length) {
                   excalidrawAPI.addFiles(loadedFiles);
@@ -565,10 +593,12 @@ const ExcalidrawWrapper = () => {
       return;
     }
 
-    initializeScene({ collabAPI, excalidrawAPI }).then(async (data) => {
-      loadImages(data, /* isInitialLoad */ true);
-      initialStatePromiseRef.current.promise.resolve(data.scene);
-    });
+    initializeScene({ collabAPI, excalidrawAPI, isInitialLoad: true }).then(
+      async (data) => {
+        loadImages(data, /* isInitialLoad */ true);
+        initialStatePromiseRef.current.promise.resolve(data.scene);
+      },
+    );
 
     const onHashChange = async (event: HashChangeEvent) => {
       event.preventDefault();

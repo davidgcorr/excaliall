@@ -70,7 +70,11 @@ export const importFromLocalStorage = () => {
       // Do nothing because appState is already null
     }
   }
-  return { elements, appState };
+  return {
+    elements,
+    appState,
+    hasSavedScene: savedElements !== null || savedState !== null,
+  };
 };
 
 export const getElementsStorageSize = () => {
