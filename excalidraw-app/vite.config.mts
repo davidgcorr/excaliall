@@ -304,7 +304,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       appBase === "/" &&
         Sitemap({
-          hostname: "https://vedav.pages.dev",
+          hostname: "https://vedav.davidgc.com",
           outDir: "build",
           changefreq: "monthly",
           // its static in public folder

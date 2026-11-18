@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vedav.pages.dev/sitemap.xml
+Sitemap: https://vedav.davidgc.com/sitemap.xml

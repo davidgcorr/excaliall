@@ -1,6 +1,6 @@
 # Deploy VeDav to Cloudflare Pages
 
-Production URL: **https://vedav.pages.dev**. Repository: [davidgcorr/vedav](https://github.com/davidgcorr/vedav).
+Production URL: **https://vedav.davidgc.com**. Repository: [davidgcorr/vedav](https://github.com/davidgcorr/vedav).
 
 ## First deployment
 
@@ -19,7 +19,7 @@ If the Pages project already exists, skip its creation. Wrangler asks you to sel
 
 The `vedav` Pages project provides **https://vedav.pages.dev** automatically. No custom-domain DNS setup is needed for this address.
 
-To add a custom address later, open **Workers & Pages → vedav → Custom domains → Set up a custom domain** and follow Cloudflare's DNS instructions for that address.
+The production custom domain is **https://vedav.davidgc.com**, attached to the `vedav` Pages project. In the `davidgc.com` DNS zone, the proxied `vedav` CNAME points to `vedav.pages.dev`. Manage it under **Workers & Pages → vedav → Custom domains**.
 
 ## Update from this checkout
 
@@ -41,4 +41,4 @@ One-time authentication setup:
 
 The workflow already identifies the existing Cloudflare account. It uses the GitHub `production` environment and does not deploy pull requests or feature branches. Desktop installers keep their separate release workflow. No Cloudflare/GitHub Git integration is needed for this Direct Upload project.
 
-The web build uses the root of its subdomain. Metadata, social previews, sitemap and installed PWA links point to `https://vedav.pages.dev`. Online collaboration and other remote services retain their configured backend endpoints; hosting this static editor does not provision those services.
+The web build uses the root of its subdomain. Metadata, social previews, sitemap and installed PWA links point to `https://vedav.davidgc.com`. Online collaboration and other remote services retain their configured backend endpoints; hosting this static editor does not provision those services.

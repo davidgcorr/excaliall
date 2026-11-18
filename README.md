@@ -4,12 +4,11 @@
 
 ![VeDav main screen demo](public/readme/MainScreenDemo.gif)
 
-[Open VeDav](https://vedav.pages.dev/) · [Download desktop apps](https://github.com/davidgcorr/vedav/releases) · [GitHub Pages mirror](https://davidgcorr.github.io/vedav/) · [Report an issue](https://github.com/davidgcorr/vedav/issues)
+[Open VeDav](https://vedav.davidgc.com/) · [Download desktop apps](https://github.com/davidgcorr/vedav/releases) · [GitHub Pages mirror](https://davidgcorr.github.io/vedav/) · [Report an issue](https://github.com/davidgcorr/vedav/issues)
 
 VeDav brings freehand diagrams, animations, notes, math, charts, and editable tables into one sketch-style whiteboard. Use it in your browser or install the desktop app for macOS, Windows, or Linux.
 
 VeDav is a fork of [Excalidraw](https://github.com/excalidraw/excalidraw). The editor is open source under the MIT license, with upstream promotions hidden by default and no separate VeDav Plus edition.
-
 
 ## What you can do
 
@@ -99,7 +98,7 @@ Installers are written to `desktop/dist`. See the [desktop build guide](desktop/
 
 ## Deploy
 
-The main site is hosted at [vedav.pages.dev](https://vedav.pages.dev/), with a [GitHub Pages mirror](https://davidgcorr.github.io/vedav/). Pushes to `master` run type checks and editor tests, build the app, and publish both sites through the [deployment workflow](.github/workflows/cloudflare-deploy.yml).
+The main site is hosted at [vedav.davidgc.com](https://vedav.davidgc.com/), with a [GitHub Pages mirror](https://davidgcorr.github.io/vedav/). Pushes to `master` run type checks and editor tests, build the app, and publish both sites through the [deployment workflow](.github/workflows/cloudflare-deploy.yml).
 
 For credentials, first-time setup, custom domains, and manual publishing, follow the [Cloudflare deployment guide](desktop/CLOUDFLARE.md).
 

@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 20
     environment:
       name: production
-      url: https://vedav.pages.dev
+      url: https://vedav.davidgc.com
     env:
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
       PUPPETEER_SKIP_DOWNLOAD: "true"
@@ -70,7 +70,7 @@ jobs:
       - name: Verify production website
         run: |
           curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 5 \
-            --max-time 30 https://vedav.pages.dev/ -o /tmp/vedav.html
+            --max-time 30 https://vedav.davidgc.com/ -o /tmp/vedav.html
           node -e 'const html = require("node:fs").readFileSync("/tmp/vedav.html", "utf8"); if (!html.includes("<title>VeDav</title>")) throw new Error("Production did not return the VeDav editor");'
       - name: Publish VeDav to the previous website for existing bookmarks
         if: vars.PREVIOUS_PAGES_PROJECT != ''
@@ -86,5 +86,5 @@ jobs:
       - name: Deployment summary
         run: |
           echo "### VeDav deployed" >> "$GITHUB_STEP_SUMMARY"
-          echo "Website: https://vedav.pages.dev" >> "$GITHUB_STEP_SUMMARY"
+          echo "Website: https://vedav.davidgc.com" >> "$GITHUB_STEP_SUMMARY"
           echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
