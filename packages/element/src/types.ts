@@ -104,6 +104,8 @@ export type ExcalidrawStickyNoteElement = _ExcalidrawElementBase &
      * note grows above it to fit its label and never shrinks below it
      */
     baseHeight: number;
+    /** Paper outline color, independent of the label ink. */
+    outlineColor?: string;
     /** Shadow strength as a percentage. Omitted values preserve the default. */
     shadowOpacity?: number;
     /** Down-right shadow distance in canvas units. */

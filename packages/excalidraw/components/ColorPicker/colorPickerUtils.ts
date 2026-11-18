@@ -57,6 +57,7 @@ export const getMostUsedCustomColors = (
   type:
     | "elementBackground"
     | "elementStroke"
+    | "noteOutline"
     | "animationColor"
     | "shapeAnimationColor"
     | "latexColor"
@@ -64,7 +65,9 @@ export const getMostUsedCustomColors = (
   palette: ColorPaletteCustom,
 ) => {
   const getColor = (element: ExcalidrawElement) =>
-    type === "latexColor"
+    type === "noteOutline"
+      ? element.type === "stickynote" && element.outlineColor
+      : type === "latexColor"
       ? element.customData?.latex?.color
       : type === "mindMapColor"
       ? element.customData?.mindMap?.color
@@ -120,6 +123,7 @@ export type ColorPickerType =
   | "canvasBackground"
   | "elementBackground"
   | "elementStroke"
+  | "noteOutline"
   | "animationColor"
   | "shapeAnimationColor"
   | "latexColor"

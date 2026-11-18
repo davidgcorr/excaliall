@@ -29,6 +29,7 @@ export const hasStrokeColor = (type: ElementOrToolType) =>
   type === "autoshape";
 
 export const hasStrokeWidth = (type: ElementOrToolType) =>
+  type === "stickynote" ||
   type === "rectangle" ||
   type === "iframe" ||
   type === "embeddable" ||

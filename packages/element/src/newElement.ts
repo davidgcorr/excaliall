@@ -233,6 +233,7 @@ export const newStickyNoteElement = (
   opts: {
     type: "stickynote";
     baseHeight?: number;
+    outlineColor?: string;
   } & ElementConstructorOpts,
 ): NonDeleted<ExcalidrawStickyNoteElement> => {
   const base = _newElementBase<ExcalidrawStickyNoteElement>("stickynote", opts);
@@ -241,6 +242,9 @@ export const newStickyNoteElement = (
   return normalizeStickyNoteStyle({
     ...base,
     baseHeight: opts.baseHeight ?? base.height,
+    ...(opts.outlineColor !== undefined
+      ? { outlineColor: opts.outlineColor }
+      : {}),
   });
 };
 

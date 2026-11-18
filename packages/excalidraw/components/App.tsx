@@ -8953,6 +8953,9 @@ class App extends React.Component<AppProps, AppState> {
         elementType === "stickynote"
           ? this.state.currentItemStickynoteStrokeColor
           : this.state.currentItemStrokeColor,
+      ...(elementType === "stickynote"
+        ? { outlineColor: this.state.currentItemStickynoteOutlineColor }
+        : {}),
       backgroundColor:
         elementType === "stickynote"
           ? this.state.currentItemStickynoteBackgroundColor

@@ -120,6 +120,10 @@ export const actionPasteStyles = register({
             let newElement = newElementWith(element, {
               backgroundColor: elementStylesToCopyFrom?.backgroundColor,
               strokeWidth: elementStylesToCopyFrom?.strokeWidth,
+              ...(isStickyNoteElement(element) &&
+              isStickyNoteElement(elementStylesToCopyFrom)
+                ? { outlineColor: elementStylesToCopyFrom.outlineColor }
+                : {}),
               strokeColor: elementStylesToCopyFrom?.strokeColor,
               strokeStyle: elementStylesToCopyFrom?.strokeStyle,
               fillStyle: elementStylesToCopyFrom?.fillStyle,

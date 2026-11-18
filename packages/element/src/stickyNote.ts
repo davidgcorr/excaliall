@@ -72,6 +72,8 @@ export type StickyNotePathCommand =
       point: StickyNoteRenderPoint;
     };
 
+export const DEFAULT_STICKY_NOTE_OUTLINE_COLOR = "#b0b0b0";
+
 const STICKY_NOTE_RENDER_ROUGHNESS = [0, 2.75, 5] as const;
 const STICKY_NOTE_CORNER_RADIUS_RATIO = 0.008;
 const STICKY_NOTE_MAX_CORNER_RADIUS = 3;
@@ -458,7 +460,10 @@ const paperGenerator = new RoughGenerator();
 export const getStickyNoteOutlineShape = (
   element: ExcalidrawStickyNoteElement,
 ): Drawable | null => {
-  if (element.roughness <= 0) {
+  if (
+    element.strokeWidth <= 0 ||
+    isTransparent(element.outlineColor ?? DEFAULT_STICKY_NOTE_OUTLINE_COLOR)
+  ) {
     return null;
   }
   const cached = outlineCache.get(element);
@@ -470,8 +475,8 @@ export const getStickyNoteOutlineShape = (
     {
       seed: element.seed,
       roughness: Math.min(1.2, element.roughness * 0.7),
-      stroke: "rgba(0, 0, 0, 0.24)",
-      strokeWidth: 0.7,
+      stroke: element.outlineColor ?? DEFAULT_STICKY_NOTE_OUTLINE_COLOR,
+      strokeWidth: element.strokeWidth,
       fill: undefined,
       preserveVertices: true,
     },

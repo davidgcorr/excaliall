@@ -108,3 +108,5 @@ export { actionToggleCropEditor } from "./actionCropEditor";
 export { actionChangeNoteShadow } from "./actionNoteShadow";
 
 export { actionChangeNoteFooter } from "./actionNoteFooter";
+
+export { actionChangeNoteOutlineColor } from "./actionNoteOutline";

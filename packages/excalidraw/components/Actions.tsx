@@ -169,6 +169,7 @@ export const SelectedShapeActions = ({
       {renderAction("editLatex")}
       {renderAction("editMindMap")}
       {renderAction("editDataChart")}
+      {renderAction("changeNoteOutlineColor")}
       {predicates.strokeWidth && renderAction("changeStrokeWidth")}
 
       {predicates.strokeStyle && <>{renderAction("changeStrokeStyle")}</>}
@@ -307,6 +308,7 @@ const CombinedShapeProperties = ({
               {renderAction("editMindMap")}
               {renderAction("editDataChart")}
               {renderAction("changeLinearAnimation")}
+              {renderAction("changeNoteOutlineColor")}
               {renderAction("changeNoteShadow")}
             </div>
           </PropertiesPopover>
@@ -406,6 +408,7 @@ const CombinedArrowProperties = ({
           >
             {renderAction("changeArrowProperties")}
             {renderAction("changeLinearAnimation")}
+            {renderAction("changeNoteOutlineColor")}
             {renderAction("changeNoteShadow")}
           </PropertiesPopover>
         )}

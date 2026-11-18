@@ -413,7 +413,7 @@ export const actionChangeStrokeColor = register<
   PanelComponent: ({ elements, appState, updateData, app }) => {
     const { stylesPanelMode } = getStylesPanelInfo(app);
     const target = resolveColorTarget(appState, elements, "strokeColor");
-    // a note has no stroke: its "stroke" is the ink of its text and footer
+    // The existing note ink control styles text and footer; its paper outline has a separate picker.
     const label =
       target.kind === "sticky" ? t("labels.textColor") : t("labels.stroke");
 

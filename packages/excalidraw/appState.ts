@@ -197,6 +197,11 @@ const APP_STATE_STORAGE_CONF = (<
   },
   currentItemStartArrowhead: { browser: true, export: false, server: false },
   currentItemStrokeColor: { browser: true, export: false, server: false },
+  currentItemStickynoteOutlineColor: {
+    browser: true,
+    export: false,
+    server: false,
+  },
   currentItemStickynoteStrokeColor: {
     browser: true,
     export: false,

@@ -264,6 +264,7 @@ const isColorPickerPopup = (
   popup: AppState["openPopup"],
 ): popup is ColorPickerType =>
   popup === "elementStroke" ||
+  popup === "noteOutline" ||
   popup === "animationColor" ||
   popup === "shapeAnimationColor" ||
   popup === "latexColor" ||

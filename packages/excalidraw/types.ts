@@ -452,6 +452,7 @@ export interface AppState {
   exportScale: number;
   currentItemStrokeColor: string;
   currentItemStickynoteStrokeColor: string;
+  currentItemStickynoteOutlineColor?: string;
   currentItemStickynoteBackgroundColor: string;
   currentItemBackgroundColor: string;
   currentItemFillStyle: ExcalidrawElement["fillStyle"];
@@ -483,6 +484,7 @@ export interface AppState {
     | "canvasBackground"
     | "elementBackground"
     | "elementStroke"
+    | "noteOutline"
     | "animationColor"
     | "shapeAnimationColor"
     | "latexColor"

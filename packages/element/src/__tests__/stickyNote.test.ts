@@ -140,7 +140,9 @@ describe("sticky note text layout", () => {
     expect(
       shadow.filter((command) => command.type === "quadratic").length,
     ).toBeGreaterThan(4);
-    expect(getStickyNoteOutlineShape({ ...note, roughness: 0 })).toBeNull();
+    expect(
+      getStickyNoteOutlineShape({ ...note, roughness: 0 })?.options.roughness,
+    ).toBe(0);
   });
 
   it("preserves rounded corners with reduced radius", () => {

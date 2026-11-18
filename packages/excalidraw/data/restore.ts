@@ -835,6 +835,10 @@ export const restoreElement = (
     case "stickynote":
       return normalizeStickyNote(
         restoreElementWithProperties(element, {
+          outlineColor:
+            typeof element.outlineColor === "string"
+              ? element.outlineColor
+              : undefined,
           shadowOpacity: element.shadowOpacity,
           shadowOffset: element.shadowOffset,
           shadowBlur: element.shadowBlur,
