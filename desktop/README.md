@@ -104,9 +104,9 @@ References: [electron-builder updates](https://www.electron.build/docs/features/
 
 ## Export animated diagrams as GIF
 
-Select **Export image** from the editor menu (Cmd+Shift+E). When the diagram or selected elements contain animated lines or arrows, choose a **GIF duration** (1–10 seconds), then **GIF**. The clip loops at 20 frames per second and uses the current selection, background, dark mode, and scale settings. Progress and cancellation are available while encoding.
+Select **Export image** from the editor menu (Cmd+Shift+E). When the diagram or selected elements contain animations, choose a **GIF duration** (1–10 seconds) and **GIF frame rate** (5, 10, or 20 fps), then **GIF**. The looping clip uses the current selection, background, dark mode, and export scale settings. Progress and cancellation are available while encoding.
 
-GIF supports a maximum of 256 colors per frame and binary transparency. Scene data cannot be embedded in GIF; save a separate `.excalidraw` file to keep the editable animation settings. For diagrams over 2 million pixels per frame, lower the export scale or export a smaller selection.
+GIF supports a maximum of 256 colors per frame and binary transparency. Scene data cannot be embedded in GIF; save a separate `.excalidraw` file to keep the editable animation settings. There is no app-imposed 2-million-pixel limit. Larger downloads are encoded frame by frame; lower frame rates and shorter clips reduce file size and encoding work. Browser memory and GIF format limits still apply.
 
 ## Data-driven charts and embedding
 

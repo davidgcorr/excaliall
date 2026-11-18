@@ -2,94 +2,108 @@
 
 **Sketch ideas. Animate connections. Bring data onto the canvas.**
 
-VeDav combines freehand diagrams, animations, mind maps, LaTeX formulas, data-driven graphs and editable tables in one sketch-style whiteboard. VeDav is a fork of [Excalidraw](https://github.com/excalidraw/excalidraw), with desktop apps for macOS, Windows and Linux.
+[Open VeDav](https://vedav.pages.dev/) · [Download desktop apps](https://github.com/davidgcorr/vedav/releases) · [GitHub Pages mirror](https://davidgcorr.github.io/vedav/) · [Report an issue](https://github.com/davidgcorr/vedav/issues)
 
-VeDav includes the full editor without ads or a separate Plus edition.
+VeDav brings freehand diagrams, animations, notes, math, charts, and editable tables into one sketch-style whiteboard. Use it in your browser or install the desktop app for macOS, Windows, or Linux.
 
-![VeDav main screen](public/screenshots/main-screen.png)
+VeDav is a fork of [Excalidraw](https://github.com/excalidraw/excalidraw). The editor is open source under the MIT license, with upstream promotions hidden by default and no separate VeDav Plus edition.
 
-[Open VeDav](https://vedav.pages.dev) · [Download](https://github.com/davidgcorr/vedav/releases) · [Report an issue](https://github.com/davidgcorr/vedav/issues) · [Source code](https://github.com/davidgcorr/vedav)
+![VeDav main screen demo](public/readme/MainScreenDemo.gif)
 
-## One canvas for ideas and data
+## What you can do
 
-| Feature | What you can do |
+| Feature | On the canvas |
 | --- | --- |
-| **Draw** | Sketch diagrams with shapes, arrows, text and familiar whiteboard tools. |
-| **Animate** | Animate shapes, arrows, lines and pencil strokes. Set effects, speed, color, amount and size in the side panel. |
-| **Map ideas** | Build a two-sided mind map with colored, curved branches. Add children and siblings, rename topics, and arrange the tree from the side panel. |
-| **Write math** | Insert normal or handwritten LaTeX formulas with a live preview, font, size and color controls. Double-click a formula to edit its source. |
-| **Graph** | Import CSV or JSON into roughViz charts. Edit colors, titles, axes, data columns and sketch styles. |
-| **Tabulate** | Edit cells on the canvas, import CSV/Excel/JSON, and page through rows or columns. Use the table's icons to manage data; deselect to save. |
-| **Share** | Export PNG, SVG, animated GIF or standalone HTML. Copy an iframe to embed a diagram in your page. |
+| **Draw and connect** | Sketch shapes, arrows, freehand strokes, and text. Customize colors, fills, line widths, arrowheads, and roughness. |
+| **Animate** | Add moving dots, flowing dashes, or flowing arrows along connectors and shape outlines. Adjust speed, direction, color, marker amount, and size, or use shape effects such as bounce, shake, and spin. |
+| **Add paper notes** | Drag white notes onto the canvas. Customize their border and text colors, stroke width, and shadow strength, distance, and diffusion. Double-click the bottom-right footer to edit or clear its text. |
+| **Map ideas** | Build two-sided mind maps, add child and sibling topics, style branches, and arrange the tree. |
+| **Write math** | Insert LaTeX or handwritten formulas with a live preview. Double-click a formula to edit its source. |
+| **Work with data** | Import charts from CSV/JSON and tables from CSV, Excel, or JSON. Edit chart settings, table headers, and cells directly in the editor. |
+| **Present** | Hide the controls and use the laser pointer. Press **Esc** or click the faint **×** in the top-right corner to exit. |
+| **Export and embed** | Download PNG, SVG, animated GIF, or standalone HTML. Copy a self-contained iframe to embed animated diagrams in another page. |
 
-Caveat and Patrick Hand are available in the normal text font selector.
-Graphs and tables use the same color palettes, fill patterns, stroke controls and roughness presets as the rest of your drawing. Save a `.excalidraw` file to keep everything editable, including data and animation settings.
+Charts and tables share the editor's color palettes, fill patterns, stroke controls, and roughness presets. Caveat and Patrick Hand are also available in the text font selector.
 
-## Install
+## Get started
+
+1. **Create:** choose a tool from the toolbar. Drag the note tool onto the canvas, or use the chart, table, formula, and mind-map tools to add richer content.
+2. **Customize:** select an element to open its properties. Use **Animate** to configure motion; double-click formulas, charts, or table elements to reopen their editors.
+3. **Save your drawing:** use **Save to disk** in the top-right corner, then reopen the `.excalidraw` file to continue editing its shapes, data, notes, and animations.
+4. **Share:** use the adjacent **Export** button to choose an image, animation, or embeddable page. Use **Present** for a clean canvas with the laser pointer selected.
+
+### Choose an export format
+
+| Format | Best for |
+| --- | --- |
+| **`.excalidraw`** | Keeping the original drawing, data, and animation settings editable. |
+| **PNG** | Sharing a raster image, with optional embedded scene data. |
+| **SVG** | Sharing vector graphics, with optional embedded scene data. |
+| **GIF** | Downloading a looping animation at the selected export scale. Choose a 1–10 second clip and **5, 10, or 20 fps**. |
+| **HTML / iframe** | Sharing a standalone animated page or embedding it in another website. |
+
+GIF exports have no app-imposed 2-million-pixel limit. Lower frame rates and shorter clips reduce file size and encoding work; browser memory and GIF format limits still apply. GIF files do not contain editable scene data, so save a separate `.excalidraw` copy when you need to keep editing.
+
+## Install the desktop app
 
 Choose an installer from [GitHub Releases](https://github.com/davidgcorr/vedav/releases):
 
 | Platform | Download | Install |
 | --- | --- | --- |
-| macOS | `.dmg` | Open it and drag **VeDav** into Applications. |
-| Windows | `windows-x64-setup.exe` | Run the setup wizard. |
-| Linux | `.AppImage` or `.deb` | Make the AppImage executable and launch it, or install the Debian package. |
+| **macOS** | `.dmg` | Open the disk image and drag the app into **Applications**. |
+| **Windows** | `windows-x64-setup.exe` | Run the setup wizard. |
+| **Linux** | `.AppImage` or `.deb` | Make the AppImage executable and launch it, or install the Debian package. |
 
-The desktop app includes the editor and fonts; Node.js is not required. Drawing, local saving and exports work offline. Online collaboration and fetching remote data require an internet connection.
+Packaged apps include the editor and fonts; Node.js is not required. Drawing, local saving, and exports work offline. Online collaboration and fetching remote data require an internet connection.
 
-To upgrade, quit the app and install the newer release. Your local drawing data is retained. Older releases may still use the name **Excalidraw Animation**; quit that copy before opening VeDav. Keep `.excalidraw` backups of important drawings.
+Quit the running app before installing an update. Keep `.excalidraw` backups of important drawings, and check the installed version and build revision under **☰ → Preferences / Preferencias**.
 
-Find the running version and Git revision under **☰ → Preferences / Preferencias**. See the [desktop guide](desktop/README.md) for installation details, signing and update support.
+See the [desktop guide](desktop/README.md) for platform-specific instructions, troubleshooting, signing, and update support.
 
-## Get started
+## Guides
 
-- **Animate:** select a shape, arrow, line or pencil stroke, then use **Animate** in the properties side panel.
-- **Add a formula:** use the Σ icon, enter LaTeX, and choose **Insert formula**. Select it to customize its style, font, variation, size, and color in the side panel. Double-click the result or use **Edit formula** to change its source.
-- **Make a mind map:** use the branching icon. Select a topic to add children or siblings, change branch colors, switch a main branch’s side, or arrange the map. Double-click a topic to edit its text.
-- **Add a graph:** use the chart icon in the central toolbar, import CSV/JSON, then select the graph to edit its properties. Double-click to reopen the data editor.
-- **Add a table:** use the table icon in the central toolbar, then edit headers and cells on the canvas. Changes save when you deselect it.
-- **Download a GIF:** choose the export scale, clip duration, and 5, 10, or 20 fps. Lower frame rates and shorter clips reduce file size; full-resolution exports no longer have a 2-million-pixel cap.
-- **Embed a diagram:** open **Export image**, then choose **HTML** or **Copy iframe**. Animated connections keep moving in the exported HTML.
-
-Detailed guides: [Graphs](desktop/ROUGHVIZ.md) · [Tables](desktop/DATA-TABLES.md) · [HTML and iframe export](desktop/HTML-EXPORT.md) · [LaTeX and mind maps](desktop/KNOWLEDGE-TOOLS.md).
-
-Promotional content is hidden on new installations. Existing installations retain their saved preference; use **☰ → Preferences → Hide upstream promotions** if needed.
+- [Charts and data import](desktop/ROUGHVIZ.md)
+- [Editable tables](desktop/DATA-TABLES.md)
+- [LaTeX and mind maps](desktop/KNOWLEDGE-TOOLS.md)
+- [Animated HTML and iframe exports](desktop/HTML-EXPORT.md)
+- [Desktop installation and builds](desktop/README.md)
+- [Cloudflare deployment](desktop/CLOUDFLARE.md)
+- [Reusable editor package](packages/excalidraw/README.md)
 
 ## Run from source
 
-Use Node.js 22.12 or newer. From the repository root:
+Use **Node.js 22.12 or newer**. From the repository root:
 
 ```sh
 corepack yarn install --frozen-lockfile
 corepack yarn start
 ```
 
-To build a desktop installer for your current platform:
+Build the web app:
+
+```sh
+corepack yarn cloudflare:build
+```
+
+The production output is written to `excalidraw-app/build`.
+
+Build a desktop installer for your current platform:
 
 ```sh
 corepack yarn desktop:install
 corepack yarn desktop:dist
 ```
 
-Installers are written to `desktop/dist`. The [desktop guide](desktop/README.md) covers platform-specific builds and GitHub releases. The reusable editor package is documented [here](packages/excalidraw/README.md).
+Installers are written to `desktop/dist`. See the [desktop build guide](desktop/README.md) for cross-platform builds and release details.
 
-## Deploy the website
+## Deploy
 
-The web app lives at [vedav.pages.dev](https://vedav.pages.dev), hosted on Cloudflare Pages. Every push to `master` runs the [deployment workflow](https://github.com/davidgcorr/vedav/actions/workflows/cloudflare-deploy.yml), which tests, builds and publishes the website. See the [one-time credential setup](desktop/CLOUDFLARE.md#deploy-automatically-from-github).
+The main site is hosted at [vedav.pages.dev](https://vedav.pages.dev/), with a [GitHub Pages mirror](https://davidgcorr.github.io/vedav/). Pushes to `master` run type checks and editor tests, build the app, and publish both sites through the [deployment workflow](.github/workflows/cloudflare-deploy.yml).
 
-The same CD workflow also publishes to [GitHub Pages](https://davidgcorr.github.io/vedav/) through the reusable [GitHub Pages workflow](.github/workflows/github-pages.yml). Both deployments run independently, so a Cloudflare failure does not block GitHub Pages. In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source.
+For credentials, first-time setup, custom domains, and manual publishing, follow the [Cloudflare deployment guide](desktop/CLOUDFLARE.md).
 
-To deploy manually from your Mac:
+## Contribute and credits
 
-```sh
-npx --yes wrangler@4.157.0 login
-corepack yarn cloudflare:deploy
-```
+Bug reports, feature requests, and contributions are welcome at [davidgcorr/vedav](https://github.com/davidgcorr/vedav). See [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
 
-See the [Cloudflare deployment guide](desktop/CLOUDFLARE.md) for first-time setup, the custom subdomain and GitHub deployments.
-
-## Open source
-
-VeDav is maintained at [davidgcorr/vedav](https://github.com/davidgcorr/vedav). Contributions and [feature requests](https://github.com/davidgcorr/vedav/issues) are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
-
-Licensed under [MIT](LICENSE). Graphs powered by [roughViz](https://github.com/davidgcorr/roughViz). Original copyright and dependency license notices are retained.
+VeDav builds on [Excalidraw](https://github.com/excalidraw/excalidraw), with charts powered by [roughViz](https://github.com/davidgcorr/roughViz). Licensed under [MIT](LICENSE); original copyright and dependency license notices are retained.
