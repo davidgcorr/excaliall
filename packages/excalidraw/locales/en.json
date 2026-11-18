@@ -78,8 +78,6 @@
     "signUp": "Sign up",
     "signIn": "Sign in",
     "upgrade": "Upgrade",
-    "tryExcalidrawPlus": "Try Excalidraw+",
-    "plusFreeTrial": "14-day free trial",
     "paste": "Paste",
     "pasteAsPlaintext": "Paste as plaintext",
     "pasteCharts": "Paste charts",
@@ -224,6 +222,8 @@
     "collaborators": "Collaborators",
     "you": "You",
     "toggleGrid": "Toggle grid",
+    "minimap": "Minimap",
+    "zoom": "Zoom",
     "addToLibrary": "Add to library",
     "removeFromLibrary": "Remove from library",
     "libraryLoadingMessage": "Loading library…",
@@ -293,6 +293,7 @@
     "zoomToFit": "Zoom to fit all elements",
     "installPWA": "Install VeDav locally (PWA)",
     "autoResize": "Enable text auto-resizing",
+    "toggleAutoResize": "Toggle text auto-resizing",
     "imageCropping": "Image cropping",
     "unCroppedDimension": "Uncropped dimension",
     "copyElementLink": "Copy link to object",
@@ -309,7 +310,7 @@
     "boxSelectionOverlap": "Overlap",
     "arrowBinding": "Arrow binding",
     "midpointSnapping": "Snap to midpoints",
-    "showHints": "Show hints",
+    "showHints": "Toolbar hints",
     "inputDevice": "Input",
     "inputDeviceTrackpad": "Trackpad",
     "inputDeviceMouse": "Mouse"
@@ -358,6 +359,7 @@
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
     "resetZoom": "Reset zoom",
+    "zoomToFit": "Zoom to fit",
     "menu": "Menu",
     "done": "Done",
     "edit": "Edit",
@@ -501,6 +503,7 @@
     "autoshape": "Draw rectangles, circles, diamonds, lines and arrows",
     "text_selected": "Double-click or press {{shortcut}} to edit text",
     "text_editing": "Press {{shortcut_1}} or {{shortcut_2}} to finish editing",
+    "toggleTextAutoResize": "{{shortcut}} to toggle text auto-resize",
     "linearElementMulti": "Click on last point or press {{shortcut_1}} or {{shortcut_2}} to finish",
     "lockAngle": "You can constrain angle by holding {{shortcut}}",
     "resize": "You can constrain proportions by holding {{shortcut_1}} while resizing,\nhold {{shortcut_2}} to resize from the center",
@@ -801,7 +804,7 @@
   "mermaid": {
     "title": "Mermaid to VeDav",
     "button": "Insert",
-    "description": "Currently only <flowchartLink>Flowchart</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink>, and <erdLink>Entity Relationship</erdLink> Diagrams are supported. The other types will be rendered as image in VeDav.",
+    "description": "<flowchartLink>Flowcharts</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink>, <stateLink>State</stateLink> and <erdLink>Entity Relationship</erdLink> diagrams, <ganttLink>Gantt charts</ganttLink>, <quadrantLink>Quadrant charts</quadrantLink> and <timelineLink>Timelines</timelineLink> are converted to VeDav elements. Other types are inserted as an image.",
     "syntax": "Mermaid Syntax",
     "preview": "Preview",
     "label": "Mermaid",
@@ -906,5 +909,16 @@
     "spacebar": "Space",
     "delete": "Delete",
     "mmb": "Scroll wheel"
+  },
+  "promoBanner": {
+    "presentations": "Presentations",
+    "mcp": "Draw with AI",
+    "comments": "Make comments",
+    "teams": "Work in a team",
+    "voiceChat": "Voice chat",
+    "withExcalidrawPlus": "with Excalidraw+",
+    "excalidrawPlusMcp": "Excalidraw+ MCP",
+    "cli": "Excalidraw CLI",
+    "cliTagline": "for humans & AI"
   }
 }
