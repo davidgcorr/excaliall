@@ -2,13 +2,14 @@
 
 **Sketch ideas. Animate connections. Bring data onto the canvas.**
 
+![VeDav main screen demo](public/readme/MainScreenDemo.gif)
+
 [Open VeDav](https://vedav.pages.dev/) · [Download desktop apps](https://github.com/davidgcorr/vedav/releases) · [GitHub Pages mirror](https://davidgcorr.github.io/vedav/) · [Report an issue](https://github.com/davidgcorr/vedav/issues)
 
 VeDav brings freehand diagrams, animations, notes, math, charts, and editable tables into one sketch-style whiteboard. Use it in your browser or install the desktop app for macOS, Windows, or Linux.
 
 VeDav is a fork of [Excalidraw](https://github.com/excalidraw/excalidraw). The editor is open source under the MIT license, with upstream promotions hidden by default and no separate VeDav Plus edition.
 
-![VeDav main screen demo](public/readme/MainScreenDemo.gif)
 
 ## What you can do
 
