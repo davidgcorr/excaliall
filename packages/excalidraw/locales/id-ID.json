@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Panah siku",
     "fontSize": "Ukuran font",
     "fontFamily": "Jenis font",
-    "addWatermark": "Tambahkan \"Dibuat dengan Excalidraw\"",
+    "addWatermark": "Tambahkan \"Dibuat dengan VeDav\"",
     "handDrawn": "Tulisan tangan",
     "normal": "Normal",
     "code": "Kode",
@@ -107,7 +107,7 @@
     "untitled": "Tanpa judul",
     "name": "Nama",
     "yourName": "Nama Anda",
-    "madeWithExcalidraw": "Dibuat dengan Excalidraw",
+    "madeWithExcalidraw": "Dibuat dengan VeDav",
     "group": "Kelompokan pilihan",
     "ungroup": "Pisahkan pilihan",
     "collaborators": "Kolaborator",
@@ -138,7 +138,7 @@
     "toggleTheme": "Toggle tema terang/gelap",
     "theme": "Tema",
     "personalLib": "Pustaka Pribadi",
-    "excalidrawLib": "Pustaka Excalidraw",
+    "excalidrawLib": "Pustaka VeDav",
     "decreaseFontSize": "Kecilkan ukuran font",
     "increaseFontSize": "Besarkan ukuran font",
     "unbindText": "Lepas teks",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Perbesar agar sesuai dengan viewport",
     "zoomToFitSelection": "Memperbesar agar sesuai dengan pilihan",
     "zoomToFit": "Memperbesar agar unsur pas semua",
-    "installPWA": "Install Excalidraw secara lokal (PWA)",
+    "installPWA": "Install VeDav secara lokal (PWA)",
     "autoResize": "Mengaktifkan pengubahan ukuran teks secara otomatis",
     "imageCropping": "Pemangkasan gambar",
     "unCroppedDimension": "Dimensi yang tidak dipotong",
@@ -338,7 +338,7 @@
     "bucketfill": "Isi warna (Ember)",
     "hand": "Tangan (alat panning)",
     "extraTools": "Alat-alat lain",
-    "mermaidToExcalidraw": "Mermaid menjadi Excalidraw",
+    "mermaidToExcalidraw": "Mermaid menjadi VeDav",
     "convertElementType": "Beralih jenis bentuk"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Sesi kolaborasi sedang berlangsung sekarang.",
     "desc_shareLink": "Bagikan tautan ini dengan siapa pun yang Anda inginkan untuk kolaborasi bersama:",
     "desc_exitSession": "Menghentikan sesi akan memutuskan hubungan Anda dari ruangan, tetapi Anda dapat melanjutkan bekerja dengan pemandangan Anda secara lokal. Perhatikan bahwa ini tidak memengaruhi orang lain, dan mereka masih dapat berkolaborasi pada versi mereka.",
-    "shareTitle": "Gabung sesi kolaborasi langsung di Excalidraw"
+    "shareTitle": "Gabung sesi kolaborasi langsung di VeDav"
   },
   "errorDialog": {
     "title": "Kesalahan"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid menjadi Excalidraw",
+    "title": "Mermaid menjadi VeDav",
     "button": "Sisipkan",
-    "description": "Saat ini hanya Diagram  Diagram Alir  ,  Urutan  ,  Kelas  , dan  Hubungan Entitas  yang didukung. Jenis lainnya akan dirender sebagai gambar di Excalidraw .",
+    "description": "Saat ini hanya Diagram  Diagram Alir  ,  Urutan  ,  Kelas  , dan  Hubungan Entitas  yang didukung. Jenis lainnya akan dirender sebagai gambar di VeDav .",
     "syntax": "Syntax Mermaid",
     "preview": "Pratinjau",
     "label": "Mermaid",
@@ -699,7 +699,7 @@
       "mermaidParseError": "Kesalahan sintaks Mermaid"
     },
     "rateLimit": {
-      "messageLimit": "Anda telah mencapai batas AI pada paket gratis. Coba Excalidraw + untuk akses lebih atau kembali lagi besok.",
+      "messageLimit": "Anda telah mencapai batas AI pada paket gratis. Coba VeDav + untuk akses lebih atau kembali lagi besok.",
       "generalRateLimit": "Tunggu sebentar, Anda terlalu cepat! Harap tunggu sejenak sebelum mencoba lagi.",
       "messageLimitInputPlaceholder": "Anda telah mencapai batas pesan anda"
     },

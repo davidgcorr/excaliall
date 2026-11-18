@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "꺾인 화살표",
     "fontSize": "글자 크기",
     "fontFamily": "글꼴",
-    "addWatermark": "\"Made with Excalidraw\" 추가",
+    "addWatermark": "\"Made with VeDav\" 추가",
     "handDrawn": "손글씨",
     "normal": "일반",
     "code": "코드",
@@ -107,7 +107,7 @@
     "untitled": "제목 없음",
     "name": "이름",
     "yourName": "이름 입력",
-    "madeWithExcalidraw": "Excalidraw에서 생성됨",
+    "madeWithExcalidraw": "VeDav에서 생성됨",
     "group": "그룹 생성",
     "ungroup": "그룹 해제",
     "collaborators": "공동 작업자",
@@ -138,7 +138,7 @@
     "toggleTheme": "밝은 모드/다크 모드 전환",
     "theme": "테마",
     "personalLib": "개인 라이브러리",
-    "excalidrawLib": "Excalidraw 라이브러리",
+    "excalidrawLib": "VeDav 라이브러리",
     "decreaseFontSize": "폰트 사이즈 줄이기",
     "increaseFontSize": "폰트 사이즈 키우기",
     "unbindText": "텍스트 분리",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "뷰포트에 맞게 확대/축소",
     "zoomToFitSelection": "선택 영역으로 확대/축소",
     "zoomToFit": "모든 요소가 보이도록 확대/축소",
-    "installPWA": "Excalidraw 설치(PWA)",
+    "installPWA": "VeDav 설치(PWA)",
     "autoResize": "텍스트 크기 자동 조절 켜기",
     "imageCropping": "이미지 자르기",
     "unCroppedDimension": "원본 크기",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "손 (패닝 도구)",
     "extraTools": "다른 도구",
-    "mermaidToExcalidraw": "Mermaid를 Excalidraw로",
+    "mermaidToExcalidraw": "Mermaid를 VeDav로",
     "convertElementType": "도형 타입 전환"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "실시간 협업 세션이 진행 중입니다.",
     "desc_shareLink": "공동 작업자에게 이 링크를 공유하세요.",
     "desc_exitSession": "세션을 중단하면 연결은 끊어지나 작업을 이어갈 수 있습니다. 이 작업은 다른 작업자에게 영향을 미치지 않으며 각자의 공동 작업은 계속 유지됩니다.",
-    "shareTitle": "Excalidraw의 실시간 협업 세션에 참가하기"
+    "shareTitle": "VeDav의 실시간 협업 세션에 참가하기"
   },
   "errorDialog": {
     "title": "오류"
@@ -652,7 +652,7 @@
   "mermaid": {
     "title": "",
     "button": "",
-    "description": "현재 <flowchartLink>순서도</flowchartLink>, <sequenceLink>시퀀스</sequenceLink>, <classLink>클래스 구조</classLink>, <erdLink>개체-관계 다이어그램</erdLink> 다이어그램만 지원됩니다. 그 외 유형은 Excalidraw에서 이미지로 렌더링됩니다.",
+    "description": "현재 <flowchartLink>순서도</flowchartLink>, <sequenceLink>시퀀스</sequenceLink>, <classLink>클래스 구조</classLink>, <erdLink>개체-관계 다이어그램</erdLink> 다이어그램만 지원됩니다. 그 외 유형은 VeDav에서 이미지로 렌더링됩니다.",
     "syntax": "",
     "preview": "",
     "label": "",

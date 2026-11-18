@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://excaliall.davidgc.com/sitemap.xml
+Sitemap: https://vedav.pages.dev/sitemap.xml

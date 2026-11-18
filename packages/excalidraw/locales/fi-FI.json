@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "Kirjasinkoko",
     "fontFamily": "Kirjasintyyppi",
-    "addWatermark": "Lisää \"Tehty Excalidrawilla\"",
+    "addWatermark": "Lisää \"Tehty VeDavilla\"",
     "handDrawn": "Käsinpiirretty",
     "normal": "Tavallinen",
     "code": "Koodi",
@@ -107,7 +107,7 @@
     "untitled": "Nimetön",
     "name": "Nimi",
     "yourName": "Nimesi",
-    "madeWithExcalidraw": "Tehty Excalidrawilla",
+    "madeWithExcalidraw": "Tehty VeDavilla",
     "group": "Ryhmitä valinta",
     "ungroup": "Pura valittu ryhmä",
     "collaborators": "Yhteistyökumppanit",
@@ -138,7 +138,7 @@
     "toggleTheme": "",
     "theme": "Teema",
     "personalLib": "Oma kirjasto",
-    "excalidrawLib": "Excalidraw kirjasto",
+    "excalidrawLib": "VeDav kirjasto",
     "decreaseFontSize": "Pienennä kirjasinkokoa",
     "increaseFontSize": "Kasvata kirjasinkokoa",
     "unbindText": "Irroita teksti",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Käsi (panning-työkalu)",
     "extraTools": "Lisää työkaluja",
-    "mermaidToExcalidraw": "Mermaid Excalidrawiksi",
+    "mermaidToExcalidraw": "Mermaid VeDaviksi",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Jaettu istunto on nyt käynnissä.",
     "desc_shareLink": "Jaa tämä linkki kenelle tahansa, jonka kanssa haluat tehdä yhteistyötä:",
     "desc_exitSession": "Istunnon pysäyttäminen katkaisee yhteyden huoneeseen, mutta voit vielä jatkaa työskentelyä paikallisesti. Huomaa, että tämä ei vaikuta muihin käyttäjiin ja he voivat jatkaa oman versionsa parissa työskentelyä.",
-    "shareTitle": "Liity Excalidraw live-yhteistyöistuntoon"
+    "shareTitle": "Liity VeDav live-yhteistyöistuntoon"
   },
   "errorDialog": {
     "title": "Virhe"

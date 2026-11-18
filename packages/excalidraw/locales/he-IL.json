@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "חץ זוויתי",
     "fontSize": "גודל גופן",
     "fontFamily": "גופן",
-    "addWatermark": "הוספת „נוצר באמצעות Excalidraw”",
+    "addWatermark": "הוספת „נוצר באמצעות VeDav”",
     "handDrawn": "שרבוט",
     "normal": "רגיל",
     "code": "קוד",
@@ -107,7 +107,7 @@
     "untitled": "ללא כותרת",
     "name": "שם",
     "yourName": "שמך",
-    "madeWithExcalidraw": "נוצר באמצעות Excalidraw",
+    "madeWithExcalidraw": "נוצר באמצעות VeDav",
     "group": "קיבוץ הבחירה",
     "ungroup": "פירוק קבוצה",
     "collaborators": "שותפים",
@@ -138,7 +138,7 @@
     "toggleTheme": "החלפת מצב מואר/חשוך",
     "theme": "ערכת עיצוב",
     "personalLib": "ספריה פרטית",
-    "excalidrawLib": "הספרייה של Excalidraw",
+    "excalidrawLib": "הספרייה של VeDav",
     "decreaseFontSize": "הקטנת הכתב",
     "increaseFontSize": "הגדלת הכתב",
     "unbindText": "ביטול קיבוע הטקסט",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "שינוי מרחק התצוגה כך שיתאים לגודל המסך",
     "zoomToFitSelection": "שינוי מרחק התצוגה כך שיתאים לבחירה",
     "zoomToFit": "שינוי מרחק התצוגה כך שיוצגו כל הרכיבים",
-    "installPWA": "התקנת Excalidraw לשימוש מקומי (PWA)",
+    "installPWA": "התקנת VeDav לשימוש מקומי (PWA)",
     "autoResize": "לאפשר התאמה אוטומטית של גודל הכתב",
     "imageCropping": "חיתוך תמונה",
     "unCroppedDimension": "ממדים ללא חיתוך",
@@ -338,7 +338,7 @@
     "bucketfill": "מילוי דלי",
     "hand": "יד (כלי הזזה)",
     "extraTools": "כלים נוספים",
-    "mermaidToExcalidraw": "Mermaid ל־Excalidraw",
+    "mermaidToExcalidraw": "Mermaid ל־VeDav",
     "convertElementType": "החלפת סוג צורה"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "שיתוף חי פעיל כרגע.",
     "desc_shareLink": "שתף את הקישור עם כל מי שאתה מעוניין לעבוד אתו:",
     "desc_exitSession": "עצירת השיתוף תנתק אותך מהחדר, אבל עדיין תוכל להמשיך לעבוד על הקנבאס, מקומית. שים לב שזה לא ישפיע על אנשים אחרים, והם עדיין יוכלו לבצע שיתוף עם הגרסה שלהם.",
-    "shareTitle": "הצטרף לשיתוף לעבודה משותפת חיה, בזמן אמת, על גבי Excalidraw"
+    "shareTitle": "הצטרף לשיתוף לעבודה משותפת חיה, בזמן אמת, על גבי VeDav"
   },
   "errorDialog": {
     "title": "שגיאה"
@@ -438,9 +438,9 @@
     "link_title": "קבל קישור לשיתוף",
     "link_details": "ייצוא כקישור לקריאה בלבד.",
     "link_button": "ייצוא לקישור",
-    "excalidrawplus_description": "שמור את הקנבאס לסביבת העבודה שלך ב- +Excalidraw.",
+    "excalidrawplus_description": "שמור את הקנבאס לסביבת העבודה שלך ב- +VeDav.",
     "excalidrawplus_button": "ייצוא",
-    "excalidrawplus_exportError": "לא הצלחתי לייצא ל- +Excalidraw כרגע..."
+    "excalidrawplus_exportError": "לא הצלחתי לייצא ל- +VeDav כרגע..."
   },
   "helpDialog": {
     "blog": "קרא את הבלוג שלנו",
@@ -633,7 +633,7 @@
       "excalidrawPlus": {
         "title": "Excalidraw+‎",
         "button": "ייצוא ל־Excalidraw+‎",
-        "description": "שמירת הסצנה לסביבת העבודה שלך ב־+Excalidraw."
+        "description": "שמירת הסצנה לסביבת העבודה שלך ב־+VeDav."
       }
     },
     "modal": {
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid ל־Excalidraw",
+    "title": "Mermaid ל־VeDav",
     "button": "הוספה",
-    "description": "נכון לעכשיו, רק דיאגרמות <flowchartLink>Flowchart</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink> ו-<erdLink>Entity Relationship</erdLink> נתמכות. שאר הסוגים יוצגו כתמונה ב-Excalidraw.",
+    "description": "נכון לעכשיו, רק דיאגרמות <flowchartLink>Flowchart</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink> ו-<erdLink>Entity Relationship</erdLink> נתמכות. שאר הסוגים יוצגו כתמונה ב-VeDav.",
     "syntax": "תחביר Mermaid",
     "preview": "תצוגה מקדימה",
     "label": "Mermaid",

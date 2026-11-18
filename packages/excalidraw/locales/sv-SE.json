@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Vinklad",
     "fontSize": "Teckenstorlek",
     "fontFamily": "Teckensnitt",
-    "addWatermark": "Lägg till \"Skapad med Excalidraw\"",
+    "addWatermark": "Lägg till \"Skapad med VeDav\"",
     "handDrawn": "Handritad",
     "normal": "Normal",
     "code": "Kod",
@@ -107,7 +107,7 @@
     "untitled": "Namnlös",
     "name": "Namn",
     "yourName": "Ditt namn",
-    "madeWithExcalidraw": "Skapad med Excalidraw",
+    "madeWithExcalidraw": "Skapad med VeDav",
     "group": "Gruppera markering",
     "ungroup": "Avgruppera markering",
     "collaborators": "Medarbetare",
@@ -138,7 +138,7 @@
     "toggleTheme": "Växla ljus/mörkt tema",
     "theme": "Tema",
     "personalLib": "Personligt bibliotek",
-    "excalidrawLib": "Excalidraw bibliotek",
+    "excalidrawLib": "VeDav bibliotek",
     "decreaseFontSize": "Minska fontstorleken",
     "increaseFontSize": "Öka fontstorleken",
     "unbindText": "Koppla bort text",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Zooma för att passa in i vyn",
     "zoomToFitSelection": "Zooma för att passa urval",
     "zoomToFit": "Zooma för att rymma alla element",
-    "installPWA": "Installera Excalidraw lokalt (PWA)",
+    "installPWA": "Installera VeDav lokalt (PWA)",
     "autoResize": "Aktivera automatisk skalning av text",
     "imageCropping": "Bildbeskärning",
     "unCroppedDimension": "Obeskuren dimension",
@@ -338,7 +338,7 @@
     "bucketfill": "Färglägg",
     "hand": "Hand (panoreringsverktyg)",
     "extraTools": "Fler verktyg",
-    "mermaidToExcalidraw": "Mermaid till Excalidraw",
+    "mermaidToExcalidraw": "Mermaid till VeDav",
     "convertElementType": "Växla formtyp"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Nu pågår en live-samarbetssession.",
     "desc_shareLink": "Dela denna länk med någon du vill samarbeta med:",
     "desc_exitSession": "Att avbryta sessionen kommer att koppla bort dig från rummet, men du kommer att kunna fortsätta arbeta med skissen, lokalt. Observera att detta inte påverkar andra människor, och de kommer fortfarande att kunna samarbeta på deras version.",
-    "shareTitle": "Delta i en live-samarbetssession på Excalidraw"
+    "shareTitle": "Delta i en live-samarbetssession på VeDav"
   },
   "errorDialog": {
     "title": "Fel"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid till Excalidraw",
+    "title": "Mermaid till VeDav",
     "button": "Infoga",
-    "description": "För närvarande stöds endast <flowchartLink>Flödesdiagram</flowchartLink>, <sequenceLink> Sekvensdiagram</sequenceLink>, <classLink>Klassdiagram</classLink> och <erdLink>Entitetsrelationsdiagram</erdLink>. De andra typerna kommer att återges som bild i Excalidraw.",
+    "description": "För närvarande stöds endast <flowchartLink>Flödesdiagram</flowchartLink>, <sequenceLink> Sekvensdiagram</sequenceLink>, <classLink>Klassdiagram</classLink> och <erdLink>Entitetsrelationsdiagram</erdLink>. De andra typerna kommer att återges som bild i VeDav.",
     "syntax": "Mermaid-syntax",
     "preview": "Förhandsgranska",
     "label": "Mermaid",

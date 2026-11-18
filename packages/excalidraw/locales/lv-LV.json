@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "Teksta lielums",
     "fontFamily": "Fontu saime",
-    "addWatermark": "Pievienot \"Radīts ar Excalidraw\"",
+    "addWatermark": "Pievienot \"Radīts ar VeDav\"",
     "handDrawn": "Rokraksts",
     "normal": "Parasts",
     "code": "Kods",
@@ -107,7 +107,7 @@
     "untitled": "Bez nosaukuma",
     "name": "Vārds",
     "yourName": "Jūsu vārds",
-    "madeWithExcalidraw": "Radīts ar Excalidraw",
+    "madeWithExcalidraw": "Radīts ar VeDav",
     "group": "Grupēt atlasīto",
     "ungroup": "Atgrupēt atlasīto",
     "collaborators": "Dalībnieki",
@@ -138,7 +138,7 @@
     "toggleTheme": "",
     "theme": "",
     "personalLib": "Personīgā bibliotēka",
-    "excalidrawLib": "Excalidraw bibliotēka",
+    "excalidrawLib": "VeDav bibliotēka",
     "decreaseFontSize": "Samazināt fonta izmēru",
     "increaseFontSize": "Palielināt fonta izmēru",
     "unbindText": "Atdalīt tekstu",
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Notiek tiešsaistes sadarbības sesija.",
     "desc_shareLink": "Dalieties ar šo saiti ar jebkuru, ar ko vēlaties sadarboties:",
     "desc_exitSession": "Sesijas beigšana jūs atvienos no sadarbošanās, bet jūs vēl joprojām varēsiet strādāt ar ainu savā datorā. Ievērojiet, ka šis neietekmēs citus dalībniekus, un viņi vēl joprojām varēs sadarboties savā ainas versijā.",
-    "shareTitle": "Pievienoties tiešsaistes sadarbībai programmā Excalidraw"
+    "shareTitle": "Pievienoties tiešsaistes sadarbībai programmā VeDav"
   },
   "errorDialog": {
     "title": "Kļūda"

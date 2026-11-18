@@ -36,7 +36,7 @@ describe("upstream promotion preference", () => {
   it("toggles from Preferences and removes paid menu entries while retaining fork links", async () => {
     await setup();
     expect(h.state.hidePromotions).toBe(true);
-    expect(screen.getByText("Excaliall")).toBeInTheDocument();
+    expect(screen.getByText("VeDav")).toBeInTheDocument();
     openPreferences();
     expect(screen.getByTestId("toggle-upstream-promotions")).toHaveTextContent(
       "Show upstream promotions",
@@ -51,7 +51,7 @@ describe("upstream promotion preference", () => {
     const github = screen.getByRole("menuitem", { name: "GitHub" });
     expect(github).toHaveAttribute(
       "href",
-      "https://github.com/davidgcorr/excaliall",
+      "https://github.com/davidgcorr/vedav",
     );
     fireEvent.click(screen.getByText("Preferences"));
     expect(screen.getByTestId("toggle-upstream-promotions")).toHaveTextContent(

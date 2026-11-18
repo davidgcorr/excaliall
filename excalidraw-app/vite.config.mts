@@ -304,7 +304,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       appBase === "/" &&
         Sitemap({
-          hostname: "https://excaliall.davidgc.com",
+          hostname: "https://vedav.pages.dev",
           outDir: "build",
           changefreq: "monthly",
           // its static in public folder
@@ -428,10 +428,10 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Excaliall",
-          name: "Excaliall",
+          short_name: "VeDav",
+          name: "VeDav",
           description:
-            "Excaliall is a sketch-style whiteboard with animations, data graphs and editable tables.",
+            "VeDav is a sketch-style whiteboard with animations, data graphs and editable tables.",
           icons: [
             {
               src: "android-chrome-192x192.png",
@@ -456,7 +456,7 @@ export default defineConfig(({ mode }) => {
           ],
           start_url: appBase,
           scope: appBase,
-          id: "excaliall",
+          id: "vedav",
           display: "standalone",
           theme_color: "#121212",
           background_color: "#ffffff",

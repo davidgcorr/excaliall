@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Γωνιακό βέλος",
     "fontSize": "Μέγεθος γραμματοσειράς",
     "fontFamily": "Γραμματοσειρά",
-    "addWatermark": "Προσθήκη \"Φτιαγμένο με Excalidraw\"",
+    "addWatermark": "Προσθήκη \"Φτιαγμένο με VeDav\"",
     "handDrawn": "Σχεδιασμένο στο χέρι",
     "normal": "Κανονική",
     "code": "Κώδικας",
@@ -107,7 +107,7 @@
     "untitled": "Χωρίς τίτλο",
     "name": "Όνομα",
     "yourName": "Το όνομά σου",
-    "madeWithExcalidraw": "Φτιαγμένο με Excalidraw",
+    "madeWithExcalidraw": "Φτιαγμένο με VeDav",
     "group": "Δημιουργία ομάδας από επιλογή",
     "ungroup": "Κατάργηση ομάδας από επιλογή",
     "collaborators": "Συνεργάτες",
@@ -138,7 +138,7 @@
     "toggleTheme": "Εναλλαγή φωτεινού/σκοτεινού θέματος",
     "theme": "Θέμα",
     "personalLib": "Προσωπική Βιβλιοθήκη",
-    "excalidrawLib": "Βιβλιοθήκη Excalidraw",
+    "excalidrawLib": "Βιβλιοθήκη VeDav",
     "decreaseFontSize": "Μείωση μεγέθους γραμματοσειράς",
     "increaseFontSize": "Αύξηση μεγέθους γραμματοσειράς",
     "unbindText": "Αποσύνδεση κειμένου",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Εστίαση για να χωρέσει στο παράθυρο προβολής",
     "zoomToFitSelection": "Εστίαση για να χωρέσει στην επιλογή",
     "zoomToFit": "Εστίαση για να χωρέσει σε όλα τα στοιχεία",
-    "installPWA": "Τοπική εγκατάσταση Excalidraw (PWA)",
+    "installPWA": "Τοπική εγκατάσταση VeDav (PWA)",
     "autoResize": "Ενεργοποίηση αυτόματης αλλαγής μεγέθους κειμένου",
     "imageCropping": "",
     "unCroppedDimension": "",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Χέρι (εργαλείο μετακίνησης)",
     "extraTools": "Περισσότερα εργαλεία",
-    "mermaidToExcalidraw": "Mermaid σε Excalidraw",
+    "mermaidToExcalidraw": "Mermaid σε VeDav",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Η ζωντανή συνεργασία με άλλους είναι σε ενεργή.",
     "desc_shareLink": "Μοιραστείτε τον σύνδεσμο με όποιον θέλετε να δουλέψετε μαζί:",
     "desc_exitSession": "Η διακοπή θα σας αποσυνδέσει από το δωμάτιο, αλλά θα μπορείτε να συνεχίσετε να δουλεύετε στον πίνακα, τοπικά. Σημειώσατε ότι αυτό δεν θα επηρεάσει τον πίνακα άλλων, και θα μπορούν ακόμα να συνεισφέρουν στην δική τους έκδοση.",
-    "shareTitle": "Συμμετάσχετε σε μια ζωντανή συνεδρία συνεργασίας για το Excalidraw"
+    "shareTitle": "Συμμετάσχετε σε μια ζωντανή συνεδρία συνεργασίας για το VeDav"
   },
   "errorDialog": {
     "title": "Σφάλμα"
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid σε Excalidraw",
+    "title": "Mermaid σε VeDav",
     "button": "Εισαγωγή",
     "description": "",
     "syntax": "Σύνταξη Mermaid",

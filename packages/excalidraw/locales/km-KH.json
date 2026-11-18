@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "ទំហំពុម្ពអក្សរ",
     "fontFamily": "ក្រុម​ពុម្ពអក្សរ",
-    "addWatermark": "បន្ថែមវ៉ាត់ធើម៉ាក \"Made with Excalidraw\"",
+    "addWatermark": "បន្ថែមវ៉ាត់ធើម៉ាក \"Made with VeDav\"",
     "handDrawn": "គូរដោយដៃ",
     "normal": "ធម្មតា",
     "code": "កូដ",
@@ -107,7 +107,7 @@
     "untitled": "គ្មានឈ្មោះ",
     "name": "ឈ្មោះ",
     "yourName": "ឈ្មោះ​របស់​អ្នក",
-    "madeWithExcalidraw": "បង្កើតជាមួយ Excalidraw",
+    "madeWithExcalidraw": "បង្កើតជាមួយ VeDav",
     "group": "ការជ្រើសរើសជាក្រុម",
     "ungroup": "បំបែកក្រុមការជ្រើសរើសជាក្រុម",
     "collaborators": "អ្នកសហការ",
@@ -138,7 +138,7 @@
     "toggleTheme": "",
     "theme": "",
     "personalLib": "បណ្ណាល័យផ្ទាល់ខ្លួន",
-    "excalidrawLib": "បណ្ណាល័យ Excalidraw",
+    "excalidrawLib": "បណ្ណាល័យ VeDav",
     "decreaseFontSize": "បន្ថយទំហំពុម្ពអក្សរ",
     "increaseFontSize": "បង្កើនទំហំពុម្ពអក្សរ",
     "unbindText": "ស្រាយអត្ថបទ",
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "វគ្គសហការផ្ទាល់ឥឡូវនេះកំពុងដំណើរការ។",
     "desc_shareLink": "ចែករំលែកតំណនេះជាមួយអ្នកដែលអ្នកចង់សហការជាមួយ៖",
     "desc_exitSession": "ការបញ្ឈប់វគ្គនេះនឹងផ្តាច់អ្នកចេញពីបន្ទប់ ប៉ុន្តែអ្នកនឹងនៅតែអាចបន្តប្រើបាវនៅលើកុំព្យូទ័ររបស់អ្នក។ សូមចំណាំថាវានឹងមិនប៉ះពាល់ដល់អ្នកប្រើប្រាស់ផ្សេងទៀតទេ​ ហើយពួកគេនឹងនៅតែអាចបន្តសហការលើកំណែរបស់ពួកគេ។",
-    "shareTitle": "ចូលរួមវគ្គសហការផ្ទាល់នៅលើ Excalidraw"
+    "shareTitle": "ចូលរួមវគ្គសហការផ្ទាល់នៅលើ VeDav"
   },
   "errorDialog": {
     "title": "មានកំហុស"

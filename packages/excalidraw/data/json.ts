@@ -161,7 +161,7 @@ export const saveLibraryAsJSON = async (libraryItems: LibraryItems) => {
     {
       name: "library",
       extension: "excalidrawlib",
-      description: "Excalidraw library file",
+      description: "VeDav library file",
     },
   );
 };

@@ -16,7 +16,7 @@ export const AppWelcomeScreen: React.FC<{
   let headingContent;
 
   if (hidePromotions) {
-    headingContent = "Excaliall";
+    headingContent = "VeDav";
   } else if (isExcalidrawPlusSignedUser) {
     headingContent = t("welcomeScreen.app.center_heading_plus")
       .split(/(Excalidraw\+)/)

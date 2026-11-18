@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "拐角箭头",
     "fontSize": "字体大小",
     "fontFamily": "字体",
-    "addWatermark": "添加 “使用 Excalidraw 创建” 水印",
+    "addWatermark": "添加 “使用 VeDav 创建” 水印",
     "handDrawn": "手写",
     "normal": "普通",
     "code": "代码",
@@ -107,7 +107,7 @@
     "untitled": "无标题",
     "name": "名字",
     "yourName": "您的姓名",
-    "madeWithExcalidraw": "使用 Excalidraw 创建",
+    "madeWithExcalidraw": "使用 VeDav 创建",
     "group": "编组",
     "ungroup": "解除编组",
     "collaborators": "协作者",
@@ -138,7 +138,7 @@
     "toggleTheme": "切换浅色/深色主题",
     "theme": "主题",
     "personalLib": "个人素材库",
-    "excalidrawLib": "Excalidraw 素材库",
+    "excalidrawLib": "VeDav 素材库",
     "decreaseFontSize": "缩小字体大小",
     "increaseFontSize": "放大字体大小",
     "unbindText": "取消文本绑定",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "缩放以适应视图",
     "zoomToFitSelection": "缩放以适应选区",
     "zoomToFit": "缩放以适应所有元素",
-    "installPWA": "在本地安装 Excalidraw (PWA)",
+    "installPWA": "在本地安装 VeDav (PWA)",
     "autoResize": "启用文本自动缩放",
     "imageCropping": "图片裁剪",
     "unCroppedDimension": "未裁剪的尺寸",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "抓手（平移工具）",
     "extraTools": "更多工具",
-    "mermaidToExcalidraw": "Mermaid 至 Excalidraw",
+    "mermaidToExcalidraw": "Mermaid 至 VeDav",
     "convertElementType": "切换形状种类"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "实时协作会话进行中。",
     "desc_shareLink": "分享此链接给你要协作的用户",
     "desc_exitSession": "停止会话将中断您与房间的连接，但您依然可以在本地继续使用画布。请注意，这不会影响到其他用户，他们仍可以在他们的版本上继续协作。",
-    "shareTitle": "加入 Excalidraw 实时协作会话"
+    "shareTitle": "加入 VeDav 实时协作会话"
   },
   "errorDialog": {
     "title": "错误"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid 至 Excalidraw",
+    "title": "Mermaid 至 VeDav",
     "button": "插入",
-    "description": "目前仅支持<flowchartLink>流程图</flowchartLink>、<sequenceLink>序列图</sequenceLink>、<classLink>类图</classLink>和<erdLink>实体关系（ER）图</erdLink>。其他类型在 Excalidraw 中将以图像呈现。",
+    "description": "目前仅支持<flowchartLink>流程图</flowchartLink>、<sequenceLink>序列图</sequenceLink>、<classLink>类图</classLink>和<erdLink>实体关系（ER）图</erdLink>。其他类型在 VeDav 中将以图像呈现。",
     "syntax": "Mermaid 语法",
     "preview": "预览",
     "label": "Mermaid",

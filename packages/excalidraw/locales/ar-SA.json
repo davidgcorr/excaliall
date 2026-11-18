@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "سهم زاوي",
     "fontSize": "حجم الخط",
     "fontFamily": "نوع الخط",
-    "addWatermark": "إضافة \"مصنوعة بواسطة Excalidraw\"",
+    "addWatermark": "إضافة \"مصنوعة بواسطة VeDav\"",
     "handDrawn": "رسم باليد",
     "normal": "عادي",
     "code": "رمز",
@@ -107,7 +107,7 @@
     "untitled": "غير معنون",
     "name": "الاسم",
     "yourName": "اسمك",
-    "madeWithExcalidraw": "مصنوعة بواسطة Excalidraw",
+    "madeWithExcalidraw": "مصنوعة بواسطة VeDav",
     "group": "تحديد مجموعة",
     "ungroup": "إلغاء تحديد مجموعة",
     "collaborators": "المتعاونون",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "التكبير لتناسب العرض",
     "zoomToFitSelection": "تكبير للعنصر المحدد",
     "zoomToFit": "تكبير لتلائم جميع العناصر",
-    "installPWA": "تثبيت Excalidraw محليًا (PWA)",
+    "installPWA": "تثبيت VeDav محليًا (PWA)",
     "autoResize": "تمكين تغيير حجم النص تلقائيًا",
     "imageCropping": "قص الصورة",
     "unCroppedDimension": "الأبعاد غير المقصوصة",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "يد (أداة الإزاحة)",
     "extraTools": "المزيد من الأدوات",
-    "mermaidToExcalidraw": "من Mermaid إلى Excalidraw",
+    "mermaidToExcalidraw": "من Mermaid إلى VeDav",
     "convertElementType": "تبديل نوع الشكل"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "تجري الآن جلسة تعاون مباشرة.",
     "desc_shareLink": "شارك هذا الرابط مع أي شخص تريده أن يشاركك الجلسة:",
     "desc_exitSession": "إيقاف الجلسة سيؤدي إلى قطع الاتصال الخاص بك من الغرفة، ولكن ستتمكن من مواصلة العمل مع المشهد محليًا. لاحظ أن هذا لن يؤثر على الأشخاص الآخرين، وسيظلون قادرين على التعاون في إصدارهم.",
-    "shareTitle": "الانضمام إلى جلسة تعاون مباشرة على Excalidraw"
+    "shareTitle": "الانضمام إلى جلسة تعاون مباشرة على VeDav"
   },
   "errorDialog": {
     "title": "خطأ"
@@ -438,9 +438,9 @@
     "link_title": "رابط قابل للمشاركة",
     "link_details": "تصدير الملف للمشاهدة فقط.",
     "link_button": "تصدير كرابط",
-    "excalidrawplus_description": "حفظ المشهد إلى مساحة العمل +Excalidraw الخاصة بك.",
+    "excalidrawplus_description": "حفظ المشهد إلى مساحة العمل +VeDav الخاصة بك.",
     "excalidrawplus_button": "تصدير",
-    "excalidrawplus_exportError": "تعذر التص несп في الوقت الحالي إلى +Excalidraw..."
+    "excalidrawplus_exportError": "تعذر التص несп في الوقت الحالي إلى +VeDav..."
   },
   "helpDialog": {
     "blog": "اقرأ مدونتنا",
@@ -633,7 +633,7 @@
       "excalidrawPlus": {
         "title": "Excalidraw+",
         "button": "تصدير إلى Excalidraw+",
-        "description": "حفظ المشهد إلى مساحة العمل +Excalidraw الخاصة بك."
+        "description": "حفظ المشهد إلى مساحة العمل +VeDav الخاصة بك."
       }
     },
     "modal": {
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid إلى Excalidraw",
+    "title": "Mermaid إلى VeDav",
     "button": "إدراج",
     "description": "",
     "syntax": "صيغة Mermaid",

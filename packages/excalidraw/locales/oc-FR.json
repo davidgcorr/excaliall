@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "Talha polissa",
     "fontFamily": "Familha de polissa",
-    "addWatermark": "Apondre « Fabricat amb Excalidraw »",
+    "addWatermark": "Apondre « Fabricat amb VeDav »",
     "handDrawn": "A la man levada",
     "normal": "Normala",
     "code": "Còdi",
@@ -107,7 +107,7 @@
     "untitled": "Sens títol",
     "name": "Nom",
     "yourName": "Vòstre nom",
-    "madeWithExcalidraw": "Fabricat amb Excalidraw",
+    "madeWithExcalidraw": "Fabricat amb VeDav",
     "group": "Gropar la seleccion",
     "ungroup": "Desunir la seleccion",
     "collaborators": "Collaborators",
@@ -138,7 +138,7 @@
     "toggleTheme": "",
     "theme": "Tèma",
     "personalLib": "Bibliotèca personala",
-    "excalidrawLib": "Bibliotèca Excalidraw",
+    "excalidrawLib": "Bibliotèca VeDav",
     "decreaseFontSize": "Reduire talha polissa",
     "increaseFontSize": "Aumentar talha polissa",
     "unbindText": "Dessociar lo tèxte",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Man (aisina de desplaçament de la vista)",
     "extraTools": "Mai d’aisinas",
-    "mermaidToExcalidraw": "De Mermaid cap a Excalidraw",
+    "mermaidToExcalidraw": "De Mermaid cap a VeDav",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "La session de collaboracion es ara en cors.",
     "desc_shareLink": "Partejatz aqueste ligam amb lo monde amb qui volètz collaborar :",
     "desc_exitSession": "Arrestar la session vos desconnectarà de la sala, mas poiretz contunhar de trabalhar a la scèna, en local. Notatz qu’aquò afectarà pas los autres, e poiràn collaborar a lor version.",
-    "shareTitle": "Rejonhètz una session collaborativa sus Excalidraw"
+    "shareTitle": "Rejonhètz una session collaborativa sus VeDav"
   },
   "errorDialog": {
     "title": "Error"
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "De Mermaid cap a Excalidraw",
+    "title": "De Mermaid cap a VeDav",
     "button": "Inserir",
     "description": "",
     "syntax": "Sintaxi Mermaid",

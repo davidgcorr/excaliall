@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Seta dobrada",
     "fontSize": "Tamanho da fonte",
     "fontFamily": "Família da fonte",
-    "addWatermark": "Adicionar \"Feito com Excalidraw\"",
+    "addWatermark": "Adicionar \"Feito com VeDav\"",
     "handDrawn": "Manuscrito",
     "normal": "Normal",
     "code": "Código",
@@ -107,7 +107,7 @@
     "untitled": "Sem título",
     "name": "Nome",
     "yourName": "Seu nome",
-    "madeWithExcalidraw": "Feito com Excalidraw",
+    "madeWithExcalidraw": "Feito com VeDav",
     "group": "Agrupar seleção",
     "ungroup": "Desagrupar seleção",
     "collaborators": "Colaboradores",
@@ -138,7 +138,7 @@
     "toggleTheme": "Alternar tema claro/escuro",
     "theme": "Tema",
     "personalLib": "Biblioteca Pessoal",
-    "excalidrawLib": "Biblioteca do Excalidraw",
+    "excalidrawLib": "Biblioteca do VeDav",
     "decreaseFontSize": "Diminuir o tamanho da fonte",
     "increaseFontSize": "Aumentar o tamanho da fonte",
     "unbindText": "Desvincular texto",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Mão (ferramenta de rolagem)",
     "extraTools": "Mais ferramentas",
-    "mermaidToExcalidraw": "Mermaid para Excalidraw",
+    "mermaidToExcalidraw": "Mermaid para VeDav",
     "convertElementType": "Alternar tipo de forma"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "A sessão de colaboração ao vivo está agora em andamento.",
     "desc_shareLink": "Compartilhe este link com qualquer pessoa com quem você queira colaborar:",
     "desc_exitSession": "Interrompendo a sessão você irá se desconectar da sala, mas você poderá continuar trabalhando com a cena localmente. Observe que isso não afetará outras pessoas, e elas ainda poderão colaborar em suas versões.",
-    "shareTitle": "Participe de uma sessão ao vivo de colaboração no Excalidraw"
+    "shareTitle": "Participe de uma sessão ao vivo de colaboração no VeDav"
   },
   "errorDialog": {
     "title": "Erro"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid para Excalidraw",
+    "title": "Mermaid para VeDav",
     "button": "Inserir",
-    "description": "Atualmente, apenas <flowchartLink>fluxogramas</flowchartLink>, <sequenceLink>sequências</sequenceLink>, <classLink>classes</classLink> e <erdLink>diagramas de relacionamento de entidades</erdLink> são suportados. Outros tipos serão mostrados como imagens no Excalidraw.",
+    "description": "Atualmente, apenas <flowchartLink>fluxogramas</flowchartLink>, <sequenceLink>sequências</sequenceLink>, <classLink>classes</classLink> e <erdLink>diagramas de relacionamento de entidades</erdLink> são suportados. Outros tipos serão mostrados como imagens no VeDav.",
     "syntax": "Sintaxe em Mermaid",
     "preview": "Visualizar",
     "label": "Mermaid",

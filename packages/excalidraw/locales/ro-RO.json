@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Săgeată arcuită",
     "fontSize": "Dimensiune font",
     "fontFamily": "Familia de fonturi",
-    "addWatermark": "Adaugă „Realizat cu Excalidraw”",
+    "addWatermark": "Adaugă „Realizat cu VeDav”",
     "handDrawn": "Scris de mână",
     "normal": "Normal",
     "code": "Cod",
@@ -107,7 +107,7 @@
     "untitled": "Nedenumit",
     "name": "Nume",
     "yourName": "Numele tău",
-    "madeWithExcalidraw": "Realizat cu Excalidraw",
+    "madeWithExcalidraw": "Realizat cu VeDav",
     "group": "Grupare selecție",
     "ungroup": "Degrupare selecție",
     "collaborators": "Colaboratori",
@@ -138,7 +138,7 @@
     "toggleTheme": "Comutare temă luminoasă/întunecată",
     "theme": "Temă",
     "personalLib": "Biblioteca personală",
-    "excalidrawLib": "Biblioteca Excalidraw",
+    "excalidrawLib": "Biblioteca VeDav",
     "decreaseFontSize": "Micșorează dimensiunea fontului",
     "increaseFontSize": "Mărește dimensiunea fontului",
     "unbindText": "Deconectare text",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Transfocare pentru a se potrivi în poarta de vizualizare",
     "zoomToFitSelection": "Transfocare pentru a cuprinde selecția",
     "zoomToFit": "Transfocare pentru a cuprinde toate elementele",
-    "installPWA": "Instalează Excalidraw la nivel local (PWA)",
+    "installPWA": "Instalează VeDav la nivel local (PWA)",
     "autoResize": "Activare autoredimensionare text",
     "imageCropping": "Decupare imagine",
     "unCroppedDimension": "Dimensiune nedecupată",
@@ -338,7 +338,7 @@
     "bucketfill": "Umplere cu culoare",
     "hand": "Mână (instrument de panoramare)",
     "extraTools": "Mai multe instrumente",
-    "mermaidToExcalidraw": "Mermaid la Excalidraw",
+    "mermaidToExcalidraw": "Mermaid la VeDav",
     "convertElementType": "Comutare tip formă"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Sesiunea de colaborare în direct este în curs de desfășurare.",
     "desc_shareLink": "Distribuie acest URL persoanelor cu care dorești să colaborezi:",
     "desc_exitSession": "Oprirea sesiunii te va deconecta de la sală, însă vei putea lucra în continuare, pe plan local, cu scena. Reține că această opțiune nu va afecta alte persoane, iar acestea vor putea să colaboreze în continuare pe versiunea lor.",
-    "shareTitle": "Alătură-te unei sesiuni de colaborare în direct pe Excalidraw"
+    "shareTitle": "Alătură-te unei sesiuni de colaborare în direct pe VeDav"
   },
   "errorDialog": {
     "title": "Eroare"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid la Excalidraw",
+    "title": "Mermaid la VeDav",
     "button": "Introducere",
-    "description": "În prezent, numai <flowchartLink>schemele logice</flowchartLink>, <sequenceLink>diagramele de secvență</sequenceLink>, <classLink>diagramele de clasă</classLink> și <erdLink>diagramele entitate-asociere</erdLink> sunt acceptate. Celelalte tipuri vor fi redate ca imagine în Excalidraw.",
+    "description": "În prezent, numai <flowchartLink>schemele logice</flowchartLink>, <sequenceLink>diagramele de secvență</sequenceLink>, <classLink>diagramele de clasă</classLink> și <erdLink>diagramele entitate-asociere</erdLink> sunt acceptate. Celelalte tipuri vor fi redate ca imagine în VeDav.",
     "syntax": "Sintaxă Mermaid",
     "preview": "Previzualizare",
     "label": "Mermaid",

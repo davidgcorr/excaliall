@@ -1,4 +1,4 @@
-name: Deploy Excaliall website to Cloudflare and GitHub Pages
+name: Deploy VeDav website to Cloudflare and GitHub Pages
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: excaliall-production
+  group: vedav-production
   cancel-in-progress: false
 
 jobs:
@@ -21,12 +21,12 @@ jobs:
     uses: ./.github/workflows/github-pages.yml
 
   deploy:
-    if: github.repository == 'davidgcorr/excaliall' && github.ref == 'refs/heads/master'
+    if: github.repository == 'davidgcorr/vedav' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     environment:
       name: production
-      url: https://excaliall.davidgc.com
+      url: https://vedav.pages.dev
     env:
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
       PUPPETEER_SKIP_DOWNLOAD: "true"
@@ -37,13 +37,20 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "::error::Add the CLOUDFLARE_API_TOKEN repository secret with Account > Cloudflare Pages > Edit permission for the Excaliall account."
+            echo "::error::Add the CLOUDFLARE_API_TOKEN repository secret with Account > Cloudflare Pages > Edit permission for the VeDav account."
             exit 1
           fi
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: yarn
+      - name: Test Pages project setup
+        run: node --test scripts/ensure-cloudflare-project.check.cjs
+      - name: Ensure VeDav Pages project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ab006639687bbee95168d5daa00dde67
+        run: node scripts/ensure-cloudflare-project.cjs
       - name: Install dependencies
         run: corepack yarn install --frozen-lockfile
       - name: Check types
@@ -59,14 +66,25 @@ jobs:
           CI: "true"
         run: |
           npx --yes wrangler@4.157.0 pages deploy excalidraw-app/build \
-            --project-name=excaliall --branch=master --commit-hash="$GITHUB_SHA"
+            --project-name=vedav --branch=master --commit-hash="$GITHUB_SHA"
       - name: Verify production website
         run: |
           curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 5 \
-            --max-time 30 https://excaliall.davidgc.com/ -o /tmp/excaliall.html
-          node -e 'const html = require("node:fs").readFileSync("/tmp/excaliall.html", "utf8"); if (!html.includes("<title>Excaliall</title>")) throw new Error("Production did not return the Excaliall editor");'
+            --max-time 30 https://vedav.pages.dev/ -o /tmp/vedav.html
+          node -e 'const html = require("node:fs").readFileSync("/tmp/vedav.html", "utf8"); if (!html.includes("<title>VeDav</title>")) throw new Error("Production did not return the VeDav editor");'
+      - name: Publish VeDav to the previous website for existing bookmarks
+        if: vars.PREVIOUS_PAGES_PROJECT != ''
+        working-directory: ${{ runner.temp }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ab006639687bbee95168d5daa00dde67
+          PREVIOUS_PAGES_PROJECT: ${{ vars.PREVIOUS_PAGES_PROJECT }}
+          CI: "true"
+        run: |
+          npx --yes wrangler@4.157.0 pages deploy "$GITHUB_WORKSPACE/excalidraw-app/build" \
+            --project-name="$PREVIOUS_PAGES_PROJECT" --branch=master --commit-hash="$GITHUB_SHA"
       - name: Deployment summary
         run: |
-          echo "### Excaliall deployed" >> "$GITHUB_STEP_SUMMARY"
-          echo "Website: https://excaliall.davidgc.com" >> "$GITHUB_STEP_SUMMARY"
+          echo "### VeDav deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "Website: https://vedav.pages.dev" >> "$GITHUB_STEP_SUMMARY"
           echo "Commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"

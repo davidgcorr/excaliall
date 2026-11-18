@@ -2,19 +2,19 @@
 
 **Sketch ideas. Animate connections. Bring data onto the canvas.**
 
-Excaliall combines freehand diagrams, animations, mind maps, LaTeX formulas, data-driven graphs and editable tables in one sketch-style whiteboard. Built on Excalidraw, with desktop apps for macOS, Windows and Linux.
+VeDav combines freehand diagrams, animations, mind maps, LaTeX formulas, data-driven graphs and editable tables in one sketch-style whiteboard. VeDav is a fork of [Excalidraw](https://github.com/excalidraw/excalidraw), with desktop apps for macOS, Windows and Linux.
 
-No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
+VeDav includes the full editor without ads or a separate Plus edition.
 
-![Excaliall main screen](public/screenshots/main-screen.png)
+![VeDav main screen](public/screenshots/main-screen.png)
 
-[Open Excaliall](https://excaliall.davidgc.com) · [Download](https://github.com/davidgcorr/excaliall/releases) · [Report an issue](https://github.com/davidgcorr/excaliall/issues) · [Source code](https://github.com/davidgcorr/excaliall)
+[Open VeDav](https://vedav.pages.dev) · [Download](https://github.com/davidgcorr/vedav/releases) · [Report an issue](https://github.com/davidgcorr/vedav/issues) · [Source code](https://github.com/davidgcorr/vedav)
 
 ## One canvas for ideas and data
 
 | Feature | What you can do |
 | --- | --- |
-| **Draw** | Sketch diagrams with shapes, arrows, text and the familiar Excalidraw tools. |
+| **Draw** | Sketch diagrams with shapes, arrows, text and familiar whiteboard tools. |
 | **Animate** | Animate shapes, arrows, lines and pencil strokes. Set effects, speed, color, amount and size in the side panel. |
 | **Map ideas** | Build a two-sided mind map with colored, curved branches. Add children and siblings, rename topics, and arrange the tree from the side panel. |
 | **Write math** | Insert normal or handwritten LaTeX formulas with a live preview, font, size and color controls. Double-click a formula to edit its source. |
@@ -23,22 +23,21 @@ No ads or Excalidraw+ promotions by default. No separate Excaliall Plus edition.
 | **Share** | Export PNG, SVG, animated GIF or standalone HTML. Copy an iframe to embed a diagram in your page. |
 
 Caveat and Patrick Hand are available in the normal text font selector.
-ex
 Graphs and tables use the same color palettes, fill patterns, stroke controls and roughness presets as the rest of your drawing. Save a `.excalidraw` file to keep everything editable, including data and animation settings.
 
 ## Install
 
-Choose an installer from [GitHub Releases](https://github.com/davidgcorr/excaliall/releases):
+Choose an installer from [GitHub Releases](https://github.com/davidgcorr/vedav/releases):
 
 | Platform | Download | Install |
 | --- | --- | --- |
-| macOS | `.dmg` | Open it and drag **Excaliall** into Applications. |
+| macOS | `.dmg` | Open it and drag **VeDav** into Applications. |
 | Windows | `windows-x64-setup.exe` | Run the setup wizard. |
 | Linux | `.AppImage` or `.deb` | Make the AppImage executable and launch it, or install the Debian package. |
 
 The desktop app includes the editor and fonts; Node.js is not required. Drawing, local saving and exports work offline. Online collaboration and fetching remote data require an internet connection.
 
-To upgrade, quit the app and install the newer release. Your local drawing data is retained. Older releases may still use the name **Excalidraw Animation**; quit that copy before opening Excaliall. Keep `.excalidraw` backups of important drawings.
+To upgrade, quit the app and install the newer release. Your local drawing data is retained. Older releases may still use the name **Excalidraw Animation**; quit that copy before opening VeDav. Keep `.excalidraw` backups of important drawings.
 
 Find the running version and Git revision under **☰ → Preferences / Preferencias**. See the [desktop guide](desktop/README.md) for installation details, signing and update support.
 
@@ -75,9 +74,9 @@ Installers are written to `desktop/dist`. The [desktop guide](desktop/README.md)
 
 ## Deploy the website
 
-The web app lives at [excaliall.davidgc.com](https://excaliall.davidgc.com), hosted on Cloudflare Pages. Every push to `master` runs the [deployment workflow](https://github.com/davidgcorr/excaliall/actions/workflows/cloudflare-deploy.yml), which tests, builds and publishes the website. See the [one-time credential setup](desktop/CLOUDFLARE.md#deploy-automatically-from-github).
+The web app lives at [vedav.pages.dev](https://vedav.pages.dev), hosted on Cloudflare Pages. Every push to `master` runs the [deployment workflow](https://github.com/davidgcorr/vedav/actions/workflows/cloudflare-deploy.yml), which tests, builds and publishes the website. See the [one-time credential setup](desktop/CLOUDFLARE.md#deploy-automatically-from-github).
 
-The same CD workflow also publishes to [GitHub Pages](https://davidgcorr.github.io/excaliall/) through the reusable [GitHub Pages workflow](.github/workflows/github-pages.yml). Both deployments run independently, so a Cloudflare failure does not block GitHub Pages. In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source.
+The same CD workflow also publishes to [GitHub Pages](https://davidgcorr.github.io/vedav/) through the reusable [GitHub Pages workflow](.github/workflows/github-pages.yml). Both deployments run independently, so a Cloudflare failure does not block GitHub Pages. In the repository's **Settings → Pages**, select **GitHub Actions** as the deployment source.
 
 To deploy manually from your Mac:
 
@@ -90,6 +89,6 @@ See the [Cloudflare deployment guide](desktop/CLOUDFLARE.md) for first-time setu
 
 ## Open source
 
-Excaliall is maintained at [davidgcorr/excaliall](https://github.com/davidgcorr/excaliall). Contributions and [feature requests](https://github.com/davidgcorr/excaliall/issues) are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
+VeDav is maintained at [davidgcorr/vedav](https://github.com/davidgcorr/vedav). Contributions and [feature requests](https://github.com/davidgcorr/vedav/issues) are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) and the [feature milestones](desktop/MILESTONES.md).
 
 Licensed under [MIT](LICENSE). Graphs powered by [roughViz](https://github.com/davidgcorr/roughViz). Original copyright and dependency license notices are retained.

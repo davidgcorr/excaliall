@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "直角箭頭",
     "fontSize": "字型大小",
     "fontFamily": "字型系列",
-    "addWatermark": "加上「以 Excalidraw 製作」浮水印",
+    "addWatermark": "加上「以 VeDav 製作」浮水印",
     "handDrawn": "手寫",
     "normal": "一般",
     "code": "代碼",
@@ -107,7 +107,7 @@
     "untitled": "無標題",
     "name": "名稱",
     "yourName": "你的名稱",
-    "madeWithExcalidraw": "以 Excalidraw 製作",
+    "madeWithExcalidraw": "以 VeDav 製作",
     "group": "建立群組",
     "ungroup": "取消群組",
     "collaborators": "協作者",
@@ -138,7 +138,7 @@
     "toggleTheme": "切換淺色/深色主題",
     "theme": "主題",
     "personalLib": "個人資料庫",
-    "excalidrawLib": "Excalidraw 資料庫",
+    "excalidrawLib": "VeDav 資料庫",
     "decreaseFontSize": "縮小文字",
     "increaseFontSize": "放大文字",
     "unbindText": "取消綁定文字",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "縮放至符合 viewport",
     "zoomToFitSelection": "縮放至符合選取區",
     "zoomToFit": "縮放至顯示所有元素",
-    "installPWA": "於本機安裝 Excalidraw (PWA)",
+    "installPWA": "於本機安裝 VeDav (PWA)",
     "autoResize": "啟用文字自動縮放",
     "imageCropping": "圖片剪裁",
     "unCroppedDimension": "未剪裁尺寸",
@@ -338,7 +338,7 @@
     "bucketfill": "油漆桶填充工具",
     "hand": "手形（平移工具）",
     "extraTools": "更多工具",
-    "mermaidToExcalidraw": "Mermaid 至 Excalidraw",
+    "mermaidToExcalidraw": "Mermaid 至 VeDav",
     "convertElementType": "切換形狀類型"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "即時協作連線正在進行中。",
     "desc_shareLink": "將此連結分享給欲協作的對象：",
     "desc_exitSession": "停止連線將中斷你與協作會議室的連結，但你仍可於本機編輯此作品。意指停止連線後你的編輯不會被先前共同協作的人看見，且他們可繼續共同協作另一個版本。",
-    "shareTitle": "加入 Excalidraw 上的即時協作會議室"
+    "shareTitle": "加入 VeDav 上的即時協作會議室"
   },
   "errorDialog": {
     "title": "錯誤"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid 至 Excalidraw",
+    "title": "Mermaid 至 VeDav",
     "button": "插入",
-    "description": "目前僅支援 <flowchartLink>Flowchart</flowchartLink> 、 <sequenceLink>Sequence</sequenceLink> 及 <classLink>Class </classLink> 圖表。其餘檔案類型在 Excalidraw 將會以圖像呈現。",
+    "description": "目前僅支援 <flowchartLink>Flowchart</flowchartLink> 、 <sequenceLink>Sequence</sequenceLink> 及 <classLink>Class </classLink> 圖表。其餘檔案類型在 VeDav 將會以圖像呈現。",
     "syntax": "Mermaid 語法",
     "preview": "預覽",
     "label": "Mermaid",

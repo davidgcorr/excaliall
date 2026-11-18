@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Прямоугольная стрелка",
     "fontSize": "Размер шрифта",
     "fontFamily": "Семейство шрифтов",
-    "addWatermark": "Добавить «Создано в Excalidraw»",
+    "addWatermark": "Добавить «Создано в VeDav»",
     "handDrawn": "От руки",
     "normal": "Обычный",
     "code": "Код",
@@ -107,7 +107,7 @@
     "untitled": "Безымянный",
     "name": "Имя",
     "yourName": "Ваше имя",
-    "madeWithExcalidraw": "Сделано в Excalidraw",
+    "madeWithExcalidraw": "Сделано в VeDav",
     "group": "Сгруппировать выделение",
     "ungroup": "Разделить выделение",
     "collaborators": "Участники",
@@ -138,7 +138,7 @@
     "toggleTheme": "Переключить светлую/тёмную тему",
     "theme": "Тема",
     "personalLib": "Личная библиотека",
-    "excalidrawLib": "Библиотека Excalidraw",
+    "excalidrawLib": "Библиотека VeDav",
     "decreaseFontSize": "Уменьшить шрифт",
     "increaseFontSize": "Увеличить шрифт",
     "unbindText": "Отвязать текст",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Масштабировать до области просмотра",
     "zoomToFitSelection": "Увеличить до выделенного",
     "zoomToFit": "Приблизьте все элементы",
-    "installPWA": "Установить Excalidraw локально (PWA)",
+    "installPWA": "Установить VeDav локально (PWA)",
     "autoResize": "Включить автоизменение размера текста",
     "imageCropping": "Обрезка изображения",
     "unCroppedDimension": "Необрезанный размер",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Рука (перемещение холста)",
     "extraTools": "Дополнительные инструменты",
-    "mermaidToExcalidraw": "Mermaid в Excalidraw",
+    "mermaidToExcalidraw": "Mermaid в VeDav",
     "convertElementType": "Переключение типа формы"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Сеанс совместной работы запущен.",
     "desc_shareLink": "Поделитесь этой ссылкой со всеми участниками:",
     "desc_exitSession": "Завершив сеанс, вы выйдете из комнаты, но сможете продолжить работать с документом локально. Это не повлияет на работу других пользователей — они смогут продолжить совместную работу с их версией документа.",
-    "shareTitle": "Присоединиться к активной совместной сессии на Excalidraw"
+    "shareTitle": "Присоединиться к активной совместной сессии на VeDav"
   },
   "errorDialog": {
     "title": "Ошибка"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Из Mermaid в Excalidraw",
+    "title": "Из Mermaid в VeDav",
     "button": "Вставить",
-    "description": "В настоящее время поддерживаются только <flowchartLink>блок-схемы</flowchartLink>, <sequenceLink>диаграммы последовательности</sequenceLink>, <classLink>диаграммы классов</classLink> и <erdLink>диаграммы взаимоотношений сущностей</erdLink>. Другие типы будут отображаться в виде изображения в Excalidraw.",
+    "description": "В настоящее время поддерживаются только <flowchartLink>блок-схемы</flowchartLink>, <sequenceLink>диаграммы последовательности</sequenceLink>, <classLink>диаграммы классов</classLink> и <erdLink>диаграммы взаимоотношений сущностей</erdLink>. Другие типы будут отображаться в виде изображения в VeDav.",
     "syntax": "Синтаксис Mermaid",
     "preview": "Предпросмотр",
     "label": "Mermaid",

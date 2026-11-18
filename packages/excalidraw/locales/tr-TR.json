@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Köşeli ok",
     "fontSize": "Yazı tipi boyutu",
     "fontFamily": "Yazı tipi ailesi",
-    "addWatermark": "\"Excalidraw ile yapıldı\" yazısını ekle",
+    "addWatermark": "\"VeDav ile yapıldı\" yazısını ekle",
     "handDrawn": "El-yazısı",
     "normal": "Normal",
     "code": "Kod",
@@ -107,7 +107,7 @@
     "untitled": "Adsız",
     "name": "Ad",
     "yourName": "Adınız",
-    "madeWithExcalidraw": "Excalidraw ile yapıldı",
+    "madeWithExcalidraw": "VeDav ile yapıldı",
     "group": "Seçimi grup yap",
     "ungroup": "Seçilen grubu dağıt",
     "collaborators": "Ortaklar",
@@ -138,7 +138,7 @@
     "toggleTheme": "Aydınlık/karanlık mod",
     "theme": "Tema",
     "personalLib": "Kişisel Kitaplık",
-    "excalidrawLib": "Excalidraw Kitaplığı",
+    "excalidrawLib": "VeDav Kitaplığı",
     "decreaseFontSize": "Yazı Tipi Boyutunu Küçült",
     "increaseFontSize": "Yazı Tipi Boyutunu Büyült",
     "unbindText": "Metni çöz",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Görüş alanına sığdırmak için yakınlaştırın",
     "zoomToFitSelection": "Seçime sığdırmak için yakınlaştırın",
     "zoomToFit": "Tüm öğeleri sığdırmak için yakınlaştırın",
-    "installPWA": "Excalidraw'ı yerel olarak yükle (PWA)",
+    "installPWA": "VeDav'ı yerel olarak yükle (PWA)",
     "autoResize": "Metni otomatik yeniden boyutlandırmayı etkinleştir",
     "imageCropping": "Görsel kırpma",
     "unCroppedDimension": "Kırpılmamış ölçüler",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "El (hareket aracı)",
     "extraTools": "Daha fazla araç",
-    "mermaidToExcalidraw": "Mermaid'den Excalidraw'a",
+    "mermaidToExcalidraw": "Mermaid'den VeDav'a",
     "convertElementType": "Şekil türünü aç/kapat"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Ortak çalışma ortamı oluşturuldu.",
     "desc_shareLink": "Bu bağlantıyı birlikte çalışacağınız kişilerle paylaşabilirsiniz:",
     "desc_exitSession": "Çalışma ortamını kapattığınızda ortak çalışmadan ayrılmış olursunuz ancak kendi versiyonunuzda çalışmaya devam edebilirsiniz. Bu durumda ortak çalıştığınız diğer kişiler etkilenmeyecek, çalışma ortamındaki versiyon üzerinden çalışmaya devam edebilecekler.",
-    "shareTitle": "Excalidraw'da canlı ortak calışma oturumuna katıl"
+    "shareTitle": "VeDav'da canlı ortak calışma oturumuna katıl"
   },
   "errorDialog": {
     "title": "Hata"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid'den Excalidraw'a",
+    "title": "Mermaid'den VeDav'a",
     "button": "Ekle",
-    "description": "Şu anda yalnızca <flowchartLink>Akış şeması</flowchartLink>, <sequenceLink> Dizi, </sequenceLink>, <classLink>Sınıf </classLink> ve <erdLink> Varlık ilişkileri</erdLink> Diyagramları desteklenmektedir. Diğer türler, Excalidraw'da görsel olarak çizilecektir.",
+    "description": "Şu anda yalnızca <flowchartLink>Akış şeması</flowchartLink>, <sequenceLink> Dizi, </sequenceLink>, <classLink>Sınıf </classLink> ve <erdLink> Varlık ilişkileri</erdLink> Diyagramları desteklenmektedir. Diğer türler, VeDav'da görsel olarak çizilecektir.",
     "syntax": "Mermaid Sözdizimi",
     "preview": "Önizleme",
     "label": "Mermaid",

@@ -16,7 +16,7 @@ const { resolveAsset } = require("./paths.cjs");
 const metadata = require("./package.json");
 
 const APP_URL = "excalidraw://app/";
-const RELEASES_URL = "https://github.com/davidgcorr/excaliall/releases";
+const RELEASES_URL = "https://github.com/davidgcorr/vedav/releases";
 let mainWindow;
 let checking = false;
 let quitting = false;
@@ -105,7 +105,7 @@ function createWindow() {
     height: 960,
     minWidth: 800,
     minHeight: 600,
-    title: "Excaliall",
+    title: "VeDav",
     backgroundColor: "#ffffff",
     show: false,
     webPreferences: {
@@ -238,7 +238,7 @@ if (!app.requestSingleInstanceLock()) {
       });
     })
     .catch((error) => {
-      dialog.showErrorBox("Unable to start Excaliall", error.message);
+      dialog.showErrorBox("Unable to start VeDav", error.message);
       app.quit();
     });
 }

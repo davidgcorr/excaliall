@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "Velikost písma",
     "fontFamily": "Písmo",
-    "addWatermark": "Přidat \"Vyrobeno s Excalidraw\"",
+    "addWatermark": "Přidat \"Vyrobeno s VeDav\"",
     "handDrawn": "Od ruky",
     "normal": "Normální",
     "code": "Kód",
@@ -107,7 +107,7 @@
     "untitled": "Bez názvu",
     "name": "Název",
     "yourName": "Vaše jméno",
-    "madeWithExcalidraw": "Vytvořeno v Excalidraw",
+    "madeWithExcalidraw": "Vytvořeno v VeDav",
     "group": "Sloučit výběr do skupiny",
     "ungroup": "Zrušit sloučení skupiny",
     "collaborators": "Spolupracovníci",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "",
     "zoomToFitSelection": "Přiblížit na výběr",
     "zoomToFit": "Přiblížit na zobrazení všech prvků",
-    "installPWA": "Instalovat Excalidraw lokálně (PWA)",
+    "installPWA": "Instalovat VeDav lokálně (PWA)",
     "autoResize": "Povolit automatickou změnu velikosti textu",
     "imageCropping": "",
     "unCroppedDimension": "",
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Živá spolupráce právě probíhá.",
     "desc_shareLink": "Sdílejte tento odkaz s každým, s kým chcete spolupracovat:",
     "desc_exitSession": "Zastavením relace se odpojíte od místnosti, ale budete moci pokračovat v práci s touto scénou lokálně. Všimněte si, že to nebude mít vliv na ostatní lidi a budou stále moci spolupracovat na jejich verzi.",
-    "shareTitle": "Připojte se k aktivní spolupráci na Excalidraw"
+    "shareTitle": "Připojte se k aktivní spolupráci na VeDav"
   },
   "errorDialog": {
     "title": "Chyba"

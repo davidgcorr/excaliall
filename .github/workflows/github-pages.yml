@@ -1,4 +1,4 @@
-name: Deploy Excaliall to GitHub Pages
+name: Deploy VeDav to GitHub Pages
 
 on:
   workflow_call:
@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.repository == 'davidgcorr/excaliall' && github.ref == 'refs/heads/master'
+    if: github.repository == 'davidgcorr/vedav' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:

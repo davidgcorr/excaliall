@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string -- electron-builder expands these macros */
 module.exports = {
   appId: "com.davidgcorr.excalidraw-animation",
-  productName: "Excaliall",
+  productName: "VeDav",
   directories: { output: "dist", buildResources: "resources" },
   files: ["main.cjs", "paths.cjs", "package.json"],
   extraResources: [
@@ -19,7 +19,7 @@ module.exports = {
       to: "licenses/tanstack-table.txt",
     },
   ],
-  artifactName: "Excaliall-${version}-${arch}.${ext}",
+  artifactName: "VeDav-${version}-${arch}.${ext}",
   extraMetadata: {
     desktopUpdatesEnabled: process.env.DESKTOP_SIGNED === "true",
   },
@@ -27,7 +27,7 @@ module.exports = {
     {
       provider: "github",
       owner: "davidgcorr",
-      repo: "excaliall",
+      repo: "vedav",
       releaseType: "draft",
     },
   ],
@@ -43,7 +43,7 @@ module.exports = {
   win: {
     icon: "../public/android-chrome-512x512.png",
     target: ["nsis"],
-    artifactName: "Excaliall-${version}-windows-${arch}-setup.${ext}",
+    artifactName: "VeDav-${version}-windows-${arch}-setup.${ext}",
   },
   nsis: {
     oneClick: false,
@@ -58,7 +58,7 @@ module.exports = {
     syncDesktopName: true,
     maintainer: "David Corr",
     icon: "../public/android-chrome-512x512.png",
-    artifactName: "Excaliall-${version}-linux-${arch}.${ext}",
+    artifactName: "VeDav-${version}-linux-${arch}.${ext}",
   },
-  dmg: { title: "Excaliall ${version}" },
+  dmg: { title: "VeDav ${version}" },
 };

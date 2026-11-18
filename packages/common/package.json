@@ -50,8 +50,8 @@
       "last 1 safari version"
     ]
   },
-  "bugs": "https://github.com/davidgcorr/excaliall/issues",
-  "repository": "https://github.com/davidgcorr/excaliall",
+  "bugs": "https://github.com/davidgcorr/vedav/issues",
+  "repository": "https://github.com/davidgcorr/vedav",
   "scripts": {
     "gen:types": "rimraf types && tsc",
     "build:esm": "rimraf dist && node ../../scripts/buildBase.js && yarn gen:types"

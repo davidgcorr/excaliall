@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Mũi tên gấp khúc",
     "fontSize": "Cỡ chữ",
     "fontFamily": "Phông chữ",
-    "addWatermark": "Làm với Excalidraw\"",
+    "addWatermark": "Làm với VeDav\"",
     "handDrawn": "Vẽ tay",
     "normal": "Bình thường",
     "code": "Mã",
@@ -107,7 +107,7 @@
     "untitled": "Không có tiêu đề",
     "name": "Tên",
     "yourName": "Tên của bạn",
-    "madeWithExcalidraw": "Làm với Excalidraw",
+    "madeWithExcalidraw": "Làm với VeDav",
     "group": "Gộp nhóm lại lựa chọn",
     "ungroup": "Tách nhóm lựa chọn",
     "collaborators": "Cộng tác viên",
@@ -138,7 +138,7 @@
     "toggleTheme": "Chuyển đổi giao diện sáng/tối",
     "theme": "Chủ đề",
     "personalLib": "Thư viện cá nhân",
-    "excalidrawLib": "Thư viện Excalidraw",
+    "excalidrawLib": "Thư viện VeDav",
     "decreaseFontSize": "Giảm cỡ chữ",
     "increaseFontSize": "Tăng cỡ chữ",
     "unbindText": "Bỏ liên kết văn bản",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Thu phóng vừa với khung nhìn",
     "zoomToFitSelection": "Thu phóng vừa với vùng chọn",
     "zoomToFit": "Thu phóng để hiển thị toàn bộ các phần tử",
-    "installPWA": "Cài đặt Excalidraw trên máy (PWA)",
+    "installPWA": "Cài đặt VeDav trên máy (PWA)",
     "autoResize": "Bật tự động thay đổi kích thước văn bản",
     "imageCropping": "Cắt ảnh",
     "unCroppedDimension": "Kích thước gốc (chưa cắt)",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Tay kéo",
     "extraTools": "Công cụ khác",
-    "mermaidToExcalidraw": "Mermaid sang Excalidraw",
+    "mermaidToExcalidraw": "Mermaid sang VeDav",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Phiên làm việc trực tiếp hiện đang diễn ra.",
     "desc_shareLink": "Chia sẻ liên kết này với người bạn muốn cộng tác cùng:",
     "desc_exitSession": "Dừng phiên sẽ đưa bạn ra khỏi phòng, nhưng bạn vẫn có thể làm việc tiếp trên máy. Những người khác sẽ không bị ảnh hưởng và vẫn cộng tác trên bản của họ.",
-    "shareTitle": "Vào phiên làm việc chung trên Excalidraw"
+    "shareTitle": "Vào phiên làm việc chung trên VeDav"
   },
   "errorDialog": {
     "title": "Lỗi"

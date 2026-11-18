@@ -42,8 +42,8 @@
     "tableBorderOuter": "Bordes exteriores",
     "tableBorderInner": "Bordes interiores",
     "tableBorderRows": "Bordes de filas",
-    "hideUpstreamPromotions": "Ocultar promociones de Excalidraw",
-    "showUpstreamPromotions": "Mostrar promociones de Excalidraw",
+    "hideUpstreamPromotions": "Ocultar promociones de VeDav",
+    "showUpstreamPromotions": "Mostrar promociones de VeDav",
     "projectReleases": "Versiones del proyecto",
     "projectIssues": "Informar de un problema",
     "chartProperties": "Propiedades del gráfico",
@@ -179,7 +179,7 @@
     "arrowtype_elbowed": "Flecha de codo",
     "fontSize": "Tamaño de la fuente",
     "fontFamily": "Tipo de fuente",
-    "addWatermark": "Agregar \"Hecho con Excalidraw\"",
+    "addWatermark": "Agregar \"Hecho con VeDav\"",
     "handDrawn": "Dibujado a mano",
     "normal": "Normal",
     "code": "Código",
@@ -214,7 +214,7 @@
     "untitled": "Sin título",
     "name": "Nombre",
     "yourName": "Tu nombre",
-    "madeWithExcalidraw": "Hecho con Excalidraw",
+    "madeWithExcalidraw": "Hecho con VeDav",
     "group": "Agrupar selección",
     "ungroup": "No agrupar selección",
     "collaborators": "Colaboradores",
@@ -245,7 +245,7 @@
     "toggleTheme": "Cambiar tema claro/oscuro",
     "theme": "Tema",
     "personalLib": "Biblioteca personal",
-    "excalidrawLib": "Biblioteca Excalidraw",
+    "excalidrawLib": "Biblioteca VeDav",
     "decreaseFontSize": "Disminuir tamaño de letra",
     "increaseFontSize": "Aumentar el tamaño de letra",
     "unbindText": "Desvincular texto",
@@ -287,7 +287,7 @@
     "zoomToFitViewport": "Zoom para encajar en la ventana",
     "zoomToFitSelection": "Zoom para ajustar la selección",
     "zoomToFit": "Zoom para mostrar todos los elementos",
-    "installPWA": "Instalar Excalidraw localmente (PWA)",
+    "installPWA": "Instalar VeDav localmente (PWA)",
     "autoResize": "Activar redimensionado automático de texto",
     "imageCropping": "Recortar imagen",
     "unCroppedDimension": "Dimensión no recortada",
@@ -447,7 +447,7 @@
     "bucketfill": "",
     "hand": "Mano (herramienta de panorama)",
     "extraTools": "Más herramientas",
-    "mermaidToExcalidraw": "Mermaid a Excalidraw",
+    "mermaidToExcalidraw": "Mermaid a VeDav",
     "convertElementType": "Cambiar tipo de forma"
   },
   "bucketfill": {
@@ -531,7 +531,7 @@
     "desc_inProgressIntro": "La sesión de colaboración en vivo está ahora en progreso.",
     "desc_shareLink": "Comparte este enlace con cualquier persona con quien quieras colaborar:",
     "desc_exitSession": "Detener la sesión te desconectará de la sala, pero podrás seguir trabajando con la escena en su computadora, esto es de modo local. Ten en cuenta que esto no afectará a otras personas, y que las mismas seguirán siendo capaces de colaborar en tu escena.",
-    "shareTitle": "Únase a una sesión colaborativa en vivo en Excalidraw"
+    "shareTitle": "Únase a una sesión colaborativa en vivo en VeDav"
   },
   "errorDialog": {
     "title": "Error"
@@ -763,9 +763,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid a Excalidraw",
+    "title": "Mermaid a VeDav",
     "button": "Insertar",
-    "description": "Actualmente solo se admiten los diagramas de <flowchartLink>Flujo</flowchartLink>, <sequenceLink>Secuencia</sequenceLink>, <classLink>Clase</classLink> y <erdLink>Entidad-Relación</erdLink>. Los demás tipos se renderizarán como imagen en Excalidraw.",
+    "description": "Actualmente solo se admiten los diagramas de <flowchartLink>Flujo</flowchartLink>, <sequenceLink>Secuencia</sequenceLink>, <classLink>Clase</classLink> y <erdLink>Entidad-Relación</erdLink>. Los demás tipos se renderizarán como imagen en VeDav.",
     "syntax": "Sintaxis Mermaid",
     "preview": "Vista previa",
     "label": "Mermaid",

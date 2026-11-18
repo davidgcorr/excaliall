@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Hoek pijl",
     "fontSize": "Tekstgrootte",
     "fontFamily": "Lettertype",
-    "addWatermark": "Voeg \"Gemaakt met Excalidraw\" toe",
+    "addWatermark": "Voeg \"Gemaakt met VeDav\" toe",
     "handDrawn": "Handgetekend",
     "normal": "Normaal",
     "code": "Code",
@@ -107,7 +107,7 @@
     "untitled": "Naamloos",
     "name": "Naam",
     "yourName": "Jouw naam",
-    "madeWithExcalidraw": "Gemaakt met Excalidraw",
+    "madeWithExcalidraw": "Gemaakt met VeDav",
     "group": "Groeperen",
     "ungroup": "Groep opheffen",
     "collaborators": "Deelnemers",
@@ -138,7 +138,7 @@
     "toggleTheme": "Licht-/donkerthema in-/uitschakelen",
     "theme": "Thema",
     "personalLib": "Persoonlijke bibliotheek",
-    "excalidrawLib": "Excalidraw bibliotheek",
+    "excalidrawLib": "VeDav bibliotheek",
     "decreaseFontSize": "Letters verkleinen",
     "increaseFontSize": "Letters vergroten",
     "unbindText": "Ontkoppel tekst",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Zoom om in het venster te laten passen",
     "zoomToFitSelection": "Zoom om in selectie te laten passen",
     "zoomToFit": "Zoom om alle element te laten passen",
-    "installPWA": "Installeer Excalidraw lokaal (PWA)",
+    "installPWA": "Installeer VeDav lokaal (PWA)",
     "autoResize": "Automatisch aanpassen van tekst inschakelen",
     "imageCropping": "Afbeelding bijsnijden",
     "unCroppedDimension": "Niet bijgesneden dimensie",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Hand (panning tool)",
     "extraTools": "Meer tools",
-    "mermaidToExcalidraw": "Mermaid naar Excalidraw",
+    "mermaidToExcalidraw": "Mermaid naar VeDav",
     "convertElementType": "Vorm type in-/uitschakelen"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "De live-samenwerkingssessie is nu gestart.",
     "desc_shareLink": "Deel deze link met iedereen waarmee je wil samenwerken:",
     "desc_exitSession": "Het stoppen van de sessie zal je loskoppelen van de kamer, maar je kunt lokaal doorwerken met de scène.\nPas op: dit heeft geen invloed op andere mensen en dat zij nog steeds in staat zullen zijn om samen te werken aan hun versie.",
-    "shareTitle": "Neem deel aan een live samenwerkingssessie op Excalidraw"
+    "shareTitle": "Neem deel aan een live samenwerkingssessie op VeDav"
   },
   "errorDialog": {
     "title": "Fout"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid naar Excalidraw",
+    "title": "Mermaid naar VeDav",
     "button": "Invoegen",
-    "description": "Momenteel worden alleen <flowchartLink>Stroomdiagram</flowchartLink>, <sequenceLink>Volgordediagram</sequenceLink>, <classLink>Klasse</classLink>, en <erdLink>Entiteitsrelatie</erdLink>diagrammen ondersteund. De andere typen worden weergegeven als afbeelding in Excalidraw.",
+    "description": "Momenteel worden alleen <flowchartLink>Stroomdiagram</flowchartLink>, <sequenceLink>Volgordediagram</sequenceLink>, <classLink>Klasse</classLink>, en <erdLink>Entiteitsrelatie</erdLink>diagrammen ondersteund. De andere typen worden weergegeven als afbeelding in VeDav.",
     "syntax": "Mermaid Syntaxis",
     "preview": "Voorbeeld",
     "label": "Mermaid",

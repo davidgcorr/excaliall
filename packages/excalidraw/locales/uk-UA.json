@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Прямокутна стрілка",
     "fontSize": "Розмір шрифту",
     "fontFamily": "Шрифт",
-    "addWatermark": "Додати \"Зроблено з Excalidraw\"",
+    "addWatermark": "Додати \"Зроблено з VeDav\"",
     "handDrawn": "Ручний апарат",
     "normal": "Звичайний",
     "code": "Код",
@@ -107,7 +107,7 @@
     "untitled": "Без назви",
     "name": "Ім’я",
     "yourName": "Ваше ім’я",
-    "madeWithExcalidraw": "Зроблено з Excalidraw",
+    "madeWithExcalidraw": "Зроблено з VeDav",
     "group": "Групувати виділене",
     "ungroup": "Розгрупувати виділене",
     "collaborators": "Співавтори",
@@ -138,7 +138,7 @@
     "toggleTheme": "Перемикати світлу/темну теми",
     "theme": "Тема",
     "personalLib": "Персональна бібліотека",
-    "excalidrawLib": "Бібліотека Excalidraw",
+    "excalidrawLib": "Бібліотека VeDav",
     "decreaseFontSize": "Зменшити розмір шрифту",
     "increaseFontSize": "Збільшити розмір шрифту",
     "unbindText": "Відв'язати текст",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Збільшити до розміру перегляду",
     "zoomToFitSelection": "Збільшити, щоб відповідати виділенню",
     "zoomToFit": "Збільшити, щоб умістити всі елементи",
-    "installPWA": "Встановити Excalidraw локально (PWA)",
+    "installPWA": "Встановити VeDav локально (PWA)",
     "autoResize": "Увімкнути автоматичне змінення розміру тексту",
     "imageCropping": "Обрізка зображення",
     "unCroppedDimension": "Необрізаний розмір",
@@ -338,7 +338,7 @@
     "bucketfill": "Заливка",
     "hand": "Рука (інструмент для панорамування)",
     "extraTools": "Інші інструменти",
-    "mermaidToExcalidraw": "Mermaid у Excalidraw",
+    "mermaidToExcalidraw": "Mermaid у VeDav",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Сесія спільної роботи над кресленням триває.",
     "desc_shareLink": "Поділіться цим посиланням з будь-ким для спільної роботи:",
     "desc_exitSession": "Зупинка сесії відключить вас від кімнати, але ви зможете продовжити роботу з полотном локально. Зверніть увагу, що це не вплине на інших людей, і вони все одно зможуть працювати над їх версією.",
-    "shareTitle": "Приєднатися до сеансу спільної роботи на Excalidraw"
+    "shareTitle": "Приєднатися до сеансу спільної роботи на VeDav"
   },
   "errorDialog": {
     "title": "Помилка"
@@ -650,9 +650,9 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid у Excalidraw",
+    "title": "Mermaid у VeDav",
     "button": "Вставити",
-    "description": "Наразі підтримуються лише діаграми типів <flowchartLink>Flowchart</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink> та <erdLink>Entity Relationship</erdLink>. Інші типи будуть показані в Excalidraw як зображення.",
+    "description": "Наразі підтримуються лише діаграми типів <flowchartLink>Flowchart</flowchartLink>, <sequenceLink>Sequence</sequenceLink>, <classLink>Class</classLink> та <erdLink>Entity Relationship</erdLink>. Інші типи будуть показані в VeDav як зображення.",
     "syntax": "Синтаксис Mermaid",
     "preview": "Попередній перегляд",
     "label": "Mermaid",

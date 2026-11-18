@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Łamana strzałka",
     "fontSize": "Rozmiar tekstu",
     "fontFamily": "Krój pisma",
-    "addWatermark": "Dodaj \"Zrobione w Excalidraw\"",
+    "addWatermark": "Dodaj \"Zrobione w VeDav\"",
     "handDrawn": "Odręczny",
     "normal": "Normalny",
     "code": "Kod",
@@ -107,7 +107,7 @@
     "untitled": "Bez tytułu",
     "name": "Nazwa",
     "yourName": "Twoje imię",
-    "madeWithExcalidraw": "Zrobione w Excalidraw",
+    "madeWithExcalidraw": "Zrobione w VeDav",
     "group": "Zgrupuj wybrane",
     "ungroup": "Rozgrupuj wybrane",
     "collaborators": "Współtwórcy",
@@ -138,7 +138,7 @@
     "toggleTheme": "Przełącz motyw jasny / ciemny",
     "theme": "Motyw",
     "personalLib": "Biblioteka prywatna",
-    "excalidrawLib": "Biblioteka Excalidraw",
+    "excalidrawLib": "Biblioteka VeDav",
     "decreaseFontSize": "Zmniejsz rozmiar czcionki",
     "increaseFontSize": "Zwiększ rozmiar czcionki",
     "unbindText": "Odłącz tekst od kontenera",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Dopasuj widok do ekranu",
     "zoomToFitSelection": "Dopasuj widok do zaznaczenia",
     "zoomToFit": "Dopasuj widok do całej zawartości",
-    "installPWA": "Zainstaluj Excalidraw lokalnie (PWA)",
+    "installPWA": "Zainstaluj VeDav lokalnie (PWA)",
     "autoResize": "Włącz automatyczne zmiany rozmiaru tekstu",
     "imageCropping": "Przycinanie obrazu",
     "unCroppedDimension": "Nieprzycięty wymiar",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Ręka (narzędzie do przesuwania)",
     "extraTools": "Więcej narzędzi",
-    "mermaidToExcalidraw": "Konwertuj diagram Mermaid do Excalidraw",
+    "mermaidToExcalidraw": "Konwertuj diagram Mermaid do VeDav",
     "convertElementType": "Przełącz typ kształtu"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Sesja współpracy na żywo właśnie się rozpoczęła.",
     "desc_shareLink": "Udostępnij ten link osobom, z którymi chcesz współpracować:",
     "desc_exitSession": "Zakończenie sesji spowoduje odłączenie ciebie od pokoju, ale nadal będziesz mógł lokalnie kontynuować pracę. Zauważ, że osoby z którymi współpracowałeś nadal będą mogły współpracować.",
-    "shareTitle": "Dołącz do sesji współpracy na żywo w Excalidraw"
+    "shareTitle": "Dołącz do sesji współpracy na żywo w VeDav"
   },
   "errorDialog": {
     "title": "Wystąpił błąd"
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "Konwertuj diagram Mermaid do Excalidraw",
+    "title": "Konwertuj diagram Mermaid do VeDav",
     "button": "Wstaw",
     "description": "",
     "syntax": "Składnia diagramów Mermaid",

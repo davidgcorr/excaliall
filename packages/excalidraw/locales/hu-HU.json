@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "",
     "fontSize": "Betűméret",
     "fontFamily": "Betűkészlet család",
-    "addWatermark": "Add hozzá, hogy \"Excalidraw-val készült\"",
+    "addWatermark": "Add hozzá, hogy \"VeDav-val készült\"",
     "handDrawn": "Kézzel rajzolt",
     "normal": "Normál",
     "code": "Kód",
@@ -107,7 +107,7 @@
     "untitled": "Névtelen",
     "name": "Név",
     "yourName": "Neved",
-    "madeWithExcalidraw": "Excalidraw-val készült",
+    "madeWithExcalidraw": "VeDav-val készült",
     "group": "Csoportosítás",
     "ungroup": "Csoportbontás",
     "collaborators": "Közreműködők",
@@ -138,7 +138,7 @@
     "toggleTheme": "Világos/sötét háttér kapcsoló",
     "theme": "Téma",
     "personalLib": "Személyes könyvtár",
-    "excalidrawLib": "Excalidraw könyvtár",
+    "excalidrawLib": "VeDav könyvtár",
     "decreaseFontSize": "Betűméret csökkentése",
     "increaseFontSize": "Betűméret növelése",
     "unbindText": "Szövegkötés feloldása",
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Az élő együttműködési munkamenet folyamatban van.",
     "desc_shareLink": "Ossza meg ezt a linket bárkivel, akivel együtt szeretne működni:",
     "desc_exitSession": "Az munkamenet leállítása kilépteti önt a szobából, de folytathatja a munkát a saját gépén. Vegye figyelembe, hogy ez nem érinti más emberek munkáját és ők továbbra is együttműködhetnek a saját változatukon.",
-    "shareTitle": "Csatlakozás egy élő együttműködési munkamenethez az Excalidraw-ban"
+    "shareTitle": "Csatlakozás egy élő együttműködési munkamenethez az VeDav-ban"
   },
   "errorDialog": {
     "title": "Hiba"

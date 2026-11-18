@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Seta em cotovelo",
     "fontSize": "Tamanho do tipo de letra",
     "fontFamily": "Família do tipo de letra",
-    "addWatermark": "Adicionar \"Feito com Excalidraw\"",
+    "addWatermark": "Adicionar \"Feito com VeDav\"",
     "handDrawn": "Manuscrito",
     "normal": "Normal",
     "code": "Código",
@@ -107,7 +107,7 @@
     "untitled": "Sem título",
     "name": "Nome",
     "yourName": "O seu nome",
-    "madeWithExcalidraw": "Feito com Excalidraw",
+    "madeWithExcalidraw": "Feito com VeDav",
     "group": "Agrupar seleção",
     "ungroup": "Desagrupar seleção",
     "collaborators": "Colaboradores",
@@ -138,7 +138,7 @@
     "toggleTheme": "Alternar tema claro/escuro",
     "theme": "Tema",
     "personalLib": "Biblioteca pessoal",
-    "excalidrawLib": "Biblioteca do Excalidraw",
+    "excalidrawLib": "Biblioteca do VeDav",
     "decreaseFontSize": "Reduzir o tamanho do tipo de letra",
     "increaseFontSize": "Aumentar o tamanho do tipo de letra",
     "unbindText": "Desligar texto",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Aproximar para enquadrar no cisualizador",
     "zoomToFitSelection": "Aproximar para enquadrar a seleção",
     "zoomToFit": "Aproximar para enquadrar todos os elementos",
-    "installPWA": "Instalar Excalidraw localmente (PWA)",
+    "installPWA": "Instalar VeDav localmente (PWA)",
     "autoResize": "Ativar redimensionamento automático do texto",
     "imageCropping": "Corte de imagem",
     "unCroppedDimension": "Dimensão sem corte",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Mão (ferramenta de deslocar vista)",
     "extraTools": "Mais ferramentas",
-    "mermaidToExcalidraw": "Mermaid para Excalidraw",
+    "mermaidToExcalidraw": "Mermaid para VeDav",
     "convertElementType": "Alternar tipo de forma"
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "A sessão de colaboração ao vivo está agora a decorrer.",
     "desc_shareLink": "Partilhe esta hiperligação com qualquer pessoa com quem queira colaborar:",
     "desc_exitSession": "Se interromper a sessão, será desconectado da sala, mas poderá continuar a trabalhar com a cena localmente. Tenha em atenção que isto não afetará as outras pessoas, que poderão continuar a colaborar na sua versão.",
-    "shareTitle": "Participe numa sessão de colaboração ao vivo no Excalidraw"
+    "shareTitle": "Participe numa sessão de colaboração ao vivo no VeDav"
   },
   "errorDialog": {
     "title": "Erro"
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid para Excalidraw",
+    "title": "Mermaid para VeDav",
     "button": "Inserir",
     "description": "Atualmente apenas podem ser convertidos diagramas dos seguintes tipos: <flowchartLink>Fluxograma</flowchartLink>, <sequenceLink>Sequência, </sequenceLink>, <classLink>Classe</classLink> e <erdLink>Relação de Entidades</erdLink>. Os restantes tipos surgirão em forma de imagem.",
     "syntax": "Sintaxe Mermaid",

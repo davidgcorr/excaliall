@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "پیکان گوشه‌دار",
     "fontSize": "اندازه قلم",
     "fontFamily": "نوع قلم",
-    "addWatermark": "\"ساخته شده با Excalidraw\" را اضافه کن",
+    "addWatermark": "\"ساخته شده با VeDav\" را اضافه کن",
     "handDrawn": "دست‌نویس",
     "normal": "عادی",
     "code": "کد",
@@ -107,7 +107,7 @@
     "untitled": "بدون عنوان",
     "name": "نام",
     "yourName": "نام شما",
-    "madeWithExcalidraw": "ساخته شده با Excalidraw",
+    "madeWithExcalidraw": "ساخته شده با VeDav",
     "group": "گروهبندی انتخابها",
     "ungroup": "حذف گروهبندی انتخابها",
     "collaborators": "همکاران",
@@ -138,7 +138,7 @@
     "toggleTheme": "تغییر وضعیت پوسته روشن/تیره",
     "theme": "پوسته",
     "personalLib": "کتابخانه شخصی",
-    "excalidrawLib": "کتابخانه Excalidraw",
+    "excalidrawLib": "کتابخانه VeDav",
     "decreaseFontSize": "کاهش اندازه فونت",
     "increaseFontSize": "افزایش دادن اندازه فونت",
     "unbindText": "بازکردن نوشته",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "بزرگنمایی به اندازه نمایشگر",
     "zoomToFitSelection": "بزرگنمایی به اندازه قسمت انتخاب شده",
     "zoomToFit": "بزرگنمایی برای دیدن تمام آیتم ها",
-    "installPWA": "نصب Excalidraw روی دستگاه (PWA)",
+    "installPWA": "نصب VeDav روی دستگاه (PWA)",
     "autoResize": "فعالسازی تنظیم خودکار سایز",
     "imageCropping": "برش عکس",
     "unCroppedDimension": "اندازه غیر برشی",
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "جلسه همکاری آنلاین در حال انجام است.",
     "desc_shareLink": "این لینک را با هر کسی که می خواهید با او همکاری کنید به اشتراک بگذارید:",
     "desc_exitSession": "با پایان دادن جلسه، شما از اتاق حذف میکند، اما می توانید به صورت محلی کار خود را با بوم ادامه دهید. توجه داشته باشید که این مورد بر سایر افراد تأثیر نمی گذارد و همچنان می توانند در نسخه خود همکاری کنند.",
-    "shareTitle": "به یک جلسه همکاری زنده در Excalidraw بپیوندید"
+    "shareTitle": "به یک جلسه همکاری زنده در VeDav بپیوندید"
   },
   "errorDialog": {
     "title": "خطا"

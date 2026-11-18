@@ -72,7 +72,7 @@
     "arrowtype_elbowed": "Albuepil",
     "fontSize": "Skriftstørrelse",
     "fontFamily": "Fontfamilie",
-    "addWatermark": "Legg til \"Laget med Excalidraw\"",
+    "addWatermark": "Legg til \"Laget med VeDav\"",
     "handDrawn": "Håndtegnet",
     "normal": "Normal",
     "code": "Kode",
@@ -107,7 +107,7 @@
     "untitled": "Uten navn",
     "name": "Navn",
     "yourName": "Ditt navn",
-    "madeWithExcalidraw": "Laget med Excalidraw",
+    "madeWithExcalidraw": "Laget med VeDav",
     "group": "Gruppér utvalg",
     "ungroup": "Avgruppér utvalg",
     "collaborators": "Samarbeidspartnere",
@@ -138,7 +138,7 @@
     "toggleTheme": "Vis/skjul lys/mørkt tema",
     "theme": "Tema",
     "personalLib": "Personlig bibliotek",
-    "excalidrawLib": "Excalidraw-bibliotek",
+    "excalidrawLib": "VeDav-bibliotek",
     "decreaseFontSize": "Reduser skriftstørrelse",
     "increaseFontSize": "Øk skriftstørrelse",
     "unbindText": "Avbind tekst",
@@ -180,7 +180,7 @@
     "zoomToFitViewport": "Zoom for å få plass i visning",
     "zoomToFitSelection": "Zoom for å passe utvalg",
     "zoomToFit": "Zoom for å se alle elementer",
-    "installPWA": "Installer Excalidraw lokalt (PWA)",
+    "installPWA": "Installer VeDav lokalt (PWA)",
     "autoResize": "Aktiver automatisk endring av tekststørrelse",
     "imageCropping": "Bildebeskjæring",
     "unCroppedDimension": "Ikke-beskåret dimensjon",
@@ -338,7 +338,7 @@
     "bucketfill": "",
     "hand": "Hånd (panoreringsverktøy)",
     "extraTools": "Flere verktøy",
-    "mermaidToExcalidraw": "Mermaid til Excalidraw",
+    "mermaidToExcalidraw": "Mermaid til VeDav",
     "convertElementType": ""
   },
   "bucketfill": {
@@ -422,7 +422,7 @@
     "desc_inProgressIntro": "Sanntids-samarbeidsøkt er nå i gang.",
     "desc_shareLink": "Del denne linken med de du vil samarbeide med:",
     "desc_exitSession": "Dersom du avslutter sesjonen blir du frakoblet rommet, men du kan fortsette å arbeide med scenen lokalt. Vær oppmerksom på at dette ikke vil påvirke andre personer, og de vil fortsatt ha mulighet til å samarbeide på deres versjon.",
-    "shareTitle": "Bli med i en live samarbeidsøkt på Excalidraw"
+    "shareTitle": "Bli med i en live samarbeidsøkt på VeDav"
   },
   "errorDialog": {
     "title": "Feil"
@@ -650,7 +650,7 @@
     }
   },
   "mermaid": {
-    "title": "Mermaid til Excalidraw",
+    "title": "Mermaid til VeDav",
     "button": "Sett inn",
     "description": "",
     "syntax": "Mermaid-syntaks",
