@@ -20,7 +20,7 @@ exports[`Test MobileMenu > should initialize with welcome screen and hide once u
         xmlns="http://www.w3.org/2000/svg"
       >
         <rect
-          fill="#6965db"
+          fill="var(--color-logo-icon)"
           height="60"
           rx="15"
           width="60"
@@ -29,7 +29,7 @@ exports[`Test MobileMenu > should initialize with welcome screen and hide once u
         />
         <path
           d="M15 19C19 28 23 37 29 47C35 36 42 25 49 17"
-          stroke="#fff"
+          stroke="var(--color-logo-icon-contrast)"
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="7"
@@ -37,7 +37,7 @@ exports[`Test MobileMenu > should initialize with welcome screen and hide once u
         <circle
           cx="48"
           cy="44"
-          fill="#8ce6c3"
+          fill="#a3a3a3"
           r="5"
         />
       </svg>

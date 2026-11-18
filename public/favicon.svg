@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <title>VeDav</title>
-  <rect x="2" y="2" width="60" height="60" rx="15" fill="#6965db"/>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#171717"/>
   <path d="M15 19C19 28 23 37 29 47C35 36 42 25 49 17" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="48" cy="44" r="5" fill="#8ce6c3"/>
+  <circle cx="48" cy="44" r="5" fill="#a3a3a3"/>
 </svg>

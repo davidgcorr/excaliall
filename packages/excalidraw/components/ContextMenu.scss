@@ -66,12 +66,12 @@
   }
 
   .context-menu-item:hover {
-    color: var(--popup-bg-color);
+    color: var(--popup-text-color);
     background-color: var(--select-highlight-color);
 
     &.dangerous {
       .context-menu-item__label {
-        color: var(--popup-bg-color);
+        color: #fff;
       }
       background-color: $color-red-6;
     }
@@ -97,7 +97,7 @@
 
   .context-menu-item-separator {
     border: none;
-    border-top: 1px solid $color-gray-5;
+    border-top: 1px solid var(--color-gray-40);
   }
 
   .context-menu-animation {

@@ -1,10 +1,10 @@
 @import "../packages/excalidraw/css/variables.module.scss";
 
 .excalidraw {
-  --color-primary-contrast-offset: #625ee0; // to offset Chubb illusion
+  --color-primary-contrast-offset: #171717;
 
   &.theme--dark {
-    --color-primary-contrast-offset: #726dff; // to offset Chubb illusion
+    --color-primary-contrast-offset: #fafafa;
   }
 
   .footer-center {
@@ -87,10 +87,10 @@
 }
 
 .plus-banner {
-  --plus-banner-bg: #f0efff;
+  --plus-banner-bg: #f5f5f5;
   --plus-banner-bg-hover: var(--color-primary-light);
   --plus-banner-border: var(--color-primary-light-darker);
-  --plus-banner-subtitle: #8b88e0;
+  --plus-banner-subtitle: #737373;
 
   display: flex;
   align-items: center;
@@ -151,9 +151,9 @@
 
 .theme--dark {
   .plus-banner {
-    --plus-banner-bg: #2b2a40;
-    --plus-banner-border: #4f4d6f;
-    --plus-banner-subtitle: #8f8cc4;
+    --plus-banner-bg: #242424;
+    --plus-banner-border: #404040;
+    --plus-banner-subtitle: #a3a3a3;
   }
 }
 

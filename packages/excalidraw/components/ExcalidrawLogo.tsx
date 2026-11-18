@@ -10,15 +10,22 @@ const LogoIcon = () => (
     className="ExcalidrawLogo-icon"
     aria-hidden="true"
   >
-    <rect x="2" y="2" width="60" height="60" rx="15" fill="#6965db" />
+    <rect
+      x="2"
+      y="2"
+      width="60"
+      height="60"
+      rx="15"
+      fill="var(--color-logo-icon)"
+    />
     <path
       d="M15 19C19 28 23 37 29 47C35 36 42 25 49 17"
-      stroke="#fff"
+      stroke="var(--color-logo-icon-contrast)"
       strokeWidth="7"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle cx="48" cy="44" r="5" fill="#8ce6c3" />
+    <circle cx="48" cy="44" r="5" fill="#a3a3a3" />
   </svg>
 );
 
