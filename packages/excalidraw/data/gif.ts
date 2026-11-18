@@ -7,8 +7,8 @@ import { AbortError } from "../errors";
 export type GifExportOptions = {
   /** Length of the repeating clip, in seconds (1–10). Defaults to 3. */
   duration?: number;
-  /** Frames per second (10 or 20). Defaults to 20. */
-  fps?: 10 | 20;
+  /** Frames per second (5, 10 or 20). Defaults to 20. */
+  fps?: 5 | 10 | 20;
   signal?: AbortSignal;
   onProgress?: (progress: number) => void;
 };
@@ -22,10 +22,10 @@ export const validateGifOptions = (options: GifExportOptions = {}) => {
     !Number.isFinite(duration) ||
     duration < 1 ||
     duration > 10 ||
-    ![10, 20].includes(fps)
+    ![5, 10, 20].includes(fps)
   ) {
     throw new Error(
-      "GIF duration must be between 1 and 10 seconds, at 10 or 20 fps.",
+      "GIF duration must be between 1 and 10 seconds, at 5, 10 or 20 fps.",
     );
   }
 };
@@ -38,6 +38,7 @@ export const encodeGif = async (
   validateGifOptions(options);
   const { duration = 3, fps = 20, signal, onProgress } = options;
   const encoder = GIFEncoder();
+  const chunks: Blob[] = [];
   const frameCount = Math.round(duration * fps);
   const delay = 1000 / fps;
   onProgress?.(0);
@@ -47,6 +48,16 @@ export const encodeGif = async (
       throw new AbortError();
     }
     const canvas = renderFrame(frame * delay);
+    if (
+      !canvas.width ||
+      !canvas.height ||
+      canvas.width > 65_535 ||
+      canvas.height > 65_535
+    ) {
+      throw new Error(
+        "GIF dimensions must be between 1 and 65,535 pixels per side.",
+      );
+    }
     const context = canvas.getContext("2d");
     if (!context) {
       throw new Error("Could not create a canvas context for GIF export.");
@@ -82,6 +93,10 @@ export const encodeGif = async (
       // Restore the background before every full frame, preventing trails.
       dispose: 2,
     });
+    // Snapshot the encoded frame before reusing the byte buffer. Blob parts
+    // avoid one growing contiguous allocation and a full-file copy at the end.
+    chunks.push(new Blob([encoder.bytesView()]));
+    encoder.stream.reset();
     onProgress?.((frame + 1) / frameCount);
     // Yield to this canvas's window so progress, cancellation, and the editor
     // stay responsive even when exporting outside the main document.
@@ -94,5 +109,6 @@ export const encodeGif = async (
     throw new AbortError();
   }
   encoder.finish();
-  return new Blob([encoder.bytes()], { type: MIME_TYPES.gif });
+  chunks.push(new Blob([encoder.bytesView()]));
+  return new Blob(chunks, { type: MIME_TYPES.gif });
 };

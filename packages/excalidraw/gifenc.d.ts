@@ -27,5 +27,7 @@ declare module "gifenc" {
     ): void;
     finish(): void;
     bytes(): Uint8Array<ArrayBuffer>;
+    bytesView(): Uint8Array<ArrayBuffer>;
+    stream: { reset(): void };
   };
 }

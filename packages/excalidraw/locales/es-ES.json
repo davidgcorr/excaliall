@@ -641,14 +641,25 @@
       "exportToSvg": "Exportar a SVG",
       "copyPngToClipboard": "Copiar PNG al portapapeles",
       "exportToHtml": "Exportar HTML animado independiente",
-      "copyIframe": "Copiar un iframe independiente para insertar en tu página"
+      "copyIframe": "Copiar un iframe independiente para insertar en tu página",
+      "exportToGif": "Descargar GIF animado"
     },
     "button": {
       "exportToPng": "PNG",
       "exportToSvg": "SVG",
       "copyPngToClipboard": "Copiar al portapapeles",
       "exportToHtml": "HTML",
-      "copyIframe": "Copiar iframe"
+      "copyIframe": "Copiar iframe",
+      "exportToGif": "GIF"
+    },
+    "gif": {
+      "duration": "Duración del GIF",
+      "seconds": "{{seconds}} s",
+      "frameRate": "Fotogramas por segundo del GIF",
+      "fps": "{{fps}} fps",
+      "progress": "Codificando GIF… {{progress}}%",
+      "hint": "El GIF se descarga a la escala seleccionada. Una duración y una tasa de fotogramas menores reducen el tamaño del archivo. No incluye los datos editables de la escena.",
+      "tooLarge": "Las dimensiones del GIF no pueden superar los 65.535 píxeles por lado. Reduce la escala de exportación o exporta una selección."
     }
   },
   "encrypted": {

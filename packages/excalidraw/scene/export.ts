@@ -852,11 +852,11 @@ const configExportDimension = async ({
 const createCanvasRenderer = async ({
   data,
   config,
-  maxPixels,
+  maxDimension,
 }: {
   data: ExportSceneData;
   config?: ExportSceneConfig;
-  maxPixels?: number;
+  maxDimension?: number;
 }) => {
   const renderEnvironment = getExportRenderEnvironment(config?.environment);
 
@@ -880,10 +880,9 @@ const createCanvasRenderer = async ({
   } = await configExportDimension({ data, config, renderEnvironment });
 
   if (
-    maxPixels &&
-    (exportWidth * exportHeight > maxPixels ||
-      exportWidth > 65535 ||
-      exportHeight > 65535)
+    maxDimension &&
+    (Math.round(exportWidth) > maxDimension ||
+      Math.round(exportHeight) > maxDimension)
   ) {
     throw new Error(t("imageExportDialog.gif.tooLarge"));
   }
@@ -974,7 +973,7 @@ const exportToGif = async (opts: {
   validateGifOptions(opts.config);
   const renderFrame = await createCanvasRenderer({
     ...opts,
-    maxPixels: 2_000_000,
+    maxDimension: 65_535,
   });
   return encodeGif(renderFrame, opts.config);
 };

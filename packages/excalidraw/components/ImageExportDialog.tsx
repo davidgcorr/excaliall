@@ -89,6 +89,7 @@ const ImageExportModal = ({
   const [exportScale, setExportScale] = useState(appStateSnapshot.exportScale);
 
   const [gifDuration, setGifDuration] = useState(3);
+  const [gifFps, setGifFps] = useState<5 | 10 | 20>(20);
   const [gifProgress, setGifProgress] = useState<number | null>(null);
   const gifControllerRef = useRef<AbortController | null>(null);
   useEffect(
@@ -349,6 +350,28 @@ const ImageExportModal = ({
           </ExportSetting>
         )}
         {hasAnimation && (
+          <ExportSetting
+            label={t("imageExportDialog.gif.frameRate")}
+            name="gifFrameRate"
+          >
+            <select
+              id="gifFrameRate"
+              className="TextInput"
+              value={gifFps}
+              disabled={gifProgress !== null}
+              onChange={(event) =>
+                setGifFps(Number(event.currentTarget.value) as 5 | 10 | 20)
+              }
+            >
+              {[5, 10, 20].map((fps) => (
+                <option key={fps} value={fps}>
+                  {t("imageExportDialog.gif.fps", { fps })}
+                </option>
+              ))}
+            </select>
+          </ExportSetting>
+        )}
+        {hasAnimation && (
           <p className="ImageExportModal__gif-hint">
             {t("imageExportDialog.gif.hint")}
           </p>
@@ -409,6 +432,7 @@ const ImageExportModal = ({
                   exportingFrame,
                   gif: {
                     duration: gifDuration,
+                    fps: gifFps,
                     signal: controller.signal,
                     onProgress: setGifProgress,
                   },

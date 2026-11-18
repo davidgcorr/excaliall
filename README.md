@@ -48,6 +48,7 @@ Find the running version and Git revision under **☰ → Preferences / Preferen
 - **Make a mind map:** use the branching icon. Select a topic to add children or siblings, change branch colors, switch a main branch’s side, or arrange the map. Double-click a topic to edit its text.
 - **Add a graph:** use the chart icon in the central toolbar, import CSV/JSON, then select the graph to edit its properties. Double-click to reopen the data editor.
 - **Add a table:** use the table icon in the central toolbar, then edit headers and cells on the canvas. Changes save when you deselect it.
+- **Download a GIF:** choose the export scale, clip duration, and 5, 10, or 20 fps. Lower frame rates and shorter clips reduce file size; full-resolution exports no longer have a 2-million-pixel cap.
 - **Embed a diagram:** open **Export image**, then choose **HTML** or **Copy iframe**. Animated connections keep moving in the exported HTML.
 
 Detailed guides: [Graphs](desktop/ROUGHVIZ.md) · [Tables](desktop/DATA-TABLES.md) · [HTML and iframe export](desktop/HTML-EXPORT.md) · [LaTeX and mind maps](desktop/KNOWLEDGE-TOOLS.md).

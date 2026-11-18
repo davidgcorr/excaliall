@@ -1137,19 +1137,45 @@ describe("animated GIF scene export", () => {
     }
   });
 
-  it("rejects oversized exports before allocating a canvas", async () => {
+  it("allows more than two million pixels at the requested scale", async () => {
+    const gifModule = await import("../../data/gif");
+    const encode = vi
+      .spyOn(gifModule, "encodeGif")
+      .mockImplementation(async (render) => {
+        const canvas = render(0);
+        expect(canvas.width).toBe(4000);
+        expect(canvas.height).toBe(2400);
+        return new Blob([], { type: "image/gif" });
+      });
+    try {
+      await exportScene({
+        type: "gif",
+        data: {
+          elements: [
+            API.createElement({ type: "rectangle", width: 2000, height: 1200 }),
+          ],
+        },
+        config: { scale: 2, padding: 0, duration: 1, fps: 5 },
+      });
+      expect(encode).toHaveBeenCalledTimes(1);
+    } finally {
+      encode.mockRestore();
+    }
+  });
+
+  it("rejects dimensions outside the GIF format before allocating a canvas", async () => {
     const createCanvas = vi.fn(() => document.createElement("canvas"));
     await expect(
       exportScene({
         type: "gif",
         data: {
           elements: [
-            API.createElement({ type: "rectangle", width: 2000, height: 2000 }),
+            API.createElement({ type: "rectangle", width: 65_536, height: 20 }),
           ],
         },
         config: { environment: { createCanvas } },
       }),
-    ).rejects.toThrow("too large");
+    ).rejects.toThrow("65,535");
     expect(createCanvas).not.toHaveBeenCalled();
   });
 });

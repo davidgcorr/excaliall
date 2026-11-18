@@ -88,6 +88,7 @@ describe("animated GIF encoding", () => {
     expect(gif.header).toBe("GIF89a");
     expect([gif.width, gif.height]).toEqual([4, 2]);
     expect(gif.frames).toHaveLength(20);
+    expect(gif.bytes[gif.bytes.length - 1]).toBe(0x3b);
     expect(
       gif.frames.every((frame) => frame.delay === 50 && frame.disposal === 2),
     ).toBe(true);
@@ -99,6 +100,15 @@ describe("animated GIF encoding", () => {
       Array.from({ length: 20 }, (_, index) => index * 50),
     );
     expect(progress).toHaveBeenLastCalledWith(1);
+  });
+
+  it("supports five fps for smaller full-resolution downloads", async () => {
+    const render = createFrames();
+    const gif = await readGif(await encodeGif(render, { duration: 1, fps: 5 }));
+    expect(gif.frames).toHaveLength(5);
+    expect(gif.frames.every((frame) => frame.delay === 200)).toBe(true);
+    expect(gif.frames[0].data).not.toEqual(gif.frames[4].data);
+    expect(String.fromCharCode(...gif.bytes).split("GIF89a")).toHaveLength(2);
   });
 
   it("encodes transparent frames with background disposal", async () => {
